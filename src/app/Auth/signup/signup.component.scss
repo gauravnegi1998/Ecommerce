@@ -1,0 +1,21 @@
+.main_sighup_section {
+
+    .sighup_box {
+        border: 1px solid;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+
+        .form-Control {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            input {
+                width: 100%;
+            }
+        }
+    }
+
+
+}

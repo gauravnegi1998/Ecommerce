@@ -1,0 +1,53 @@
+<ng-template #errorTemplate let-error>
+    @if(formGroupData(error?.name).touched && formGroupData(error?.name).errors?.['required'] ||
+    formGroupData(error?.name).errors?.['required'] && myForm.submitted){
+    <small class="text-danger">{{error?.msg}}</small>
+    }
+</ng-template>
+
+<div class="container main_sighup_section">
+    <div class="sighup_box">
+        <div class="heading">
+            <h2>Sign Up</h2>
+        </div>
+        <div>
+            <form [formGroup]='signupFormGroup' (ngSubmit)="_handleSignupUp($event)" novalidate #myForm="ngForm">
+                <div class="flex-box">
+                    <div class="form-Control">
+                        <app-textfield formControlName="firstName" [name]="'firstName'" [placeholder]="'First name'"
+                            [label]="'FirstName'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'firstName', msg: 'Please enter your first name'} }" />
+                    </div>
+                    <div class="form-Control">
+                        <app-textfield formControlName="lastName" [name]="'lastName'" [placeholder]="'Last Name'"
+                            [label]="'Last Name'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'lastName', msg: 'Please enter your last name'} }" />
+                    </div>
+                </div>
+                <div>
+                    <app-countryState />
+                </div>
+                <div class="flex-box">
+                    <div class="form-Control">
+                        <app-textfield formControlName="city" [name]="'city'" [placeholder]="'City'" [label]="'City'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'city', msg: 'Please enter your city'} }" />
+                    </div>
+                    <div class="form-Control">
+                        <app-textfield formControlName="zipCode" [name]="'zipCode'" [placeholder]="'Zip Code'"
+                            [label]="'Zip Code'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'zipCode', msg: 'Please enter your zip-code'} }" />
+                    </div>
+                </div>
+                <div class="form-Control">
+                </div>
+                <div class="action_section">
+                    <app-button [type]="'submit'" [name]="'signup'">Create a customer</app-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

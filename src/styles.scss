@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --primery-color: "#e78c8c"
+}
+
+.container {
+    width: 100%;
+    max-width: 1372px;
+    margin: 0 auto;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.form-Control {
+    margin-bottom: 15px;
+}
+
+.text-danger {
+    color: #f00;
+}
+
+.my-icon {
+    font-size: 20px;
+}
+
+.flex-box {
+    display: flex;
+    gap: 30px;
+    justify-content: space-evenly;
+}
