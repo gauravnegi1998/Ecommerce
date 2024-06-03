@@ -26,9 +26,7 @@
                             *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'lastName', msg: 'Please enter your last name'} }" />
                     </div>
                 </div>
-                <div>
-                    <app-countryState />
-                </div>
+                <app-countryState [(country)]="country" [(state)]="state" />
                 <div class="flex-box">
                     <div class="form-Control">
                         <app-textfield formControlName="city" [name]="'city'" [placeholder]="'City'" [label]="'City'" />

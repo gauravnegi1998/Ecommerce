@@ -1,8 +1,16 @@
-<ng-container>
+<div class="flex-box">
     <div class="form-Control">
-
+        <label for="country">Country</label>
+        <select name="country" [(ngModel)]="country" (ngModelChange)="_handleChangeSelect($event,'country')">
+            <option value="">Select Country</option>
+            <option *ngFor="let item of countryArray; let i= index" [value]="item.code">{{item.name}}</option>
+        </select>
     </div>
     <div class="form-Control">
-
+        <label for="state">State</label>
+        <select name="state" [(ngModel)]="state" (ngModelChange)="_handleChangeSelect($event,'state')">
+            <option value="">Select State</option>
+            <option *ngFor="let state of statesArray; let i= index" [value]="state">{{state}}</option>
+        </select>
     </div>
-</ng-container>
+</div>

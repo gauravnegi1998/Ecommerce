@@ -14,6 +14,8 @@ import { CountryStateInputs } from '../../inputs/CountryState/countryState.compo
 })
 export class SignupComponent {
   signupFormGroup: UntypedFormGroup;
+  country: string = "";
+  state: string = "";
 
   constructor(private fb: UntypedFormBuilder) {
     this.signupFormGroup = this.fb.group({
