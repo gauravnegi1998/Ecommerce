@@ -19,6 +19,27 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 10px !important;
+    /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #ddd;
+    /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #000;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    border: 1px solid #000;
+    /* creates padding around scroll thumb */
+}
+
+
+
 .form-Control {
     margin-bottom: 15px;
 }

@@ -5,21 +5,26 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { MaterialUIModule } from "../MaterialModel/material-ui.module";
 import { TextFieldComponent } from "./Textfield/Textfield.component";
+import { DatePickerComponent } from "./datepickerInput/datepicker.component";
+import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     declarations: [
         ButtonComponent,
-        TextFieldComponent
+        TextFieldComponent,
+        DatePickerComponent
     ],
     imports: [
         CommonModule,
         MaterialUIModule,
         RouterModule,
         FormsModule,
+        NgbDatepickerModule
     ],
     exports: [
         ButtonComponent,
-        TextFieldComponent
+        TextFieldComponent,
+        DatePickerComponent
     ]
 })
 

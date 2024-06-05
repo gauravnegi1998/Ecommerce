@@ -5,6 +5,7 @@
             <option value="">Select Country</option>
             <option *ngFor="let item of countryArray; let i= index" [value]="item.code">{{item.name}}</option>
         </select>
+        <small class="text-danger">{{errors.countryError}}</small>
     </div>
     <div class="form-Control">
         <label for="state">State</label>
@@ -12,5 +13,6 @@
             <option value="">Select State</option>
             <option *ngFor="let state of statesArray; let i= index" [value]="state">{{state}}</option>
         </select>
+        <small class="text-danger">{{errors.stateError}}</small>
     </div>
 </div>

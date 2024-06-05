@@ -26,7 +26,7 @@
                             *ngTemplateOutlet="errorTemplate; context: { $implicit: { name: 'lastName', msg: 'Please enter your last name'} }" />
                     </div>
                 </div>
-                <app-countryState [(country)]="country" [(state)]="state" />
+                <app-countryState [(country)]="country" [(state)]="state" [(errors)]='errors' />
                 <div class="flex-box">
                     <div class="form-Control">
                         <app-textfield formControlName="city" [name]="'city'" [placeholder]="'City'" [label]="'City'" />
@@ -41,6 +41,37 @@
                     </div>
                 </div>
                 <div class="form-Control">
+                    <app-textfield formControlName="address" [placeholder]="'Address'" [label]="'Address'"
+                        [name]="'address'" />
+                    <ng-template
+                        *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'address', msg:'Please enter your address' } }"></ng-template>
+                </div>
+                <div class="form-Control">
+                    <app-textfield formControlName="address2" [placeholder]="'Address2'" [label]="'Address 2(Optional)'"
+                        [name]="'address2'" />
+                </div>
+                <div class="flex-box">
+                    <div class="form-Control">
+                        <app-textfield formControlName="phoneNumber" [placeholder]="'Phone Number'" [label]="'Phone'"
+                            [name]="'phone'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'phoneNumber', msg:'Please enter your phone number' } }"></ng-template>
+                    </div>
+                    <div class="form-Control">
+                        <app-datePicker formControlName="birthday" [name]="'birthday'" [label]="'Birthday'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'birthday', msg:'Please enter your birthday' } }"></ng-template>
+                    </div>
+                </div>
+                <div class="form-Control">
+                    <app-textfield formControlName="password" [placeholder]="'Password'" [label]="'Password'"
+                        [name]="'password'" />
+                    <ng-template
+                        *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'password', msg:'Please enter your password' } }"></ng-template>
+                </div>
+                <div class="form-Control">
+                    <app-textfield formControlName="confirmPassword" [placeholder]="'Confirm Password'"
+                        [label]="'Confirm Password'" [name]="'confirmPassword'" />
                 </div>
                 <div class="action_section">
                     <app-button [type]="'submit'" [name]="'signup'">Create a customer</app-button>

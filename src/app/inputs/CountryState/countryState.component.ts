@@ -3,6 +3,7 @@ import CountryStateService from "../../../services/countryState.service";
 import * as _ from 'lodash';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { ICountryStateError } from "../../module/commonInterfaces";
 
 
 @Component({
@@ -17,9 +18,11 @@ export class CountryStateInputs implements OnInit {
 
     @Input() country: string = "";
     @Input() state: string = "";
+    @Input() errors: ICountryStateError = { countryError: "", stateError: "" }
 
     @Output() countryChange = new EventEmitter<string>();
     @Output() stateChange = new EventEmitter<string>();
+    @Output() errorsChange = new EventEmitter<any>();
 
     countryArray: { name: string, code: string }[] = [{ name: "", code: "" }];
     statesArray: string[] = [];
@@ -33,12 +36,23 @@ export class CountryStateInputs implements OnInit {
     }
 
     _handleChangeSelect(code: string, section: string): void {
-        console.log('dddddddddddddddddddd', section, code)
         if (section === "country") {
-            this.statesArray = code ? this.countryApi._getStatesByCountry(code) : [];
-            this.countryChange.emit(code);
+            if (code) {
+                this.statesArray = this.countryApi._getStatesByCountry(code);
+                this.countryChange.emit(code);
+                this.errorsChange.emit({ ...this.errors, countryError: "" })
+            } else {
+                this.statesArray = [];
+                this.stateChange.emit("");
+                this.errorsChange.emit({ countryError: "Please select your country", stateError: "" })
+            }
+
         } else {
-            this.stateChange.emit(code);
+            if (code) {
+                this.stateChange.emit(code);
+            } else {
+                this.errorsChange.emit({ ...this.errors, stateError: "Please select your state" })
+            }
         }
     }
 }
