@@ -1,7 +1,8 @@
 .main_sighup_section {
 
     .sighup_box {
-        border: 1px solid;
+        box-shadow: 0 0 4px 1px #ff6521;
+        border-radius: 5px;
         max-width: 600px;
         margin: 50px auto;
         padding: 20px;
@@ -16,7 +17,9 @@
                 width: 100%;
             }
         }
+
+        .action_section {
+            margin-top: 10px;
+        }
     }
-
-
 }

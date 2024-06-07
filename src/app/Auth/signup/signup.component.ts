@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputModules } from '../../inputs/inputs.module';
@@ -19,7 +19,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './signup.component.scss'
 })
 
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   signupFormGroup: UntypedFormGroup;
   country: string = "";
   state: string = "";
@@ -33,7 +33,7 @@ export class SignupComponent {
       address2: new UntypedFormControl(''),
       city: new UntypedFormControl('', Validators.required),
       zipCode: new UntypedFormControl('', Validators.required),
-      phoneNumber: new UntypedFormControl('', Validators.required),
+      phoneNumber: new UntypedFormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       birthday: new UntypedFormControl('', Validators.required),
       password: new UntypedFormControl('', Validators.required),
       confirmPassword: new UntypedFormControl('', Validators.required)
@@ -43,10 +43,27 @@ export class SignupComponent {
     )
   }
 
+  ngOnInit(): void {
+    console.log(this.signupFormGroup)
+  }
 
   confirmedValidator(controlName: string, matchedControlName: string) {
 
-    return (formGroup: UntypedFormGroup) => { }
+    return (formGroup: UntypedFormGroup) => {
+      const PASSWORD = formGroup.controls[controlName];
+      const CONFIRM_PASSWORD = formGroup.controls[matchedControlName];
+
+      if (PASSWORD.errors && !CONFIRM_PASSWORD?.errors?.['confirmValidation']) {
+        return;
+      }
+
+      if (PASSWORD.value !== CONFIRM_PASSWORD.value) {
+        CONFIRM_PASSWORD.setErrors({ confirmValidation: true })
+      } else {
+        CONFIRM_PASSWORD.setErrors(null)
+      }
+
+    }
 
   }
 
@@ -60,6 +77,7 @@ export class SignupComponent {
     const { status, value } = this.signupFormGroup;
     if (status === "VALID" && this.country && this.state) {
       console.log(status, value, 'dddddddddddddddddddddddddddddddddd', this.signupFormGroup)
+
 
     } else {
       this.errors = {

@@ -4,10 +4,10 @@ const studentApiRouter = express.Router();
 
 studentApiRouter.route('/')
     .get(async (req, res) => {
-        res.status(200).json({ test: 'get' })
+        res.status(200).json({ test: 'get' });
     })
     .post(async (req, res) => {
-        res.status(200).json({ test: 'pass' })
+        res.status(200).json({ test: 'pass' });
     });
 
 studentApiRouter.route(':id')
