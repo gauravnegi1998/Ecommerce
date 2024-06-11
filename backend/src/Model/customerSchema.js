@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 
-function validationObject(name) {
+function validationObject(name, required = true) {
     return ({
         type: String,
-        require: [true, `${name} is required`]
+        require: [required, `${name} is required`],
+        default: ""
     })
 }
 
 const customerSchema = mongoose.Schema({
-    name: validationObject('name'),
+    firstName: validationObject('firstName'),
+    lastName: validationObject('lastName'),
     email: {
         ...validationObject('email'),
         unique: [true, 'E-mail is already used'],
@@ -19,15 +21,15 @@ const customerSchema = mongoose.Schema({
     state: validationObject('state'),
     city: validationObject('city'),
     password: validationObject('password'),
-    username: validationObject('username'),
-    refferal: validationObject('refferal'),
-    webAlies: {
-        ...validationObject('webAlies'),
-        unique: [true, 'webAlies is already used']
-    },
-    isUserLogin: { type: Boolean },
-    address1: validationObject('address1'),
-    address2: validationObject('address2'),
+    birthday: validationObject('birthday'),
+    zipCode: validationObject('zipCode'),
+    // refferal: validationObject('refferal'),
+    // webAlies: {
+    //     ...validationObject('webAlies'),
+    //     unique: [true, 'webAlies is already used']
+    // },
+    isUserLogin: { type: Boolean, default: true },
+    address2: validationObject('address2', false),
 });
 
 module.exports = new mongoose.model('CUSTOMER', customerSchema);

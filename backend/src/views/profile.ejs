@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Profile</title>
+</head>
+
+<body>
+    <%- include('common/header'); %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Labels</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="">Name :</td>
+                    <td class="">
+                        <%= user.name %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">Email</td>
+                    <td class="">
+                        <%= user.email %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">Phone Number</td>
+                    <td class="">
+                        <%= user.phone %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+
+</html>
