@@ -1,17 +1,21 @@
-const express = require('express');
-const router = require('./src/router');
-const dotenv = require('dotenv');
+import express, { json } from 'express';
+import { config } from 'dotenv';
 const app = express();
-const path = require('path');
-const _ = require('lodash');
+import { join, dirname } from 'path';
+import _ from 'lodash';
+import router from './src/router/index.js';
+import { fileURLToPath } from 'url';
 
-dotenv.config({ path: "./config.env" })
-require('./src/connection/db');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const PUBLIC_DATA = path.join(__dirname, 'public');
+config({ path: "./config.env" })
+import './src/connection/db.js';
+
+const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
 
-app.use(express.json());
+app.use(json());
 app.use(express.static(PUBLIC_DATA));
 
 app.use(router);

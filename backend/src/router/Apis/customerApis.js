@@ -1,6 +1,6 @@
-const express = require('express');
+import { Router } from 'express';
 
-const studentApiRouter = express.Router();
+const studentApiRouter = Router();
 
 studentApiRouter.route('/')
     .get(async (req, res) => {
@@ -19,4 +19,4 @@ studentApiRouter.route(':id')
     })
 
 
-module.exports = studentApiRouter;    
+export default studentApiRouter;    

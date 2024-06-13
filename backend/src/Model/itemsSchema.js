@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
 function validationObject(name) {
     return ({
@@ -7,7 +7,7 @@ function validationObject(name) {
     })
 }
 
-const ItemsSchema = mongoose.Schema({
+const ItemsSchema = Schema({
     name: validationObject('name'),
     email: {
         ...validationObject('email'),
@@ -22,5 +22,5 @@ const ItemsSchema = mongoose.Schema({
 
 });
 
-module.exports = new mongoose.model('items', ItemsSchema);
+export default new model('items', ItemsSchema);
 

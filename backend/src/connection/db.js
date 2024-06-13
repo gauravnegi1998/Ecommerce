@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 mongoose.connect('mongodb+srv://gsn:root@ecommerce.4m6utoc.mongodb.net/?retryWrites=true&w=majority&appName=Ecommerce')
 const db = mongoose.connection;
