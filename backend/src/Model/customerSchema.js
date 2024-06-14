@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 function validationObject(name, required = true) {
     return ({
@@ -23,14 +23,12 @@ const customerSchema = mongoose.Schema({
     password: validationObject('password'),
     birthday: validationObject('birthday'),
     zipCode: validationObject('zipCode'),
-    // refferal: validationObject('refferal'),
-    // webAlies: {
-    //     ...validationObject('webAlies'),
-    //     unique: [true, 'webAlies is already used']
-    // },
+
     isUserLogin: { type: Boolean, default: true },
     address2: validationObject('address2', false),
 });
 
-module.exports = new mongoose.model('CUSTOMER', customerSchema);
+const customerModel = new mongoose.model('CUSTOMER', customerSchema);
+
+export default customerModel;
 

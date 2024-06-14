@@ -1,10 +1,13 @@
 import express, { json } from 'express';
 import { config } from 'dotenv';
-const app = express();
 import { join, dirname } from 'path';
 import _ from 'lodash';
-import router from './src/router/index.js';
+import router from './src/Routes/index.js';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
+
+
+const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,6 +18,7 @@ import './src/connection/db.js';
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
 
+app.use(cors({ origin: '*' }))
 app.use(json());
 app.use(express.static(PUBLIC_DATA));
 
