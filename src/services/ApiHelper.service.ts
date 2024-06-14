@@ -16,7 +16,7 @@ export class ApiService {
 
     private createHeader(rest?: boolean): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders({
-            'Content-Type': "application/x-www-form-urlencoded"
+            'Content-Type': "application/json"
         })
         return headers;
     }

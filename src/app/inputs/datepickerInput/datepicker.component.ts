@@ -67,7 +67,6 @@ export class DatePickerComponent implements ControlValueAccessor {
 
     value: string = "";
 
-
     constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
     onDatePickerChange = (_: any) => { };

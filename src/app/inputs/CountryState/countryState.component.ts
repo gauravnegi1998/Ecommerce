@@ -50,6 +50,7 @@ export class CountryStateInputs implements OnInit {
         } else {
             if (code) {
                 this.stateChange.emit(code);
+                this.errorsChange.emit({ ...this.errors, stateError: "" })
             } else {
                 this.errorsChange.emit({ ...this.errors, stateError: "Please select your state" })
             }

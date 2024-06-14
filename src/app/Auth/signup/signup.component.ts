@@ -6,6 +6,7 @@ import { CountryStateInputs } from '../../inputs/CountryState/countryState.compo
 import { ICountryStateError } from '../../module/commonInterfaces';
 import { MaterialUIModule } from '../../MaterialModel/material-ui.module';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../../../services/ApiHelper.service';
 
 @Component({
   selector: 'app-signup',
@@ -25,10 +26,11 @@ export class SignupComponent implements OnInit {
   state: string = "";
   errors: ICountryStateError = { countryError: "", stateError: "" }
 
-  constructor(private fb: UntypedFormBuilder) {
+  constructor(private fb: UntypedFormBuilder, private api: ApiService) {
     this.signupFormGroup = this.fb.group({
       firstName: new UntypedFormControl('', Validators.required),
       lastName: new UntypedFormControl('', Validators.required),
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
       address: new UntypedFormControl('', Validators.required),
       address2: new UntypedFormControl(''),
       city: new UntypedFormControl('', Validators.required),
@@ -77,7 +79,11 @@ export class SignupComponent implements OnInit {
     const { status, value } = this.signupFormGroup;
     if (status === "VALID" && this.country && this.state) {
       console.log(status, value, 'dddddddddddddddddddddddddddddddddd', this.signupFormGroup)
-
+      this.api.post('/api/customers', value).then((res) => {
+        console.log(res, 'success');
+      }).catch((err) => {
+        console.error(err, 'Error');
+      });
 
     } else {
       this.errors = {
@@ -87,4 +93,11 @@ export class SignupComponent implements OnInit {
 
     }
   }
+
+  // Api
+
+
+
+
+
 }

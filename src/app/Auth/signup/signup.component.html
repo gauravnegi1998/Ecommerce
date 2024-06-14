@@ -55,14 +55,22 @@
                     </div>
                 </div>
                 <div class="form-Control">
-                    <app-textfield formControlName="address" [placeholder]="'Address'" [label]="'Address'"
-                        [name]="'address'" />
+                    <app-textfield formControlName="email" [placeholder]="'demo@yopmail.com'" [label]="'E-mail'"
+                        [name]="'email'" />
                     <ng-template
-                        *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'address', msg:'Please enter your address' } }"></ng-template>
+                        *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'email', msg:'Please enter your email' } }"></ng-template>
                 </div>
-                <div class="form-Control">
-                    <app-textfield formControlName="address2" [placeholder]="'Address2'" [label]="'Address 2(Optional)'"
-                        [name]="'address2'" />
+                <div class="flex-box">
+                    <div class="form-Control">
+                        <app-textfield formControlName="address" [placeholder]="'Address'" [label]="'Address'"
+                            [name]="'address'" />
+                        <ng-template
+                            *ngTemplateOutlet="errorTemplate; context: {$implicit: {name:'address', msg:'Please enter your address' } }"></ng-template>
+                    </div>
+                    <div class="form-Control">
+                        <app-textfield formControlName="address2" [placeholder]="'Address2'"
+                            [label]="'Address 2(Optional)'" [name]="'address2'" />
+                    </div>
                 </div>
                 <div class="flex-box">
                     <div class="form-Control">
