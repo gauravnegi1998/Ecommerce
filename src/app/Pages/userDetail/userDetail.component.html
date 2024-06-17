@@ -1,0 +1,17 @@
+<div class="container user_listing">
+    @for(user of usersData; track user; let index = $index){
+    <app-card [userDetail]="user" [currentIndex]="index">
+        <div class="card-actions d-flex">
+            <app-button [type]="'button'" name="'detail'" [class]="'detail'">
+                <lucide-icon class="my-icon" size="20" name="user" />
+            </app-button>
+            <app-button [type]="'button'" [class]="'edit'" name="'edit'">
+                <lucide-icon class="my-icon" size="20" name="pencil" />
+            </app-button>
+            <app-button [type]="'button'" [class]="'delete'" name="'delete'">
+                <lucide-icon class="my-icon" size="20" name="trash" />
+            </app-button>
+        </div>
+    </app-card>
+    }
+</div>

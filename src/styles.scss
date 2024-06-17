@@ -57,3 +57,13 @@ body {
     gap: 30px;
     justify-content: space-evenly;
 }
+
+.card-body .card-actions {
+    // border: 1px solid;
+    gap: 10px;
+    margin-top: 8px;
+
+    .action_button button {
+        padding: 8px !important;
+    }
+}

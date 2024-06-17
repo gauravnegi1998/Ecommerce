@@ -39,6 +39,11 @@ export const routes: Routes = [
                 path: 'signup',
                 pathMatch: 'full',
                 loadComponent: () => import('./Auth/signup/signup.component').then((m) => m.SignupComponent)
+            },
+            {
+                path: 'listing',
+                loadComponent: () => import('./Pages/userDetail/userDetail.component').then((m) => m.UserDetailComponent),
+                pathMatch: 'full'
             }
         ]
     },

@@ -14,5 +14,16 @@
             background: none;
             color: #ff6a00;
         }
+
+        &.delete {
+            background: #f00;
+
+            &:hover {
+                border-color: #f00;
+                background: transparent;
+                color: #f00;
+            }
+
+        }
     }
 }

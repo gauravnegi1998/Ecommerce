@@ -7,12 +7,14 @@ import { MaterialUIModule } from "../MaterialModel/material-ui.module";
 import { TextFieldComponent } from "./Textfield/Textfield.component";
 import { DatePickerComponent } from "./datepickerInput/datepicker.component";
 import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
+import { CardComponent } from "./card/card.component";
 
 @NgModule({
     declarations: [
         ButtonComponent,
         TextFieldComponent,
-        DatePickerComponent
+        DatePickerComponent,
+        CardComponent,
     ],
     imports: [
         CommonModule,
@@ -24,7 +26,8 @@ import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
     exports: [
         ButtonComponent,
         TextFieldComponent,
-        DatePickerComponent
+        DatePickerComponent,
+        CardComponent
     ]
 })
 

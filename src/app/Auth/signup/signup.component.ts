@@ -78,8 +78,7 @@ export class SignupComponent implements OnInit {
 
     const { status, value } = this.signupFormGroup;
     if (status === "VALID" && this.country && this.state) {
-      console.log(status, value, 'dddddddddddddddddddddddddddddddddd', this.signupFormGroup)
-      this.api.post('/api/customers', value).then((res) => {
+      this.api.post('/api/customers', { ...value, country: this.country, state: this.state }).then((res) => {
         console.log(res, 'success');
       }).catch((err) => {
         console.error(err, 'Error');
