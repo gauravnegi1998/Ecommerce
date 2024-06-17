@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 function validationObject(name, required = true) {
     return ({
         type: String,
-        require: [required, `${name} is required`],
+        required: [required, `${name} is required`],
         default: ""
     })
 }
@@ -26,6 +26,10 @@ const customerSchema = mongoose.Schema({
 
     isUserLogin: { type: Boolean, default: true },
     address2: validationObject('address2', false),
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);

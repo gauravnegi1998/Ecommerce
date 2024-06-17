@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import { InsertCustomer } from '../../Controllers/CustomerController.js';
+import { InsertCustomer, _getAllCustomerData } from '../../Controllers/CustomerController.js';
 
 const studentApiRouter = Router();
 
 studentApiRouter.route('/')
-    .get(async (req, res) => {
-        res.status(200).json({ test: 'get' });
-    })
+    .get(_getAllCustomerData)
     .post(InsertCustomer);
 
 studentApiRouter.route(':id')

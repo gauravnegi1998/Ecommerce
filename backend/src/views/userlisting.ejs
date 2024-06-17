@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>customers</title>
+</head>
+
+<body>
+    <%- include('common/header'); %>
+        <div class="container">
+            <% _.map(data,function(row,i){ %>
+                <div class="card">
+                    <div class="card_box">
+                        <div class="image_section">
+                            <img src="https://picsum.photos/id/<%= i %>/200/300" alt="image" />
+                        </div>
+                        <div class="detail_section">
+                            <div class="names">
+                                <span>First Name</span><span>Last Name</span>
+                                <span>
+                                    <%= row.firstName %>
+                                </span>
+                                <span>
+                                    <%= row.lastName %>
+                                </span>
+                            </div>
+
+                            <div class="emailAddress">
+                                <span>Email</span>
+                                <span>
+                                    <%= row.email %>
+                                </span>
+                            </div>
+                            <div class="phoneValue">
+                                <span>Phone Number</span>
+                                <span>
+                                    <%= row.phoneNumber %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+</body>
+
+</html>

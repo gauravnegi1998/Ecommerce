@@ -14,10 +14,10 @@ const __dirname = dirname(__filename);
 
 config({ path: "./config.env" })
 import './src/connection/db.js';
+import customerModel from './src/Model/customerSchema.js';
 
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
-
 app.use(cors({ origin: '*' }))
 app.use(json());
 app.use(express.static(PUBLIC_DATA));
@@ -32,13 +32,14 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
-app.get('/data', (req, resp) => {
-    const user = {
-        name: "Gaurav Negi",
-        email: "gaurav@csgroupchd.com",
-        phoneNumber: "9874584895"
+app.get('/customers', async (req, resp) => {
+    try {
+        const AllCustomerData = await customerModel.find();
+        console.log(AllCustomerData, 'AllCustomerDataAllCustomerDataAllCustomerDataAllCustomerData')
+        resp.render('userlisting', { data: AllCustomerData });
+    } catch (err) {
+        resp.status(400).json({ status: 'error', message: 'something went wrong', data: err });
     }
-    resp.render('profile', { user })
 })
 app.listen(process.env.PORT, () => {
     console.log('connected success fully');
