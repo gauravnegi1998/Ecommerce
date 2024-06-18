@@ -42,7 +42,12 @@ export const routes: Routes = [
             },
             {
                 path: 'listing',
-                loadComponent: () => import('./Pages/userDetail/userDetail.component').then((m) => m.UserDetailComponent),
+                loadComponent: () => import('./Pages/userListing/userListing.component').then((m) => m.UserListingComponent),
+                pathMatch: 'full'
+            },
+            {
+                path: 'detail/:id',
+                loadComponent: () => import('./Pages/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
                 pathMatch: 'full'
             }
         ]

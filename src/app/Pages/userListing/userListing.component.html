@@ -2,13 +2,15 @@
     @for(user of usersData; track user; let index = $index){
     <app-card [userDetail]="user" [currentIndex]="index">
         <div class="card-actions d-flex">
-            <app-button [type]="'button'" name="'detail'" [class]="'detail'">
+            <app-button [type]="'button'" name="'detail'" [class]="'detail'"
+                (_onClick)="_handleRedirect('detail',user._id)">
                 <lucide-icon class="my-icon" size="20" name="user" />
             </app-button>
-            <app-button [type]="'button'" [class]="'edit'" name="'edit'">
+            <app-button [type]="'button'" [class]="'edit'" name="'edit'" (_onClick)="_handleRedirect('edit',user._id)">
                 <lucide-icon class="my-icon" size="20" name="pencil" />
             </app-button>
-            <app-button [type]="'button'" [class]="'delete'" name="'delete'">
+            <app-button [type]="'button'" [class]="'delete'" name="'delete'"
+                (_onClick)="_handleRedirect('delete',user._id)">
                 <lucide-icon class="my-icon" size="20" name="trash" />
             </app-button>
         </div>

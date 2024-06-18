@@ -5,20 +5,21 @@ import { ApiService } from "../../../services/ApiHelper.service";
 import { ICustomerData } from "../../module/commonInterfaces";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
 import { Icons } from "../../Common/Icons";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-userDetail",
     standalone: true,
     imports: [InputModules, CommonModule, LucideAngularModule],
-    templateUrl: './userDetail.component.html',
-    styleUrl: './userDetail.component.scss',
+    templateUrl: './userListing.component.html',
+    styleUrl: './userListing.component.scss',
     providers: [
         { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
     ]
 })
 
-export class UserDetailComponent implements OnInit {
-    constructor(private api: ApiService) { };
+export class UserListingComponent implements OnInit {
+    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { };
 
     usersData: ICustomerData[] = [];
 
@@ -36,5 +37,11 @@ export class UserDetailComponent implements OnInit {
             }).catch((err) => {
                 console.log(err, 'ddddddddddddddddddddddddddddd')
             })
+    }
+
+    _handleRedirect(action: string, id: string) {
+        if (action) {
+            this.router.navigateByUrl(`/detail/${id}`)
+        }
     }
 }
