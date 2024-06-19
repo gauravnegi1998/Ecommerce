@@ -13,7 +13,6 @@ export class CardComponent implements OnInit {
     @Input() currentIndex: number = 0;
 
     ngOnInit(): void {
-        console.log(this.userDetail, 'userDetailuserDetailuserDetailuserDetail')
     }
 
 }

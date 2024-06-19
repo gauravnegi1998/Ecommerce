@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Pencil, Trash, User } from "lucide-angular";
+import { ArrowLeft, Eye, EyeOff, Pencil, Trash, User } from "lucide-angular";
 import { LucideIcons } from "lucide-angular/icons/types";
 
 export const Icons: LucideIcons = {
@@ -6,5 +6,6 @@ export const Icons: LucideIcons = {
     EyeOff,
     Pencil,
     User,
-    Trash
+    Trash,
+    ArrowLeft,
 }

@@ -31,7 +31,6 @@ export class UserListingComponent implements OnInit {
         this.api.get('/api/customers')
             .then((res) => {
                 if (res?.status === 'ok') {
-                    console.log(res, 'dddddddddddddddd uuuuuuuuuuuuuuuuuuuuuuuuuu')
                     this.usersData = res?.data;
                 }
             }).catch((err) => {

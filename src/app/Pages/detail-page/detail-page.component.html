@@ -1,25 +1,51 @@
 <div class="container">
     <div class="row">
-        <div class="userdetail_class">
-            <div class="imageSection">
-                <img class="image_div" src="https://i.pravatar.cc/180?img={{'60'}}" alt="dummy" />
-            </div>
-            <div class="public_details">
-                <div>
-                    <div>
-                        <p><strong>First Name: </strong><span>Gaurav</span></p>
-                        <p><strong>Last Name: </strong><span>Negi</span></p>
-                        <p><strong>Address: </strong><span>2441 SE 23rd St</span></p>
-                        <p><strong>E-mail: </strong><span>gaurav&#64;gmail.com</span></p>
-                        <p><strong>Phone </strong><span>9878748785</span></p>
-                        <p><strong>DOB: </strong><span>24-12-1998</span></p>
-                        <p><strong>Country: </strong><span>US</span></p>
-                        <p><strong>State: </strong><span>FL</span></p>
-                        <p><strong>City: </strong><span>Cross City </span></p>
-                        <p><strong>Zip-code: </strong><span>32628</span></p>
+        <section class="main_detail">
+            <app-button [type]="'button'" [class]="'profile_back_button'" [name]="'back-button'"
+                (_onClick)="_handleBackClick()">
+                <lucide-icon name="arrow-left"></lucide-icon>
+            </app-button>
+            <div class="userdetail_class">
+                <div class="imageSection">
+                    <h2>Profile</h2>
+                    <img class="image_div" src="https://i.pravatar.cc/180?id={{userDetail?._id}}" alt="dummy" />
+                </div>
+                <div class="public_details">
+                    <div class="info">
+                        <div>
+                            <p><span>First Name: </span></p>
+                            <p><span>{{userDetail?.firstName}}</span></p>
+                        </div>
+                        <div>
+                            <p><span>Last Name: </span></p>
+                            <p><span>{{userDetail?.lastName}}</span></p>
+                        </div>
+                        <div>
+                            <p><span>E-mail: </span></p>
+                            <p><span>{{userDetail?.email}}</span></p>
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <p><span>Address: </span></p>
+                            <p><span>{{userDetail?.address}}, {{userDetail?.country}}, {{userDetail?.state}},
+                                    {{userDetail?.city}}, {{userDetail?.zipCode}}</span></p>
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <p><span>Phone: </span></p>
+                            <p><span>{{userDetail?.phoneNumber}}</span></p>
+                        </div>
+                        <div>
+                            <p><span>DOB: </span></p>
+                            <p><span>{{userDetail?.birthday}}</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>

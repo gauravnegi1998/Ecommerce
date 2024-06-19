@@ -105,5 +105,11 @@
                 </div>
             </form>
         </div>
+        @if(responseMsg.error){
+        <p class="success-msg">{{responseMsg.msg}}</p>
+        }
+        @else {
+        <p class="error-msg">{{responseMsg.msg}}</p>
+        }
     </div>
 </div>

@@ -24,7 +24,8 @@ export class SignupComponent implements OnInit {
   signupFormGroup: UntypedFormGroup;
   country: string = "";
   state: string = "";
-  errors: ICountryStateError = { countryError: "", stateError: "" }
+  errors: ICountryStateError = { countryError: "", stateError: "" };
+  responseMsg: { error: boolean, msg: string } = { error: false, msg: "" };
 
   constructor(private fb: UntypedFormBuilder, private api: ApiService) {
     this.signupFormGroup = this.fb.group({
@@ -79,9 +80,13 @@ export class SignupComponent implements OnInit {
     const { status, value } = this.signupFormGroup;
     if (status === "VALID" && this.country && this.state) {
       this.api.post('/api/customers', { ...value, country: this.country, state: this.state }).then((res) => {
-        console.log(res, 'success');
+        if (res?.status === 'ok') {
+          this.responseMsg = { error: false, msg: res?.message };
+        } else {
+          this.responseMsg = { error: true, msg: res?.message };
+        }
       }).catch((err) => {
-        console.error(err, 'Error');
+        this.responseMsg = { error: true, msg: JSON.stringify(err) };
       });
 
     } else {

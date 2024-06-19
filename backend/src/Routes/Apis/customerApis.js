@@ -1,19 +1,16 @@
 import { Router } from 'express';
-import { InsertCustomer, _getAllCustomerData } from '../../Controllers/CustomerController.js';
+import { InsertCustomer, _getAllCustomerData, _getSingleCustomerData } from '../../Controllers/CustomerController.js';
 
-const studentApiRouter = Router();
+const customerApiRouter = Router();
 
-studentApiRouter.route('/')
+customerApiRouter.route('/')
     .get(_getAllCustomerData)
     .post(InsertCustomer);
 
-studentApiRouter.route(':id')
-    .get(async (req, res) => {
-        res.status(200).json({ id: req?.id })
-    })
-    .put(async (req, res) => {
 
-    })
+customerApiRouter.route('/:id')
+    .get(_getSingleCustomerData)
 
 
-export default studentApiRouter;    
+
+export default customerApiRouter;    
