@@ -1,19 +1,46 @@
-<div class="container user_listing">
-    @for(user of usersData; track user; let index = $index){
-    <app-card [userDetail]="user" [currentIndex]="index">
-        <div class="card-actions d-flex">
-            <app-button [type]="'button'" name="'detail'" [class]="'detail'"
-                (_onClick)="_handleRedirect('detail',user._id)">
-                <lucide-icon class="my-icon" size="20" name="user" />
-            </app-button>
-            <app-button [type]="'button'" [class]="'edit'" name="'edit'" (_onClick)="_handleRedirect('edit',user._id)">
-                <lucide-icon class="my-icon" size="20" name="pencil" />
-            </app-button>
-            <app-button [type]="'button'" [class]="'delete'" name="'delete'"
-                (_onClick)="_handleRedirect('delete',user._id)">
-                <lucide-icon class="my-icon" size="20" name="trash" />
-            </app-button>
+<div class="container">
+    <div class="search_section">
+        <div class="search_by_field">
+            <div class="dropdown_list">
+                <div class="filter_by" (click)="_handleFilterByClick()">
+                    <p>{{filterBy.name}} :</p>
+                    <p>
+                        @if(displayDropdown){
+                        <lucide-icon name="chevron-up"></lucide-icon>
+                        }@else {
+                        <lucide-icon name="chevron-down"></lucide-icon>
+                        }
+                    </p>
+                </div>
+                <ul [class]="!displayDropdown ? 'hide':'show'">
+                    @for (item of filterByOptions; track item) {
+                    <li (click)="_handleFilterByClick(item?.query)">{{item?.name}}</li>
+                    }
+
+                </ul>
+            </div>
+            <input type="text" [(ngModel)]="searchText" (ngModelChange)="_handelSearch($event)" />
         </div>
-    </app-card>
-    }
+    </div>
+
+    <div class="user_listing">
+        @for(user of usersData; track user; let index = $index){
+        <app-card [userDetail]="user" [currentIndex]="index">
+            <div class="card-actions d-flex">
+                <app-button [type]="'button'" name="'detail'" [class]="'detail'"
+                    (_onClick)="_handleRedirect('detail',user._id)">
+                    <lucide-icon class="my-icon" size="20" name="user" />
+                </app-button>
+                <app-button [type]="'button'" [class]="'edit'" name="'edit'"
+                    (_onClick)="_handleRedirect('edit',user._id)">
+                    <lucide-icon class="my-icon" size="20" name="pencil" />
+                </app-button>
+                <app-button [type]="'button'" [class]="'delete'" name="'delete'"
+                    (_onClick)="_handleRedirect('delete',user._id)">
+                    <lucide-icon class="my-icon" size="20" name="trash" />
+                </app-button>
+            </div>
+        </app-card>
+        }
+    </div>
 </div>
