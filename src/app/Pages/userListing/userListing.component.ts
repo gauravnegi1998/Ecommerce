@@ -69,7 +69,7 @@ export class UserListingComponent implements OnInit {
 
     _handleRedirect(action: string, id: string) {
         if (action) {
-            this.router.navigateByUrl(`/detail/${id}`)
+            this.router.navigateByUrl(`/${action}/${id}`)
         }
     }
 

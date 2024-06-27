@@ -45,4 +45,14 @@ export class ApiService {
         })
     }
 
+    public put(endPoint: string, data: any): Promise<any> {
+        const _PUT_REQUEST = this.Https.put(endPoint, data);
+        return new Promise<any>((resolve, reject) => {
+            _PUT_REQUEST.subscribe({
+                next: (data) => resolve(data),
+                error: err => reject(err)
+            })
+        })
+    }
+
 }

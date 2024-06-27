@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputModules } from '../../inputs/inputs.module';
 import { CountryStateInputs } from '../../inputs/CountryState/countryState.component';
 import { ICountryStateError } from '../../module/commonInterfaces';
 import { MaterialUIModule } from '../../MaterialModel/material-ui.module';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/ApiHelper.service';
+import { SignupAndUpdateComponent } from '../../Common/signupAndUpdate/signupAndUpdate.component';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +14,7 @@ import { ApiService } from '../../../services/ApiHelper.service';
   imports: [
     InputModules, FormsModule, MaterialUIModule,
     ReactiveFormsModule, CommonModule, CountryStateInputs,
-    NgbDatepickerModule
+    SignupAndUpdateComponent
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
@@ -42,7 +42,7 @@ export class SignupComponent implements OnInit {
       confirmPassword: new UntypedFormControl('', Validators.required)
     }, {
       validator: this.confirmedValidator('password', 'confirmPassword')
-    }
+    } as AbstractControlOptions
     )
   }
 
@@ -70,11 +70,7 @@ export class SignupComponent implements OnInit {
 
   }
 
-  formGroupData(name: string): UntypedFormControl {
-    return this.signupFormGroup.get(name) as UntypedFormControl
-  }
-
-  _handleSignupUp(data: any): void {
+  _handleSignupUp(data: any, country: string, state: string): void {
     console.log('dddddddddddddddddddddddddddddddddd', this.signupFormGroup)
 
     const { status, value } = this.signupFormGroup;

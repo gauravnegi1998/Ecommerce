@@ -49,6 +49,10 @@ export const routes: Routes = [
                 path: 'detail/:id',
                 loadComponent: () => import('./Pages/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
                 pathMatch: 'full'
+            },
+            {
+                path: "edit/:id",
+                loadComponent: () => import('./Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent)
             }
         ]
     },
