@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControlOptions, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputModules } from '../../inputs/inputs.module';
@@ -18,7 +18,7 @@ import { ApiService } from '../../../services/ApiHelper.service';
     styleUrl: './signupAndUpdate.component.scss'
 })
 
-export class SignupAndUpdateComponent implements OnInit {
+export class SignupAndUpdateComponent implements OnInit, OnChanges {
 
     @Input() section: string = "signup";
     @Input() formGroupFields: UntypedFormGroup | any;
@@ -35,6 +35,14 @@ export class SignupAndUpdateComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.formGroupFields)
         this.signupFormGroup = this.formGroupFields;
+        console.log(this.formGroupFields.get('country'), "this.formGroupFields.get('country')?.value")
+        if (this.formGroupFields.get('country')?.value || this.formGroupFields.get('state')?.value) {
+            this.country = this.formGroupFields.get('country')?.value;
+            this.state = this.formGroupFields.get('state')?.value;
+        }
+    }
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes, 'ssssssssssssssssssss')
     }
 
 
