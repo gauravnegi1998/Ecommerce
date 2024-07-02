@@ -1,2 +1,5 @@
-<app-signupAndUpdate [section]="'Edit'" [formGroupFields]="updateDataGroup"
-    (_onHandleSubmit)="_handleUpdate"></app-signupAndUpdate>
+<ng-container [formGroup]="updateDataGroup">
+
+    <app-signupAndUpdate [section]="'Edit'" (_onHandleSubmit)="_handleUpdate" />
+
+</ng-container>

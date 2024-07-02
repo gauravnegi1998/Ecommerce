@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import CountryStateService from "../../../services/countryState.service";
 import * as _ from 'lodash';
 import { FormsModule } from "@angular/forms";
@@ -14,7 +14,7 @@ import { ICountryStateError } from "../../module/commonInterfaces";
     styleUrl: './countryState.component.scss'
 })
 
-export class CountryStateInputs implements OnInit {
+export class CountryStateInputs implements OnInit, OnChanges {
 
     @Input() country: string = "";
     @Input() state: string = "";
@@ -32,7 +32,13 @@ export class CountryStateInputs implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.statesArray, 'this.countryArray')
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes, this.country, this.state, 'this.countryArray')
+        if (this.state) {
+            this.statesArray = this.countryApi._getStatesByCountry(this.country);
+        }
     }
 
     _handleChangeSelect(code: string, section: string): void {

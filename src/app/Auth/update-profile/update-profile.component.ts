@@ -25,13 +25,14 @@ export class UpdateProfileComponent implements OnInit {
       address2: new UntypedFormControl(''),
       city: new UntypedFormControl('', Validators.required),
       zipCode: new UntypedFormControl('', Validators.required),
+      country: new UntypedFormControl(''),
+      state: new UntypedFormControl(''),
       phoneNumber: new UntypedFormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       birthday: new UntypedFormControl('', Validators.required)
     })
   }
 
   ngOnInit(): void {
-
     this.activatedRoute.paramMap.subscribe({
       next: (data) => this._getUserData(data),
       error: (err) => console.log(err)

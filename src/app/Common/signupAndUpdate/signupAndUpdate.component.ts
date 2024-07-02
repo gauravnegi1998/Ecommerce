@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControlOptions, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputModules } from '../../inputs/inputs.module';
 import { CountryStateInputs } from '../../inputs/CountryState/countryState.component';
 import { ICountryStateError } from '../../module/commonInterfaces';
-import { MaterialUIModule } from '../../MaterialModel/material-ui.module';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/ApiHelper.service';
 
@@ -21,7 +20,6 @@ import { ApiService } from '../../../services/ApiHelper.service';
 export class SignupAndUpdateComponent implements OnInit, OnChanges {
 
     @Input() section: string = "signup";
-    @Input() formGroupFields: UntypedFormGroup | any;
     @Output() _onHandleSubmit = new EventEmitter<any>();
 
     signupFormGroup: UntypedFormGroup | any;
@@ -30,16 +28,22 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     errors: ICountryStateError = { countryError: "", stateError: "" };
     responseMsg: { error: boolean, msg: string } = { error: false, msg: "" };
 
-    constructor(private api: ApiService) { }
+    constructor(private api: ApiService, private rootFormGroup: FormGroupDirective) { }
 
     ngOnInit(): void {
-        console.log(this.formGroupFields)
-        this.signupFormGroup = this.formGroupFields;
-        console.log(this.formGroupFields.get('country'), "this.formGroupFields.get('country')?.value")
-        if (this.formGroupFields.get('country')?.value || this.formGroupFields.get('state')?.value) {
-            this.country = this.formGroupFields.get('country')?.value;
-            this.state = this.formGroupFields.get('state')?.value;
-        }
+        console.log(this.rootFormGroup.control, 'this.rootFormGroupthis.rootFormGroupthis.rootFormGroup')
+        this.signupFormGroup = this.rootFormGroup.control as UntypedFormGroup;
+        console.log(this.rootFormGroup.control, this.formGroupData('country')?.value, this.formGroupData('country')?.value, "uu")
+        this.rootFormGroup.control.valueChanges.subscribe({
+            next: (data) => {
+                if (data?.country || data?.state) {
+                    this.country = data?.country;
+                    this.state = data?.state;
+                }
+            },
+            error: (err) => console.log(err)
+        })
+
     }
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes, 'ssssssssssssssssssss')
