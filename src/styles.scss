@@ -3,6 +3,20 @@
     --primery-color: "#e78c8c"
 }
 
+@layer reset, primeng;
+
+/* Reset CSS */
+@layer reset {
+    .p-dialog.p-dialog-resizable {
+        width: 100%;
+        max-width: 500px
+    }
+
+    .button_p {
+        // width: ;
+    }
+}
+
 // .container {
 //     width: 100%;
 //     max-width: 1372px;

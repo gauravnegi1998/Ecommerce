@@ -10,10 +10,14 @@ import { FormsModule } from "@angular/forms";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import _ from "lodash";
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from "primeng/button";
+
+
 @Component({
     selector: "app-userDetail",
     standalone: true,
-    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule],
+    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, DialogModule, ButtonModule],
     templateUrl: './userListing.component.html',
     styleUrl: './userListing.component.scss',
     providers: [
@@ -31,7 +35,11 @@ export class UserListingComponent implements OnInit {
     searchText: string = "";
     displayDropdown: boolean = false;
     filterBy: { name: string, query: string } = { name: 'Search By', query: 'all' };
+    visible: boolean = false;
 
+    showDialog(action: boolean = true) {
+        this.visible = action;
+    }
     filterByOptions: { name: string, query: string }[] = [
         { name: 'Search By', query: 'all' },
         { name: "First Name", query: "firstName" },

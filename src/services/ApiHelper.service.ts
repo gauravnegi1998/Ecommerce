@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { devEnvironment } from "../environments/dev.environment";
+import { resolve } from "path";
 
 @Injectable({
     providedIn: 'root'
@@ -10,9 +11,7 @@ export class ApiService {
 
     private apiRootUrl: string = devEnvironment.apiUrl;
 
-    constructor(private Https: HttpClient) {
-
-    }
+    constructor(private Https: HttpClient) { }
 
     private createHeader(rest?: boolean): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders({
@@ -46,7 +45,7 @@ export class ApiService {
     }
 
     public put(endPoint: string, data: any): Promise<any> {
-        const _PUT_REQUEST = this.Https.put(endPoint, data);
+        const _PUT_REQUEST = this.Https.put(this.apiRootUrl + endPoint, data);
         return new Promise<any>((resolve, reject) => {
             _PUT_REQUEST.subscribe({
                 next: (data) => resolve(data),
@@ -55,4 +54,14 @@ export class ApiService {
         })
     }
 
+    public delete(url: string): Promise<any> {
+        let headers = this.createHeader();
+        const DELETE_REQUEST = this.Https.delete(this.apiRootUrl + url, { headers });
+        return new Promise<any>((resolve, reject) => {
+            DELETE_REQUEST.subscribe({
+                next: (response) => resolve(response),
+                error: (error) => reject(error)
+            })
+        })
+    }
 }

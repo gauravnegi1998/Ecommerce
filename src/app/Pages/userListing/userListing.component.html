@@ -43,4 +43,23 @@
         </app-card>
         }
     </div>
+
+
+    <div class="">
+        <p-button (click)="showDialog()" label="Show" styleClass="button_p" />
+        <p-dialog draggable="false" [modal]="true" [(visible)]="visible" maskStyleClass="dialog_delete" header="Header">
+            <ng-template pTemplate="header">
+                <div class="">
+                    <p class=""> Confirmation </p>
+                </div>
+            </ng-template>
+            <div>
+                <h3>Are you sure you want to delete.</h3>
+            </div>
+            <div class="action_section">
+                <app-button (_onClick)="showDialog(false)">Cancel</app-button>
+                <app-button (_onClick)="showDialog(false)">Ok</app-button>
+            </div>
+        </p-dialog>
+    </div>
 </div>

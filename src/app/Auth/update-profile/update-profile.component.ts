@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SignupAndUpdateComponent } from '../../Common/signupAndUpdate/signupAndUpdate.component';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from '../../../services/ApiHelper.service';
 import _ from 'lodash';
 
@@ -15,8 +15,12 @@ import _ from 'lodash';
 export class UpdateProfileComponent implements OnInit {
 
   updateDataGroup: UntypedFormGroup | any;
+  private userId!: string;
 
-  constructor(private fb: UntypedFormBuilder, private activatedRoute: ActivatedRoute, private api: ApiService) {
+  constructor(
+    private fb: UntypedFormBuilder, private activatedRoute: ActivatedRoute, private api: ApiService,
+    private router: Router
+  ) {
     this.updateDataGroup = this.fb.group({
       firstName: new UntypedFormControl('', Validators.required),
       lastName: new UntypedFormControl('', Validators.required),
@@ -34,7 +38,10 @@ export class UpdateProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
-      next: (data) => this._getUserData(data),
+      next: (data) => {
+        this._getUserData(data);
+        this.userId = String(data.get('id'));
+      },
       error: (err) => console.log(err)
     })
   }
@@ -44,7 +51,6 @@ export class UpdateProfileComponent implements OnInit {
     const id = data.get('id');
     if (id) {
       this.api.get(`/api/customers/${id}`).then((response) => {
-        console.log(response, 'dddddddddddddddddddddddddddd');
         if (response?.status === 'ok') {
           _.map(_.keys(response?.data), (r) => {
             this.updateDataGroup.get(r)?.setValue(response?.data[r])
@@ -56,8 +62,14 @@ export class UpdateProfileComponent implements OnInit {
     }
   }
 
-  _handleUpdate() {
-
+  _handleUpdate({ data, country, state }: { data: UntypedFormGroup, country: string, state: string }) {
+    this.api.put(`/api/customers/${this.userId}`, { ...data?.value, country, state }).then((res) => {
+      if (res?.status === "ok") {
+        this.router.navigateByUrl('/listing');
+      }
+    }).catch((err) => {
+      console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV', err);
+    });
   }
 
 }

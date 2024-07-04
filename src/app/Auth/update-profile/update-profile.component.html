@@ -1,5 +1,3 @@
 <ng-container [formGroup]="updateDataGroup">
-
-    <app-signupAndUpdate [section]="'Edit'" (_onHandleSubmit)="_handleUpdate" />
-
+    <app-signupAndUpdate [section]="'Edit'" (_onHandleSubmit)="_handleUpdate($event)" />
 </ng-container>

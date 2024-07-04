@@ -60,10 +60,15 @@ const _getSingleCustomerData = async (req, res) => {
 const _updateCustomerData = async (req, res) => {
     try {
         const { params, body } = req;
-        const UPDATE_CUSTOMER = customerModel.findByIdAndUpdate(params?.id, body, { returnDocument: 'after' })
+        const UPDATE_CUSTOMER = await customerModel.findByIdAndUpdate(params?.id, body, { returnDocument: 'after' });
+        if (UPDATE_CUSTOMER) {
+            res?.status(200).json({ status: 'ok', data: UPDATE_CUSTOMER })
+        } else {
+            res.status(400).json({ status: 'error', message: 'something went wrong', data: err });
+        }
     } catch (error) {
-
+        res.status(500).json({ status: 'error', message: 'Internal sever error', data: err });
     }
 }
 
-export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData };
+export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData };
