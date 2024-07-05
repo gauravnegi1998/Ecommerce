@@ -44,22 +44,16 @@
         }
     </div>
 
+    <app-button (_onClick)="openDialog()">open</app-button>
+    <ng-template #myTemplate class="s > > > > > > > > > > > > > > > > > > > >">
+        <h2 mat-dialog-title>Confirmation</h2>
+        <mat-dialog-content>
+            <p>Are you sure you want to delete</p>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <button mat-button [mat-dialog-close]>No Thanks</button>
+            <button mat-button (click)="openDialog()" cdkFocusInitial>Ok</button>
+        </mat-dialog-actions>
 
-    <div class="">
-        <p-button (click)="showDialog()" label="Show" styleClass="button_p" />
-        <p-dialog draggable="false" [modal]="true" [(visible)]="visible" maskStyleClass="dialog_delete" header="Header">
-            <ng-template pTemplate="header">
-                <div class="">
-                    <p class=""> Confirmation </p>
-                </div>
-            </ng-template>
-            <div>
-                <h3>Are you sure you want to delete.</h3>
-            </div>
-            <div class="action_section">
-                <app-button (_onClick)="showDialog(false)">Cancel</app-button>
-                <app-button (_onClick)="showDialog(false)">Ok</app-button>
-            </div>
-        </p-dialog>
-    </div>
+    </ng-template>
 </div>

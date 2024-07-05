@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, inject } from "@angular/core";
 import { InputModules } from "../../inputs/inputs.module";
 import { CommonModule } from "@angular/common";
 import { ApiService } from "../../../services/ApiHelper.service";
@@ -10,14 +10,14 @@ import { FormsModule } from "@angular/forms";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import _ from "lodash";
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from "primeng/button";
+import { MaterialUIModule } from "../../MaterialModel/material-ui.module";
+import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
     selector: "app-userDetail",
     standalone: true,
-    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, DialogModule, ButtonModule],
+    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, MaterialUIModule],
     templateUrl: './userListing.component.html',
     styleUrl: './userListing.component.scss',
     providers: [
@@ -30,16 +30,18 @@ export class UserListingComponent implements OnInit {
 
     private searchSubject = new Subject<string>();
     private readonly debounceTimeMs = 500; // Set the debounce time (in milliseconds)
+    readonly dialog = inject(MatDialog);
+
+    @ViewChild("myTemplate") template!: TemplateRef<any>;
 
     usersData: ICustomerData[] = [];
     searchText: string = "";
     displayDropdown: boolean = false;
     filterBy: { name: string, query: string } = { name: 'Search By', query: 'all' };
-    visible: boolean = false;
+    deleteUserId!: string;
 
-    showDialog(action: boolean = true) {
-        this.visible = action;
-    }
+
+
     filterByOptions: { name: string, query: string }[] = [
         { name: 'Search By', query: 'all' },
         { name: "First Name", query: "firstName" },
@@ -76,14 +78,25 @@ export class UserListingComponent implements OnInit {
     }
 
     _handleRedirect(action: string, id: string) {
-        if (action) {
+        if (action !== "delete") {
             this.router.navigateByUrl(`/${action}/${id}`)
+        } else {
+            this.deleteUserId = id;
+            this.openDialog()
         }
     }
 
     _handelSearch(data: string) {
         console.log(data, 'searchText - searchText - searchText - searchText')
         this.searchSubject.next(this.searchText);
+    }
+
+    _handelDeleteUser() {
+        this.api.delete(`/api/customers/${this.deleteUserId}`).then((response) => {
+            console.log('deleted', response)
+        }).catch((error) => {
+            console.log('error', error)
+        })
     }
 
     _handleFilterByClick(section = "dropdown") {
@@ -94,5 +107,20 @@ export class UserListingComponent implements OnInit {
             this.filterBy = _.find(this.filterByOptions, { query: section }) || this.filterBy;
             this.displayDropdown = false;
         }
+    }
+
+    // dialog open
+    openDialog(): void {
+        const dialogRef = this.dialog.open(this.template, {
+            width: '570px',
+            panelClass: 'delete-modal',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            if (result !== undefined) {
+                alert('hello');
+            }
+        });
     }
 }
