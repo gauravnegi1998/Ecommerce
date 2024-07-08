@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData } from '../../Controllers/CustomerController.js';
+import { InsertCustomer, _deleteCustomerById, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData } from '../../Controllers/CustomerController.js';
 
 const customerApiRouter = Router();
 
@@ -11,6 +11,7 @@ customerApiRouter.route('/')
 customerApiRouter.route('/:id')
     .get(_getSingleCustomerData)
     .put(_updateCustomerData)
+    .delete(_deleteCustomerById)
 
 
 

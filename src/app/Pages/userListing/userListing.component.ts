@@ -12,6 +12,7 @@ import { debounceTime } from "rxjs/operators";
 import _ from "lodash";
 import { MaterialUIModule } from "../../MaterialModel/material-ui.module";
 import { MatDialog } from "@angular/material/dialog";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -26,7 +27,7 @@ import { MatDialog } from "@angular/material/dialog";
 })
 
 export class UserListingComponent implements OnInit {
-    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { };
+    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private toaster: ToastrService) { };
 
     private searchSubject = new Subject<string>();
     private readonly debounceTimeMs = 500; // Set the debounce time (in milliseconds)
@@ -38,9 +39,7 @@ export class UserListingComponent implements OnInit {
     searchText: string = "";
     displayDropdown: boolean = false;
     filterBy: { name: string, query: string } = { name: 'Search By', query: 'all' };
-    deleteUserId!: string;
-
-
+    deleteUser!: ICustomerData;
 
     filterByOptions: { name: string, query: string }[] = [
         { name: 'Search By', query: 'all' },
@@ -77,11 +76,11 @@ export class UserListingComponent implements OnInit {
             })
     }
 
-    _handleRedirect(action: string, id: string) {
+    _handleRedirect(action: string, user: ICustomerData) {
         if (action !== "delete") {
-            this.router.navigateByUrl(`/${action}/${id}`)
+            this.router.navigateByUrl(`/${action}/${user?._id}`)
         } else {
-            this.deleteUserId = id;
+            this.deleteUser = user;
             this.openDialog()
         }
     }
@@ -92,8 +91,14 @@ export class UserListingComponent implements OnInit {
     }
 
     _handelDeleteUser() {
-        this.api.delete(`/api/customers/${this.deleteUserId}`).then((response) => {
+        this.api.delete(`/api/customers/${this.deleteUser?._id}`).then((response) => {
             console.log('deleted', response)
+            if (response.status === 'ok') {
+                this.dialog.closeAll();
+                this.toaster.success('Hello world!', 'Toastr fun!');
+            } else {
+                alert(response?.message)
+            }
         }).catch((error) => {
             console.log('error', error)
         })
@@ -112,12 +117,13 @@ export class UserListingComponent implements OnInit {
     // dialog open
     openDialog(): void {
         const dialogRef = this.dialog.open(this.template, {
-            width: '570px',
+            width: '550px',
             panelClass: 'delete-modal',
         });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            this._getCustomerData()
             if (result !== undefined) {
                 alert('hello');
             }

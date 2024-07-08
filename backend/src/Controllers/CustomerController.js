@@ -35,7 +35,11 @@ const _getAllCustomerData = async (req, res) => {
 
         let AllCustomerData = await customerModel.find();
         if (!_.isEmpty(req?.query)) {
-            AllCustomerData = await customerModel.find(req?.query).limit(10);
+            AllCustomerData = !(req?.query?.all) ? await customerModel.find(req?.query).limit(10) : await customerModel.find({
+                $or: [
+                    { firstName: req?.query?.all }, { lastName: req?.query?.all }, { email: req?.query?.all }, { phone: req?.query?.all }
+                ]
+            }).limit(10);
         }
         res.status(200).json({ status: 'ok', data: AllCustomerData });
     } catch (err) {
@@ -58,6 +62,8 @@ const _getSingleCustomerData = async (req, res) => {
 
 
 const _updateCustomerData = async (req, res) => {
+    // update data by any parameter :- updateOne({name:'shiv'}, body)
+    // update multipleDat by any parameter :- updateMany({age:27}, body)
     try {
         const { params, body } = req;
         const UPDATE_CUSTOMER = await customerModel.findByIdAndUpdate(params?.id, body, { returnDocument: 'after' });
@@ -71,4 +77,19 @@ const _updateCustomerData = async (req, res) => {
     }
 }
 
-export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData };
+const _deleteCustomerById = async (req, res) => {
+    try {
+        const { params } = req;
+        const DELETE_USER = await customerModel.findByIdAndDelete(params?.id);
+        console.log(DELETE_USER, "ddddddddddddddddddddddd")
+        if (DELETE_USER) {
+            res.status(200).json({ status: 'ok', message: "user deleted successfully" })
+        } else {
+            res.status(400).json({ status: 'error', message: "something went wrong" })
+        }
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: "internal server error" })
+    }
+}
+
+export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData, _deleteCustomerById };

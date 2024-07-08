@@ -7,6 +7,8 @@ import { ICountryStateError } from '../../module/commonInterfaces';
 import { MaterialUIModule } from '../../MaterialModel/material-ui.module';
 import { ApiService } from '../../../services/ApiHelper.service';
 import { SignupAndUpdateComponent } from '../../Common/signupAndUpdate/signupAndUpdate.component';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -27,7 +29,7 @@ export class SignupComponent implements OnInit {
   errors: ICountryStateError = { countryError: "", stateError: "" };
   responseMsg: { error: boolean, msg: string } = { error: false, msg: "" };
 
-  constructor(private fb: UntypedFormBuilder, private api: ApiService) {
+  constructor(private fb: UntypedFormBuilder, private api: ApiService, private toster: ToastrService, private router: Router) {
     this.signupFormGroup = this.fb.group({
       firstName: new UntypedFormControl('', Validators.required),
       lastName: new UntypedFormControl('', Validators.required),
@@ -70,14 +72,17 @@ export class SignupComponent implements OnInit {
 
   }
 
-  _handleSignupUp(data: any, country: string, state: string): void {
+  _handleSignupUp({ data, country, state }: { data: UntypedFormGroup, country: string, state: string }): void {
     console.log('dddddddddddddddddddddddddddddddddd', this.signupFormGroup)
 
-    const { status, value } = this.signupFormGroup;
-    if (status === "VALID" && this.country && this.state) {
-      this.api.post('/api/customers', { ...value, country: this.country, state: this.state }).then((res) => {
+    if (data?.status === "VALID" && country && state) {
+      this.api.post('/api/customers', { ...data?.value, country, state }).then((res) => {
         if (res?.status === 'ok') {
+          this.toster.success('Hello world!', 'Toastr fun!');
           this.responseMsg = { error: false, msg: res?.message };
+          setTimeout(() => {
+            this.router.navigateByUrl('/listing')
+          }, 2000)
         } else {
           this.responseMsg = { error: true, msg: res?.message };
         }

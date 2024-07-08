@@ -28,15 +28,14 @@
         <app-card [userDetail]="user" [currentIndex]="index">
             <div class="card-actions d-flex">
                 <app-button [type]="'button'" name="'detail'" [class]="'detail'"
-                    (_onClick)="_handleRedirect('detail',user._id)">
+                    (_onClick)="_handleRedirect('detail',user)">
                     <lucide-icon class="my-icon" size="20" name="user" />
                 </app-button>
-                <app-button [type]="'button'" [class]="'edit'" name="'edit'"
-                    (_onClick)="_handleRedirect('edit',user._id)">
+                <app-button [type]="'button'" [class]="'edit'" name="'edit'" (_onClick)="_handleRedirect('edit',user)">
                     <lucide-icon class="my-icon" size="20" name="pencil" />
                 </app-button>
                 <app-button [type]="'button'" [class]="'delete'" name="'delete'"
-                    (_onClick)="_handleRedirect('delete',user._id)">
+                    (_onClick)="_handleRedirect('delete',user)">
                     <lucide-icon class="my-icon" size="20" name="trash" />
                 </app-button>
             </div>
@@ -44,15 +43,14 @@
         }
     </div>
 
-    <app-button (_onClick)="openDialog()">open</app-button>
     <ng-template #myTemplate class="s > > > > > > > > > > > > > > > > > > > >">
         <h2 mat-dialog-title>Confirmation</h2>
         <mat-dialog-content>
-            <p>Are you sure you want to delete</p>
+            <p>Are you sure you want to delete {{deleteUser['firstName']||""}} {{deleteUser['lastName']}}</p>
         </mat-dialog-content>
-        <mat-dialog-actions>
-            <button mat-button [mat-dialog-close]>No Thanks</button>
-            <button mat-button (click)="openDialog()" cdkFocusInitial>Ok</button>
+        <mat-dialog-actions class="actions">
+            <button mat-button (click)="_handelDeleteUser()" cdkFocusInitial>Yes</button>
+            <button mat-button [mat-dialog-close]>No</button>
         </mat-dialog-actions>
 
     </ng-template>

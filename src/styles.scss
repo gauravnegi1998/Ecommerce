@@ -95,4 +95,33 @@ body {
 
 .delete-modal {
     color: #ff6521;
+
+    h2.mdc-dialog__title {
+        color: #ff6521;
+        border-bottom: 1px solid #ff6521;
+    }
+
+    .mat-mdc-dialog-content {
+        padding-bottom: 8px !important;
+
+        p {
+            padding-bottom: 0px;
+        }
+    }
+
+    .mdc-dialog__actions.actions {
+        justify-content: center !important;
+
+        button {
+            background: #ff6521;
+            border: 1px solid #ff6521;
+            color: #fff;
+            font-weight: 600;
+
+            &:hover {
+                background: transparent;
+                color: #ff6521;
+            }
+        }
+    }
 }

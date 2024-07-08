@@ -31,9 +31,7 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     constructor(private api: ApiService, private rootFormGroup: FormGroupDirective) { }
 
     ngOnInit(): void {
-        console.log(this.rootFormGroup.control, 'this.rootFormGroupthis.rootFormGroupthis.rootFormGroup')
         this.signupFormGroup = this.rootFormGroup.control as UntypedFormGroup;
-        console.log(this.rootFormGroup.control, this.formGroupData('country')?.value, this.formGroupData('country')?.value, "uu")
         this.rootFormGroup.control.valueChanges.subscribe({
             next: (data) => {
                 if (data?.country || data?.state) {
@@ -47,27 +45,6 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     }
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes, 'ssssssssssssssssssss')
-    }
-
-
-    confirmedValidator(controlName: string, matchedControlName: string) {
-
-        return (formGroup: UntypedFormGroup) => {
-            const PASSWORD = formGroup.controls[controlName];
-            const CONFIRM_PASSWORD = formGroup.controls[matchedControlName];
-
-            if (PASSWORD.errors && !CONFIRM_PASSWORD?.errors?.['confirmValidation']) {
-                return;
-            }
-
-            if (PASSWORD.value !== CONFIRM_PASSWORD.value) {
-                CONFIRM_PASSWORD.setErrors({ confirmValidation: true })
-            } else {
-                CONFIRM_PASSWORD.setErrors(null)
-            }
-
-        }
-
     }
 
     formGroupData(name: string): UntypedFormControl {
