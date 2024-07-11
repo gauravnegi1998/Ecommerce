@@ -32,6 +32,12 @@ const customerSchema = mongoose.Schema({
     },
 });
 
+
+customerSchema.pre('save', function (next) {
+    console.log(this.password, 'ddddddddddddddddddddddddddddddddddddddddd');
+    next();
+})
+
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);
 
 export default customerModel;

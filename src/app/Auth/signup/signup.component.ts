@@ -78,7 +78,7 @@ export class SignupComponent implements OnInit {
     if (data?.status === "VALID" && country && state) {
       this.api.post('/api/customers', { ...data?.value, country, state }).then((res) => {
         if (res?.status === 'ok') {
-          this.toster.success('Hello world!', 'Toastr fun!');
+          this.toster.success(`${res?.message}`);
           this.responseMsg = { error: false, msg: res?.message };
           setTimeout(() => {
             this.router.navigateByUrl('/listing')

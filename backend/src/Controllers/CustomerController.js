@@ -34,6 +34,7 @@ const _getAllCustomerData = async (req, res) => {
         */
 
         let AllCustomerData = await customerModel.find();
+        console.log('req-query', !_.isEmpty(req?.query))
         if (!_.isEmpty(req?.query)) {
             AllCustomerData = !(req?.query?.all) ? await customerModel.find(req?.query).limit(10) : await customerModel.find({
                 $or: [
