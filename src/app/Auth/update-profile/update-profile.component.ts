@@ -4,13 +4,17 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormContro
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from '../../../services/ApiHelper.service';
 import _ from 'lodash';
+import { InputModules } from "../../inputs/inputs.module";
+import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
+import { Icons } from '../../Common/Icons';
 
 @Component({
   selector: 'app-update-profile',
   standalone: true,
-  imports: [SignupAndUpdateComponent, FormsModule, ReactiveFormsModule],
+  imports: [SignupAndUpdateComponent, FormsModule, ReactiveFormsModule, InputModules, LucideAngularModule],
   templateUrl: './update-profile.component.html',
-  styleUrl: './update-profile.component.scss'
+  styleUrl: './update-profile.component.scss',
+
 })
 export class UpdateProfileComponent implements OnInit {
 
@@ -71,5 +75,6 @@ export class UpdateProfileComponent implements OnInit {
       console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV', err);
     });
   }
+
 
 }

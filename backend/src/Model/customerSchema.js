@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 function validationObject(name, required = true) {
     return ({
@@ -33,10 +34,16 @@ const customerSchema = mongoose.Schema({
 });
 
 
-customerSchema.pre('save', function (next) {
+customerSchema.pre('save', async function (next) {
     console.log(this.password, 'ddddddddddddddddddddddddddddddddddddddddd');
-    next();
-})
+    if (this.password) {
+        // Store hash in your password DB.
+        this.password = await bcrypt.hash(this.password, 10);
+        next();
+    }
+});
+
+console.log(customerSchema, 'customerSchemacustomerSchemacustomerSchema')
 
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);
 

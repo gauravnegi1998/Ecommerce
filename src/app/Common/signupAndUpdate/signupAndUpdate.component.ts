@@ -6,15 +6,21 @@ import { CountryStateInputs } from '../../inputs/CountryState/countryState.compo
 import { ICountryStateError } from '../../module/commonInterfaces';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/ApiHelper.service';
+import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
+import { Icons } from '../Icons';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-signupAndUpdate',
     standalone: true,
     imports: [
-        InputModules, ReactiveFormsModule, FormsModule, CommonModule, CountryStateInputs
+        InputModules, ReactiveFormsModule, FormsModule, CommonModule, CountryStateInputs, LucideAngularModule
     ],
     templateUrl: './signupAndUpdate.component.html',
-    styleUrl: './signupAndUpdate.component.scss'
+    styleUrl: './signupAndUpdate.component.scss',
+    providers: [
+        { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
+    ]
 })
 
 export class SignupAndUpdateComponent implements OnInit, OnChanges {
@@ -28,7 +34,7 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     errors: ICountryStateError = { countryError: "", stateError: "" };
     responseMsg: { error: boolean, msg: string } = { error: false, msg: "" };
 
-    constructor(private api: ApiService, private rootFormGroup: FormGroupDirective) { }
+    constructor(private api: ApiService, private rootFormGroup: FormGroupDirective, private router: Router) { }
 
     ngOnInit(): void {
         this.signupFormGroup = this.rootFormGroup.control as UntypedFormGroup;
@@ -63,6 +69,10 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
             }
 
         }
+    }
+
+    _handleBack() {
+        this.router.navigateByUrl('/listing');
     }
 
 }

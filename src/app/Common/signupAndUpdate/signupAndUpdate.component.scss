@@ -1,10 +1,14 @@
 .main_sighup_section {
 
-    .sighup_box {
-        box-shadow: 0 0 4px 1px #ff6521;
-        border-radius: 5px;
+    section {
         max-width: 600px;
         margin: 50px auto;
+    }
+
+    .sighup_box {
+        margin-top: 20px;
+        box-shadow: 0 0 4px 1px #ff6521;
+        border-radius: 5px;
         padding: 10px 20px 20px;
         background: linear-gradient(180deg, #ff9309, transparent);
 
