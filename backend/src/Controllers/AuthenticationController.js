@@ -16,7 +16,7 @@ class AuthenticationController {
     // _generating a login token
     static _generateToken(USER) {
         let TOKEN_VALUE = null;
-        jwt.sign(USER, 'jaswantkhatrokekhiladiagain', { expiresIn: 60 * 60 }, function (err, token) {
+        jwt.sign(USER, 'jaswantkhatrokekhiladiagaintt', { expiresIn: 60 * 60 }, function (err, token) {
             TOKEN_VALUE = token ? token : null;
         });
 
@@ -28,11 +28,14 @@ class AuthenticationController {
             const USER = await customerModel.findOne({ email: req?.body?.email });
             if (USER) {
                 const CHECK_PASSWORD = this._bcryptPasswordCheck(req?.body?.password, USER?.password);
+                const TOKEN = this._generateToken(USER);
                 if (CHECK_PASSWORD) {
-                    res.sta
+                    res.status(200).json({ status: 'ok', token: TOKEN, message: "Login successfully." })
+                } else {
+                    res.status(401).json({ status: 'error', message: "Password is incorrect" })
                 }
             } else {
-
+                res.status(401).json({ status: 'error', message: "username or password is wrong" })
             }
         } catch (err) {
 

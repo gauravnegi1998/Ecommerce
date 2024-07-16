@@ -24,23 +24,29 @@
     </div>
 
     <div class="user_listing">
-        @for(user of usersData; track user; let index = $index){
-        <app-card [userDetail]="user" [currentIndex]="index">
-            <div class="card-actions d-flex">
-                <app-button [type]="'button'" name="'detail'" [class]="'detail'"
-                    (_onClick)="_handleRedirect('detail',user)">
-                    <lucide-icon class="my-icon" size="20" name="user" />
-                </app-button>
-                <app-button [type]="'button'" [class]="'edit'" name="'edit'" (_onClick)="_handleRedirect('edit',user)">
-                    <lucide-icon class="my-icon" size="20" name="pencil" />
-                </app-button>
-                <app-button [type]="'button'" [class]="'delete'" name="'delete'"
-                    (_onClick)="_handleRedirect('delete',user)">
-                    <lucide-icon class="my-icon" size="20" name="trash" />
-                </app-button>
-            </div>
-        </app-card>
-        }
+        <!-- @for(user of usersData|paginate:config; track user; let index = $index){ -->
+        <div *ngFor="let user of usersData | paginate: config">
+            <app-card [userDetail]="user" [currentIndex]="1">
+                <div class="card-actions d-flex">
+                    <app-button [type]="'button'" name="'detail'" [class]="'detail'"
+                        (_onClick)="_handleRedirect('detail',user)">
+                        <lucide-icon class="my-icon" size="20" name="user" />
+                    </app-button>
+                    <app-button [type]="'button'" [class]="'edit'" name="'edit'"
+                        (_onClick)="_handleRedirect('edit',user)">
+                        <lucide-icon class="my-icon" size="20" name="pencil" />
+                    </app-button>
+                    <app-button [type]="'button'" [class]="'delete'" name="'delete'"
+                        (_onClick)="_handleRedirect('delete',user)">
+                        <lucide-icon class="my-icon" size="20" name="trash" />
+                    </app-button>
+                </div>
+            </app-card>
+
+        </div>
+        <app-paginationComp [pageNumber]="1" [totalPages]="6" [config]="config"
+            (_onPageChange)="_handlePageChange($event)" />
+        <!-- } -->
     </div>
 
     <ng-template #myTemplate class="s > > > > > > > > > > > > > > > > > > > >">

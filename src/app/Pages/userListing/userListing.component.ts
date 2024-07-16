@@ -13,12 +13,13 @@ import _ from "lodash";
 import { MaterialUIModule } from "../../MaterialModel/material-ui.module";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
+import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
 
 
 @Component({
     selector: "app-userDetail",
     standalone: true,
-    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, MaterialUIModule],
+    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, MaterialUIModule, NgxPaginationModule],
     templateUrl: './userListing.component.html',
     styleUrl: './userListing.component.scss',
     providers: [
@@ -40,7 +41,12 @@ export class UserListingComponent implements OnInit {
     displayDropdown: boolean = false;
     filterBy: { name: string, query: string } = { name: 'Search By', query: 'all' };
     deleteUser!: ICustomerData;
-
+    public config: PaginationInstance = {
+        id: 'listing_section',
+        itemsPerPage: 20,
+        currentPage: 1,
+        totalItems: 10
+    };
     filterByOptions: { name: string, query: string }[] = [
         { name: 'Search By', query: 'all' },
         { name: "First Name", query: "firstName" },
@@ -112,6 +118,10 @@ export class UserListingComponent implements OnInit {
             this.filterBy = _.find(this.filterByOptions, { query: section }) || this.filterBy;
             this.displayDropdown = false;
         }
+    }
+
+    _handlePageChange(data: any) {
+
     }
 
     // dialog open

@@ -8,6 +8,8 @@ import { TextFieldComponent } from "./Textfield/Textfield.component";
 import { DatePickerComponent } from "./datepickerInput/datepicker.component";
 import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
 import { CardComponent } from "./card/card.component";
+import { NgxPaginationModule } from "ngx-pagination";
+import { PaginationComponent } from "./paginationComp/paginationComp.component";
 
 @NgModule({
     declarations: [
@@ -15,19 +17,22 @@ import { CardComponent } from "./card/card.component";
         TextFieldComponent,
         DatePickerComponent,
         CardComponent,
+        PaginationComponent
     ],
     imports: [
         CommonModule,
         MaterialUIModule,
         RouterModule,
         FormsModule,
-        NgbDatepickerModule
+        NgbDatepickerModule,
+        NgxPaginationModule
     ],
     exports: [
         ButtonComponent,
         TextFieldComponent,
         DatePickerComponent,
-        CardComponent
+        CardComponent,
+        PaginationComponent
     ]
 })
 

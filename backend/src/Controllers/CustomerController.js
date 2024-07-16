@@ -33,14 +33,14 @@ const _getAllCustomerData = async (req, res) => {
         $nor:[{age: 25},{name:'gaurav'}] - nor Operator 
         */
 
-        let AllCustomerData = await customerModel.find();
+        let AllCustomerData = await customerModel.find().limit(6);
         console.log('req-query', !_.isEmpty(req?.query))
         if (!_.isEmpty(req?.query)) {
-            AllCustomerData = !(req?.query?.all) ? await customerModel.find(req?.query).limit(10) : await customerModel.find({
+            AllCustomerData = !(req?.query?.all) ? await customerModel.find(req?.query).limit(6) : await customerModel.find({
                 $or: [
                     { firstName: req?.query?.all }, { lastName: req?.query?.all }, { email: req?.query?.all }, { phone: req?.query?.all }
                 ]
-            }).limit(10);
+            }).limit(6);
         }
         res.status(200).json({ status: 'ok', data: AllCustomerData });
     } catch (err) {
