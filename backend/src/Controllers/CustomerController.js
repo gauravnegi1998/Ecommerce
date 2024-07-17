@@ -33,16 +33,28 @@ const _getAllCustomerData = async (req, res) => {
         $nor:[{age: 25},{name:'gaurav'}] - nor Operator 
         */
 
-        let AllCustomerData = await customerModel.find().limit(6);
-        console.log('req-query', !_.isEmpty(req?.query))
+        // {$regex:name,$options:"i"} case sensitive
+
+        const LIMIT = Number(req?.query?.limit) || 6;
+        const SKIP = Number(req?.query?.page) ? (Number(req?.query?.page) - 1) * LIMIT : 0;
+
+        let AllCustomerData = [];
+
         if (!_.isEmpty(req?.query)) {
-            AllCustomerData = !(req?.query?.all) ? await customerModel.find(req?.query).limit(6) : await customerModel.find({
-                $or: [
-                    { firstName: req?.query?.all }, { lastName: req?.query?.all }, { email: req?.query?.all }, { phone: req?.query?.all }
-                ]
-            }).limit(6);
+            if (!req?.query?.all) {
+                AllCustomerData = await customerModel.find(_.omit(req?.query, ['limit', 'page'])).skip(SKIP).limit(LIMIT);
+                console.log(AllCustomerData, 'OOOOOOOOOOOOOOOOO')
+            } else {
+                AllCustomerData = await customerModel.find({
+                    $or: [
+                        { firstName: req?.query?.all }, { lastName: req?.query?.all }, { email: req?.query?.all }, { phone: req?.query?.all }
+                    ]
+                }).skip(SKIP).limit(LIMIT)
+
+            }
         }
-        res.status(200).json({ status: 'ok', data: AllCustomerData });
+
+        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: AllCustomerData?.length });
     } catch (err) {
         res.status(500).json({ status: 'error', message: 'Internal sever error', data: err });
     }

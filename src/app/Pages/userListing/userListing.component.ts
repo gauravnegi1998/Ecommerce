@@ -43,7 +43,7 @@ export class UserListingComponent implements OnInit {
     deleteUser!: ICustomerData;
     public config: PaginationInstance = {
         id: 'listing_section',
-        itemsPerPage: 20,
+        itemsPerPage: 6,
         currentPage: 1,
         totalItems: 10
     };
@@ -65,17 +65,21 @@ export class UserListingComponent implements OnInit {
         this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
             this._getCustomerData(searchValue);
         });
+
+        console.log(this.config, 'dddddddddddddddddddddddddd')
     }
 
-    _getCustomerData(searchValue?: string) {
-        let URL = "/api/customers";
+    _getCustomerData(searchValue?: string | null, page?: number) {
+        let URL = `/api/customers?limit=6&page=${page || this.config.currentPage}`;
         if (searchValue) {
-            URL = `/api/customers?${this.filterBy?.query}=${this.searchText}`
+            URL = `${URL}&${this.filterBy?.query}=${this.searchText}`
         }
         this.api.get(URL)
             .then((res) => {
                 if (res?.status === 'ok') {
                     this.usersData = res?.data;
+                    this.config = { ...this.config, totalItems: res?.totalCount };
+
                 }
             }).catch((err) => {
                 console.log(err, 'ddddddddddddddddddddddddddddd')
@@ -92,7 +96,6 @@ export class UserListingComponent implements OnInit {
     }
 
     _handelSearch(data: string) {
-        console.log(data, 'searchText - searchText - searchText - searchText')
         this.searchSubject.next(this.searchText);
     }
 
@@ -101,7 +104,7 @@ export class UserListingComponent implements OnInit {
             console.log('deleted', response)
             if (response.status === 'ok') {
                 this.dialog.closeAll();
-                this.toaster.success('Hello world!', 'Toastr fun!');
+                this.toaster.success('deleted successfully');
             } else {
                 alert(response?.message)
             }
@@ -121,7 +124,9 @@ export class UserListingComponent implements OnInit {
     }
 
     _handlePageChange(data: any) {
-
+        console.log('totalCount', data, 'uuuuuuuuuuuuuuuu')
+        this.config = { ...this.config, currentPage: data };
+        this._getCustomerData(this.searchText, data)
     }
 
     // dialog open

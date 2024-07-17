@@ -10,6 +10,8 @@ import { NgbDatepickerModule } from "@ng-bootstrap/ng-bootstrap";
 import { CardComponent } from "./card/card.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { PaginationComponent } from "./paginationComp/paginationComp.component";
+import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
+import { Icons } from "../Common/Icons";
 
 @NgModule({
     declarations: [
@@ -25,7 +27,8 @@ import { PaginationComponent } from "./paginationComp/paginationComp.component";
         RouterModule,
         FormsModule,
         NgbDatepickerModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        LucideAngularModule
     ],
     exports: [
         ButtonComponent,
@@ -33,6 +36,9 @@ import { PaginationComponent } from "./paginationComp/paginationComp.component";
         DatePickerComponent,
         CardComponent,
         PaginationComponent
+    ],
+    providers: [
+        { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
     ]
 })
 

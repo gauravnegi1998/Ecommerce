@@ -1,0 +1,40 @@
+.pagination_container {
+
+    text-align: center;
+
+    .custom-pagination {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+        gap: 8px;
+        align-items: center;
+
+        .button-arrow {
+            padding: 6px;
+            border-radius: 30px;
+            border: unset;
+            background: unset;
+
+            &:hover:not(:disabled) {
+                color: #ff6a00;
+            }
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+
+            &.active_page {
+                font-size: 24px;
+                color: #ff6a00;
+            }
+
+            &:hover:not(.active_page) {
+                color: #ff6a00;
+            }
+        }
+    }
+
+}

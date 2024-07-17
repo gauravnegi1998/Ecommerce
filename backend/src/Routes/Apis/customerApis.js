@@ -13,6 +13,4 @@ customerApiRouter.route('/:id')
     .put(_updateCustomerData)
     .delete(_deleteCustomerById)
 
-
-
 export default customerApiRouter;    
