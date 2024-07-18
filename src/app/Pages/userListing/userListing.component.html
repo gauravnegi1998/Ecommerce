@@ -1,7 +1,7 @@
 <div class="container">
     <div class="search_section">
         <div class="search_by_field">
-            <div class="dropdown_list">
+            <!-- <div class="dropdown_list">
                 <div class="filter_by" (click)="_handleFilterByClick()">
                     <p>{{filterBy.name}} :</p>
                     <p>
@@ -18,8 +18,8 @@
                     }
 
                 </ul>
-            </div>
-            <input type="text" [(ngModel)]="searchText" (ngModelChange)="_handelSearch($event)" />
+            </div> -->
+            <input type="text" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="_handelSearch($event)" />
         </div>
     </div>
 

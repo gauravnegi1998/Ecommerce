@@ -1,0 +1,9 @@
+
+
+class CommonController {
+
+
+    static getTotalCount() {
+
+    }
+}

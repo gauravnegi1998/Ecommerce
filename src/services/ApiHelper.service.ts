@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { devEnvironment } from "../environments/dev.environment";
-import { resolve } from "path";
+import _ from 'lodash';
+import SecureLocalStorage from "./secureStorage.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,17 +12,21 @@ export class ApiService {
 
     private apiRootUrl: string = devEnvironment.apiUrl;
 
-    constructor(private Https: HttpClient) { }
+    constructor(private Https: HttpClient, private localStore: SecureLocalStorage) { }
 
-    private createHeader(rest?: boolean): HttpHeaders {
+    private createHeader(rest: boolean = false): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders({
-            'Content-Type': "application/json"
+            'Content-Type': "application/json",
+            'Accept': 'application/json',
         })
+        if (rest) {
+            headers = headers.set('Token', (this.localStore.getItem('token')) ? this.localStore.getItem('token') : '');
+        }
         return headers;
     }
 
-    public get(endPoint: string): Promise<any> {
-        const headers = this.createHeader();
+    public get(endPoint: string, header: boolean = false): Promise<any> {
+        const headers = this.createHeader(header);
         const _getRequest = this.Https.get(this.apiRootUrl + endPoint, { headers });
 
         return new Promise<any>((resolve, reject) => {
@@ -33,8 +38,8 @@ export class ApiService {
     }
 
 
-    public post(endPoint: string, data: any): Promise<any> {
-        let headers = this.createHeader();
+    public post(endPoint: string, data: any, header: boolean = false): Promise<any> {
+        let headers = this.createHeader(header);
         const _postRequest = this.Https.post(this.apiRootUrl + endPoint, data, { headers });
         return new Promise<any>((resolve, reject) => {
             _postRequest.subscribe({
@@ -44,8 +49,9 @@ export class ApiService {
         })
     }
 
-    public put(endPoint: string, data: any): Promise<any> {
-        const _PUT_REQUEST = this.Https.put(this.apiRootUrl + endPoint, data);
+    public put(endPoint: string, data: any, header: boolean = false): Promise<any> {
+        let headers = this.createHeader(header)
+        const _PUT_REQUEST = this.Https.put(this.apiRootUrl + endPoint, data, { headers });
         return new Promise<any>((resolve, reject) => {
             _PUT_REQUEST.subscribe({
                 next: (data) => resolve(data),

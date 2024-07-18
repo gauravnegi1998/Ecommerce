@@ -63,16 +63,16 @@ export class UserListingComponent implements OnInit {
         this._getCustomerData();
 
         this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
-            this._getCustomerData(searchValue);
+            this.config.currentPage = 1;
+            this._getCustomerData(searchValue, 1);
         });
-
-        console.log(this.config, 'dddddddddddddddddddddddddd')
     }
 
     _getCustomerData(searchValue?: string | null, page?: number) {
         let URL = `/api/customers?limit=6&page=${page || this.config.currentPage}`;
         if (searchValue) {
-            URL = `${URL}&${this.filterBy?.query}=${this.searchText}`
+            // URL = `${URL}&${this.filterBy?.query}=${this.searchText}`
+            URL = `${URL}&search=${this.searchText}`
         }
         this.api.get(URL)
             .then((res) => {
@@ -96,7 +96,7 @@ export class UserListingComponent implements OnInit {
     }
 
     _handelSearch(data: string) {
-        this.searchSubject.next(this.searchText);
+        this.searchSubject.next(data);
     }
 
     _handelDeleteUser() {
@@ -117,7 +117,6 @@ export class UserListingComponent implements OnInit {
         if (section === "dropdown") {
             this.displayDropdown = !this.displayDropdown;
         } else {
-            console.log(section, 'sectionsectionsectionsection')
             this.filterBy = _.find(this.filterByOptions, { query: section }) || this.filterBy;
             this.displayDropdown = false;
         }

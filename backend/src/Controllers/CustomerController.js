@@ -22,7 +22,11 @@ const _getAllCustomerData = async (req, res) => {
         // AllCustomerData = await customerModel.find({},{age:1},{limit:5}); - select and limit
         // AllCustomerData = await customerModel.find({age:{$gt:25}}); - greater then  
         /* 
-        $gte - greater then and equal, $lt - less then, $lte - less then equal , $ne - not equal , $in:[21,25] - in Array , 
+        $gte - greater then and equal, 
+        $lt - less then, 
+        $lte - less then equal , 
+        $ne - not equal , 
+        $in:[21,25] - in Array , 
         $nin-[21,24] - not in array ,
 
 
@@ -37,26 +41,20 @@ const _getAllCustomerData = async (req, res) => {
 
         const LIMIT = Number(req?.query?.limit) || 6;
         const SKIP = Number(req?.query?.page) ? (Number(req?.query?.page) - 1) * LIMIT : 0;
+        const SEARCH = req.query.search ? { $regex: req.query.search, $options: 'i' } : "";
 
-        let AllCustomerData = [];
+        let OBJECT_VALUE = SEARCH ? { $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] } : {};
 
-        if (!_.isEmpty(req?.query)) {
-            if (!req?.query?.all) {
-                AllCustomerData = await customerModel.find(_.omit(req?.query, ['limit', 'page'])).skip(SKIP).limit(LIMIT);
-                console.log(AllCustomerData, 'OOOOOOOOOOOOOOOOO')
-            } else {
-                AllCustomerData = await customerModel.find({
-                    $or: [
-                        { firstName: req?.query?.all }, { lastName: req?.query?.all }, { email: req?.query?.all }, { phone: req?.query?.all }
-                    ]
-                }).skip(SKIP).limit(LIMIT)
+        let AllCustomerData = await customerModel.find(OBJECT_VALUE).skip(SKIP).limit(LIMIT);
 
-            }
-        }
+        const total = await customerModel.countDocuments(OBJECT_VALUE);
 
-        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: AllCustomerData?.length });
+        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: total });
+
     } catch (err) {
-        res.status(500).json({ status: 'error', message: 'Internal sever error', data: err });
+
+        console.log(err, '>>>>>>>>>>>>>>>>')
+        res.status(500).json({ status: 'error', message: 'Internal sever error', data: JSON.stringify(err) });
     }
 }
 
