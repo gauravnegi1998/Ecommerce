@@ -5,6 +5,9 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBu
 import { CommonModule } from '@angular/common';
 import { LUCIDE_ICONS, LucideAngularComponent, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
 import { Icons } from '../../Common/Icons';
+import _, { values } from 'lodash';
+import { ApiService } from '../../../services/ApiHelper.service';
+import { AuthServices } from '../../../services/AuthServices.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +27,7 @@ export class LoginComponent implements OnInit {
   emailValue: string = "";
   passwordType: string = "password";
 
-  constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder) {
+  constructor(private router: Router, private fb: UntypedFormBuilder, private api: ApiService, private authService: AuthServices) {
     this.loginFormGroup = this.fb.group({
       email: new UntypedFormControl([], [Validators.required, Validators.email]),
       password: new UntypedFormControl([], [Validators.required, Validators.minLength(6)])
@@ -36,16 +39,17 @@ export class LoginComponent implements OnInit {
   }
 
   _handleTypeChange(data: string) {
-    console.log(data, "dddddddddddddddddddddddddddddddddddddddddd")
     this.passwordType = data;
   }
 
   _handleLoginSubmit(data: any): void {
-    console.log('dafdfsadfsdfsdfsdf',)
+    const { status, value } = this.loginFormGroup;
+    if (_.eq(status, "VALID")) {
+      this.authService.loginUser(value);
+    }
   }
 
   _handleSignupClick(event: any) {
-    console.log(this.route, "dddddddddddddddddddddddddddddddddddddddddd")
     this.router.navigate(['signup']);
   }
 

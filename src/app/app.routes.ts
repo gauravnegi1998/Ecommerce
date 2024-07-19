@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuardService } from '../services/AuthGuard.service';
 
 export const routes: Routes = [
     {
@@ -43,16 +44,20 @@ export const routes: Routes = [
             {
                 path: 'listing',
                 loadComponent: () => import('./Pages/userListing/userListing.component').then((m) => m.UserListingComponent),
-                pathMatch: 'full'
+                pathMatch: 'full',
+                canActivate: [AuthGuardService]
             },
             {
                 path: 'detail/:id',
                 loadComponent: () => import('./Pages/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
-                pathMatch: 'full'
+                pathMatch: 'full',
+                canActivate: [AuthGuardService]
             },
             {
                 path: "edit/:id",
-                loadComponent: () => import('./Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent)
+                loadComponent: () => import('./Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent),
+                canActivate: [AuthGuardService]
+
             }
         ]
     },

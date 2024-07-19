@@ -43,7 +43,6 @@ customerSchema.pre('save', async function (next) {
     }
 });
 
-console.log(customerSchema, 'customerSchemacustomerSchemacustomerSchema')
 
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);
 
