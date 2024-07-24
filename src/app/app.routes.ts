@@ -12,11 +12,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
             },
             {
-                path: 'products',
-                pathMatch: "full",
-                loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
-            },
-            {
                 path: 'collections',
                 pathMatch: "full",
                 loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
@@ -58,6 +53,15 @@ export const routes: Routes = [
                 loadComponent: () => import('./Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent),
                 canActivate: [AuthGuardService]
 
+            },
+            {
+                path: 'products',
+                loadChildren: () => import('./ProductPages/ProductPage-routes').then(features => features.ProductPagesRoutes),
+            },
+            {
+                path: '**',
+                loadComponent: () => import('./404NotFound/404NotFound.component').then(r => r.FourZeroFourComponent),
+                pathMatch: 'full',
             }
         ]
     },
