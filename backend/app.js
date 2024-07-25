@@ -47,15 +47,15 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
-app.get('/customers', async (req, resp) => {
-    try {
-        const AllCustomerData = await customerModel.find();
-        console.log(AllCustomerData, 'AllCustomerDataAllCustomerDataAllCustomerDataAllCustomerData')
-        resp.render('userListing', { data: AllCustomerData });
-    } catch (err) {
-        resp.status(400).json({ status: 'error', message: 'something went wrong', data: err });
-    }
-})
+// app.get('/customers', async (req, resp) => {
+//     try {
+//         const AllCustomerData = await customerModel.find();
+//         console.log(AllCustomerData, 'AllCustomerDataAllCustomerDataAllCustomerDataAllCustomerData')
+//         resp.render('userListing', { data: AllCustomerData });
+//     } catch (err) {
+//         resp.status(400).json({ status: 'error', message: 'something went wrong', data: err });
+//     }
+// })
 app.listen(process.env.PORT, () => {
     console.log('connected success fully');
 })
