@@ -29,6 +29,21 @@ class ProductsController {
         }
     }
 
+    static async _deleteCategory(req, res) {
+        try {
+            const DELETE_CATEGORY = await categoryModel.findByIdAndDelete(req?.params?.id);
+            if (DELETE_CATEGORY) {
+                res.status(200).json({ status: 'ok', message: "category deleted successfully" })
+            } else {
+                res.status(400).json({ status: 'error', message: "something went wrong" })
+            }
+
+        } catch (err) {
+            res.status(500).json({ status: 'error', data: JSON.stringify(err), message: 'server Error' })
+            console.log(err, '>>>>>>>>>>>>>>>>>>> ProductController - _addCategory')
+        }
+    }
+
 }
 
 export default ProductsController;
