@@ -45,7 +45,7 @@ const _getAllCustomerData = async (req, res) => {
 
         let OBJECT_VALUE = SEARCH ? { $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] } : {};
 
-        let AllCustomerData = await customerModel.find(OBJECT_VALUE).skip(SKIP).limit(LIMIT);
+        let AllCustomerData = await customerModel.find(OBJECT_VALUE).select('-__v').skip(SKIP).limit(LIMIT);
 
         const total = await customerModel.countDocuments(OBJECT_VALUE);
 

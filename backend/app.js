@@ -16,6 +16,7 @@ import './src/connection/db.js';
 import customerModel from './src/Model/customerSchema.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import morgan from 'morgan';
 
 const sessionStorage = MongoStore.create({
     mongoUrl: "mongodb+srv://gsn:root@ecommerce.4m6utoc.mongodb.net",
@@ -28,6 +29,7 @@ const sessionStorage = MongoStore.create({
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
 app.use(cors({ origin: '*' }))
+app.use(morgan('dev'))
 app.use(json());
 app.use(express.static(PUBLIC_DATA));
 app.use(session({
