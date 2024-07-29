@@ -3,17 +3,32 @@ import jwt from "jsonwebtoken";
 class AuthCheck {
 
     static _checkAuth(req, res, next) {
-        const TOKEN = req.headers?.token;
-        console.log(TOKEN, 'TOKEN > TOKEN > TOKEN')
+        const TOKEN = req.headers?.authorization ? req.headers?.authorization?.replace('Bearer ', '') : "";
+        console.log(req.headers?.authorization, TOKEN, 'TOKEN > TOKEN > TOKEN')
         if (TOKEN) {
-            jwt.verify(TOKEN, 'jaswantkhatrokekhiladiagaintt', function (err, decoded) {
-                console.log('hello', decoded)
-                next();
+            jwt.verify(TOKEN, 'jaswantsainikhtrokekhiladiTT', function (err, decoded) {
+                console.log('hello', err, decoded)
+                if (err) {
+                    json.status(401).json({ status: "error", message: "invalid token" })
+                } else {
+                    req.currentUser = decoded;
+                    next();
+                }
             });
         } else {
             res.status(401).json({ status: 'error', message: "unauthorized user" })
         }
 
+    }
+
+    static restrict(role) {
+        return (req, res, next) => {
+            if (req?.currentUser?.role === role) {
+                next();
+            } else {
+                res.status(401).json({ status: 'error', message: 'unauthorized' })
+            }
+        }
     }
 
 

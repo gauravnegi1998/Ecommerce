@@ -21,6 +21,7 @@
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
+    "morgan": "^1.10.0",
     "ngx-pagination": "^6.0.3",
     "url": "^0.11.3"
   }

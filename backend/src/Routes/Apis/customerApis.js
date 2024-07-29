@@ -5,7 +5,7 @@ import AuthCheck from '../../middleware/AuthCheck.js';
 const customerApiRouter = Router();
 
 customerApiRouter.route('/')
-    .get(AuthCheck._checkAuth, _getAllCustomerData)
+    .get(AuthCheck._checkAuth, AuthCheck.restrict('admin'), _getAllCustomerData)
     .post(InsertCustomer);
 
 

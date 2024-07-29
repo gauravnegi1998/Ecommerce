@@ -5,7 +5,8 @@ function validationObject(name, required = true) {
     return ({
         type: String,
         required: [required, `${name} is required`],
-        default: ""
+        default: "",
+        trim: true
     })
 }
 
@@ -24,7 +25,14 @@ const customerSchema = mongoose.Schema({
     password: validationObject('password'),
     birthday: validationObject('birthday'),
     zipCode: validationObject('zipCode'),
-
+    role: {
+        type: String,
+        default: 'lead',
+        enum: {
+            values: ['admin', 'subadmin', 'customer', 'lead'],
+            message: `{VALUE} is not supported`
+        }
+    },
     isUserLogin: { type: Boolean, default: true },
     address2: validationObject('address2', false),
     createdAt: {

@@ -21,7 +21,7 @@ class AuthenticationControllerMain {
     // _generating a login token
     _generateToken(USER, callback) {
         console.log(USER, 'ddddddddddddddddddddddddddd')
-        jwt.sign(USER, 'tjkarjslkjsdjfsldkfjsdjflskdfskldj984558448', { expiresIn: 60 * 60 }, function (err, token) {
+        jwt.sign(USER, 'jaswantsainikhtrokekhiladiTT', { expiresIn: 60 * 60 }, function (err, token) {
             console.log(token, err, 'dddddddddddddddddd')
             callback(token)
         });
@@ -32,7 +32,7 @@ class AuthenticationControllerMain {
             const USER = await customerModel.findOne({ email: req?.body?.email });
             if (USER?.email) {
                 this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
-                    this._generateToken(_.omit(USER, ['_id', 'email', 'firstName', 'lastName', 'phoneNumber']), (token) => {
+                    this._generateToken(_.pick(USER, ['_id', 'role', 'email', 'firstName', 'lastName', 'phoneNumber']), (token) => {
                         console.log(token, result, "token, result");
                         if (result && token) {
                             res.status(200).json({ status: 'ok', token, message: "Login successfully." })
