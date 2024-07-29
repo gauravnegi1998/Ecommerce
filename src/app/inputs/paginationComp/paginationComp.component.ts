@@ -11,7 +11,7 @@ import { PaginationInstance } from "ngx-pagination";
 export class PaginationComponent implements OnChanges {
 
     @Input() pageNumber: number = 1;
-    @Input() totalPages: number | null = 10;
+    @Input() totalPages: number = 10;
     @Input() config: PaginationInstance = { id: 'check', currentPage: 1, itemsPerPage: 20, totalItems: 20 };
     @Output() _onPageChange = new EventEmitter<any>();
 
