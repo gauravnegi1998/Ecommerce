@@ -1,5 +1,6 @@
 import _ from "lodash";
 import customerModel from "../Model/customerSchema.js";
+import ApiFeatures from "../Utils/ApiFeatures.js";
 
 const InsertCustomer = async (req, res) => {
     try {
@@ -39,17 +40,16 @@ const _getAllCustomerData = async (req, res) => {
 
         // {$regex:name,$options:"i"} case sensitive
 
-        const LIMIT = Number(req?.query?.limit) || 6;
-        const SKIP = Number(req?.query?.page) ? (Number(req?.query?.page) - 1) * LIMIT : 0;
-        const SEARCH = req.query.search ? { $regex: req.query.search, $options: 'i' } : "";
 
-        let OBJECT_VALUE = SEARCH ? { $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] } : {};
+        let AllCustomerData = new ApiFeatures(customerModel.find(), req.query).filter().limitedField().pagination();
+        console.log(new ApiFeatures(customerModel.find(), req.query), 'ddddddddddddddddddddddddd');
 
-        let AllCustomerData = await customerModel.find(OBJECT_VALUE).select('-__v').skip(SKIP).limit(LIMIT);
+        AllCustomerData = await AllCustomerData.query;
+        // let AllCustomerData = await customerModel.find(OBJECT_VALUE).select('-__v').skip(SKIP).limit(LIMIT);
 
-        const total = await customerModel.countDocuments(OBJECT_VALUE);
+        // const total = await customerModel.countDocuments(OBJECT_VALUE);
 
-        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: total });
+        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: 9 });
 
     } catch (err) {
 

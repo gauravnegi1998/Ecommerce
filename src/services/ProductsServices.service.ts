@@ -15,9 +15,7 @@ export class ProductsServices {
     errorMsg: string = "";
     static url: string = "/items/webCategories"
 
-    constructor(private auth: AuthServices, private api: ApiService, private toaster: ToastrService) {
-
-    }
+    constructor(private auth: AuthServices, private api: ApiService, private toaster: ToastrService) { }
 
     //category Api Section
 

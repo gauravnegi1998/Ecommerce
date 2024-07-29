@@ -17,6 +17,7 @@ import customerModel from './src/Model/customerSchema.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import morgan from 'morgan';
+import CustomError from './src/Utils/CustomError.js';
 
 const sessionStorage = MongoStore.create({
     mongoUrl: "mongodb+srv://gsn:root@ecommerce.4m6utoc.mongodb.net",
@@ -49,6 +50,16 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
+app.all('*', (req, res, next) => {
+    const error = new CustomError(`Can't find ${req.originalUrl} on the server`, 404)
+    next(error);
+});
+
+app.use((error, req, res, next) => {
+    error.statusCode = error.statusCode || 500;
+    error.status = error.status || "error";
+    res.status(error?.statusCode).json({ status: error.status, message: error.message })
+});
 // app.get('/customers', async (req, resp) => {
 //     try {
 //         const AllCustomerData = await customerModel.find();

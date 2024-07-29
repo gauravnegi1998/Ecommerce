@@ -9,7 +9,7 @@ class AuthCheck {
             jwt.verify(TOKEN, 'jaswantsainikhtrokekhiladiTT', function (err, decoded) {
                 console.log('hello', err, decoded)
                 if (err) {
-                    json.status(401).json({ status: "error", message: "invalid token" })
+                    res.status(401).json({ status: "error", message: "invalid token" })
                 } else {
                     req.currentUser = decoded;
                     next();

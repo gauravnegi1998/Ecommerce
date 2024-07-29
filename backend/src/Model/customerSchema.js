@@ -39,11 +39,16 @@ const customerSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
+customerSchema.virtual('fullName').get(function () {
+    return this.firstName + ' ' + this.lastName
+})
 
 customerSchema.pre('save', async function (next) {
-    console.log(this.password, 'ddddddddddddddddddddddddddddddddddddddddd');
     if (this.password) {
         // Store hash in your password DB.
         this.password = await bcrypt.hash(this.password, 10);

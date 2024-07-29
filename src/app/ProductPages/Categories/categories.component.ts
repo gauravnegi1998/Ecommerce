@@ -64,7 +64,6 @@ export class CategoriesComponent {
         return this.productService.categories?.length > 0 ? this.productService.categories : [];
     }
 
-
     _customValidation(fieldName: string) {
         return (formGroup: UntypedFormGroup) => {
             const FIELD_VALUE = formGroup.controls[fieldName];
