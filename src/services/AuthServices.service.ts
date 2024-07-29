@@ -12,7 +12,7 @@ export class AuthServices {
     token!: string;
 
     constructor(private loginStore: SecureLocalStorage, private api: ApiService, private localStore: SecureLocalStorage) {
-        this.token = this.loginStore.getItem('Token')
+        // this.token = this.loginStore.getItem('token') ? this.loginStore.getItem('token') : ""
     }
 
     // login Api

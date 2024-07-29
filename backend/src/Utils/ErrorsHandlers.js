@@ -10,9 +10,9 @@ class ErrorsHandlers {
 
 
     notFoundError(data, message, next) {
-        if (data) {
+        if (!data) {
             const err = new CustomError(message, 404);
-            next(err);
+            return next(err);
         }
     }
 
