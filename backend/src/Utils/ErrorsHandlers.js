@@ -1,22 +1,23 @@
 import CustomError from "./CustomError.js";
 
-class ErrorsHandlers {
 
-    asyncErrorHandler(func) {
-        return (req, res, next) => {
-            func(req, res, next).catch(err => next(err))
-        }
+const asyncErrorHandler = (func) => {
+    return (req, res, next) => {
+        func(req, res, next).catch(err => {
+            console.log(err, 'ddddddddddddddddddddddddddd')
+            return next(err)
+        })
     }
-
-
-    notFoundError(data, message, next) {
-        if (data) {
-            const err = new CustomError(message, 404);
-            next(err);
-        }
-    }
-
 }
 
-const ErrorHandler = new ErrorsHandlers();
-export default ErrorHandler;
+
+const notFoundError = (data, message, next) => {
+    if (!data) {
+        const err = new CustomError(message, 404);
+        return next(err);
+    }
+}
+
+
+
+export { asyncErrorHandler, notFoundError };

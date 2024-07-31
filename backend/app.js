@@ -13,11 +13,11 @@ const __dirname = dirname(__filename);
 
 config({ path: "./config.env" })
 import './src/connection/db.js';
-import customerModel from './src/Model/customerSchema.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import morgan from 'morgan';
 import CustomError from './src/Utils/CustomError.js';
+import globalErrorHandler from './src/Utils/globalErrorHandler.js';
 
 const sessionStorage = MongoStore.create({
     mongoUrl: "mongodb+srv://gsn:root@ecommerce.4m6utoc.mongodb.net",
@@ -55,11 +55,7 @@ app.all('*', (req, res, next) => {
     next(error);
 });
 
-app.use((error, req, res, next) => {
-    error.statusCode = error.statusCode || 500;
-    error.status = error.status || "error";
-    res.status(error?.statusCode).json({ status: error.status, message: error.message })
-});
+app.use(globalErrorHandler);
 // app.get('/customers', async (req, resp) => {
 //     try {
 //         const AllCustomerData = await customerModel.find();
