@@ -74,7 +74,7 @@ export class UserListingComponent implements OnInit {
             // URL = `${URL}&${this.filterBy?.query}=${this.searchText}`
             URL = `${URL}&search=${this.searchText}`
         }
-        this.api.get(URL)
+        this.api.get(URL, true)
             .then((res) => {
                 if (res?.status === 'ok') {
                     this.usersData = res?.data;

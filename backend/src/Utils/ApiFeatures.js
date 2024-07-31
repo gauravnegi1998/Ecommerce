@@ -17,7 +17,7 @@ class ApiFeatures {
 
         if (this.queryData?.search) {
             const SEARCH = this.queryData.search ? { $regex: this.queryData.search, $options: 'i' } : "";
-            queryObj = { ...queryObj, $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] };
+            queryObj = { $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] };
         }
         console.log(queryObj, 'queryObjqueryObj')
 

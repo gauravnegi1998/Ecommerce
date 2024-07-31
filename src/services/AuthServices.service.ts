@@ -36,7 +36,7 @@ export class AuthServices {
     }
 
     _isUserLogin() {
-        return !!(this.token)
+        return !!(this._getToken())
     }
 
 

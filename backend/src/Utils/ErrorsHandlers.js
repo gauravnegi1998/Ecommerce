@@ -4,7 +4,6 @@ import CustomError from "./CustomError.js";
 const asyncErrorHandler = (func) => {
     return (req, res, next) => {
         func(req, res, next).catch(err => {
-            console.log(err, 'ddddddddddddddddddddddddddd')
             return next(err)
         })
     }

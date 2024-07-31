@@ -11,7 +11,7 @@ class AuthenticationControllerMain {
         this.loginUser = this.loginUserFunction.bind(this);
     }
 
-    async _bcryptPassword(enterPassword, hashPassword, callback) {
+    _bcryptPassword(enterPassword, hashPassword, callback) {
         bcrypt.compare(enterPassword, hashPassword, function (err, result) {
             console.log(result, '>>>>>>>>>>>>>dfsdfsdfsdfsdf >>>')
             callback(result);
