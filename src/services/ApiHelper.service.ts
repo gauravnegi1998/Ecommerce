@@ -19,9 +19,9 @@ export class ApiService {
             'Content-Type': "application/json",
             'Accept': 'application/json',
         })
-        if (rest) {
-            headers = headers.set('Token', (this.localStore.getItem('token')) ? this.localStore.getItem('token') : '');
-        }
+        // if (rest) {
+        //     headers = headers.set('Token', (this.localStore.getItem('token')) ? this.localStore.getItem('token') : '');
+        // }
         return headers;
     }
 

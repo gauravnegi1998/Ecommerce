@@ -27,6 +27,11 @@ class CategoriesController {
 
 
 
+    static _deleteCategory = ErrorHandler.asyncErrorHandler(async (req, res, next) => {
+        const DELETE_CATEGORY = await categoryModel.findByIdAndDelete(req?.params?.id);
+        ErrorHandler.notFoundError(DELETE_CATEGORY, "Enter Id dosen't exist", next);
+        res.status(200).json({ status: 'ok', message: "category deleted successfully" })
+    })
 
 }
 
