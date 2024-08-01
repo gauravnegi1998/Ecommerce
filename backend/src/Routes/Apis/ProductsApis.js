@@ -17,6 +17,7 @@ ProductRouter.route('/webCategories/:id')
 
 
 ProductRouter.route('/')
+    .get(ProductsController._getProductApi)
     .post(AuthCheck._checkAuth, AuthCheck.restrict('admin'), asyncErrorHandler(ProductsController._addProducts))
 
 

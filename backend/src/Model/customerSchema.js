@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 function validationObject(name, required = true) {
     return ({
         type: String,
-        required: [required, `${name} is required`],
+        required: [validator.isEmpty, `${name} is required`],
         default: "",
         trim: true
     })
@@ -16,6 +17,7 @@ const customerSchema = mongoose.Schema({
     email: {
         ...validationObject('email'),
         unique: [true, 'E-mail is already used'],
+        validate: [validator.isEmail, 'invalid email']
     },
     phoneNumber: validationObject('Phone number'),
     address: validationObject('address'),

@@ -14,6 +14,30 @@ class ProductsControllerClass {
         }
     }
 
+    _getProductApi = async (req, res) => {
+        const CategoryData = await ProductModel.aggregate([
+            {
+                $unwind: {
+                    path: "$webCategories",
+                    preserveNullAndEmptyArrays: true,
+                }
+            },
+            { $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories" } },
+            // {
+            //     $group: {
+            //         _id: "$itemId",
+            //         data: {
+            //             $push: "$title",
+            //         },
+            //     },
+            // }
+        ])
+        if (CategoryData) {
+            console.log(CategoryData, 'AddProducts')
+            res.status(200).json({ success: 'ok', data: CategoryData, message: 'Product Added successfully' })
+        }
+    }
+
 }
 
 const ProductController = new ProductsControllerClass()

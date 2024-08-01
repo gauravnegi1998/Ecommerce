@@ -19,6 +19,13 @@ import morgan from 'morgan';
 import CustomError from './src/Utils/CustomError.js';
 import globalErrorHandler from './src/Utils/globalErrorHandler.js';
 
+//it will not handle error inside the express only work outside error like x is not define. it is neccessay to end the process because that time node is on unclean state
+
+process.on('uncaughtException', (err) => {
+    console.log(err?.name, err?.message);
+    process.exit();
+})
+
 const sessionStorage = MongoStore.create({
     mongoUrl: "mongodb+srv://gsn:root@ecommerce.4m6utoc.mongodb.net",
     dbName: "ecommerce",
@@ -65,6 +72,19 @@ app.use(globalErrorHandler);
 //         resp.status(400).json({ status: 'error', message: 'something went wrong', data: err });
 //     }
 // })
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log('connected success fully');
+})
+
+
+
+// handle reject promises globally
+
+process.on('unhandledRejection', (err) => {
+    console.log(err?.name, err?.message);
+
+    server.close(() => {
+        process.exit();
+    })
+
 })
