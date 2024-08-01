@@ -23,14 +23,14 @@ class ProductsControllerClass {
                 }
             },
             { $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories" } },
-            // {
-            //     $group: {
-            //         _id: "$itemId",
-            //         data: {
-            //             $push: "$title",
-            //         },
-            //     },
-            // }
+            {
+                $group: {
+                    _id: null,
+                    webCategories: {
+                        $push: "$webCategories",
+                    },
+                },
+            }
         ])
         if (CategoryData) {
             console.log(CategoryData, 'AddProducts')
