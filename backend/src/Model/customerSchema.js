@@ -58,6 +58,14 @@ customerSchema.pre('save', async function (next) {
     }
 });
 
+customerSchema.pre('create', async function (next) {
+    if (this.password) {
+        // Store hash in your password DB.
+        this.password = await bcrypt.hash(this.password, 10);
+        next();
+    }
+});
+
 
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);
 

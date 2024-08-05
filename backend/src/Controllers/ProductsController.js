@@ -16,21 +16,22 @@ class ProductsControllerClass {
 
     _getProductApi = async (req, res) => {
         const CategoryData = await ProductModel.aggregate([
-            {
-                $unwind: {
-                    path: "$webCategories",
-                    preserveNullAndEmptyArrays: true,
-                }
-            },
+            // {
+            //     $unwind: {
+            //         path: "$webCategories",
+            //         preserveNullAndEmptyArrays: true,
+            //     }
+            // },
             { $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories" } },
-            {
-                $group: {
-                    _id: null,
-                    webCategories: {
-                        $push: "$webCategories",
-                    },
-                },
-            }
+            // { $project: { title: "$$ROOT" } }
+            // {
+            //     $group: {
+            //         _id: "$_id",
+            //         webCategories: {
+            //             $push: "$webCategories",
+            //         },
+            //     },
+            // }
         ])
         if (CategoryData) {
             console.log(CategoryData, 'AddProducts')

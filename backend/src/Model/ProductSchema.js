@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 function validationObject(name, required = true) {
     return ({
@@ -33,10 +33,12 @@ const productSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    webCategories: {
-        type: [Number],
-        required: [true, 'webCategory is required']
-    },
+    webCategories: [{ type: Number, subRef: "category", required: [true, 'webCategory is required'] }],
+
+    // webCategories: {
+    //     type: [Number],
+    //     required: [true, 'webCategory is required']
+    // },
     description: validationObject('description'),
     price: {
         type: Number,
