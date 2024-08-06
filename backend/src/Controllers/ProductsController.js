@@ -15,26 +15,28 @@ class ProductsControllerClass {
     }
 
     _getProductApi = async (req, res) => {
-        const CategoryData = await ProductModel.aggregate([
-            // {
-            //     $unwind: {
-            //         path: "$webCategories",
-            //         preserveNullAndEmptyArrays: true,
-            //     }
-            // },
-            { $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories" } },
-            // { $project: { title: "$$ROOT" } }
-            // {
-            //     $group: {
-            //         _id: "$_id",
-            //         webCategories: {
-            //             $push: "$webCategories",
-            //         },
-            //     },
-            // }
-        ])
+        const CategoryData = await ProductModel.aggregate([{
+            $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
+        }])
+        // {
+        //     $unwind: {
+        //         path: "$webCategories",
+        //         preserveNullAndEmptyArrays: true,
+        //     }
+        // },
+
+        // { $project: { title: "$$ROOT" } }
+        // {
+        //     $group: {
+        //         _id: "$_id",
+        //         webCategories: {
+        //             $push: "$webCategories",
+        //         },
+        //     },
+        // }
+
         if (CategoryData) {
-            console.log(CategoryData, 'AddProducts')
+            // console.log(CategoryData, 'AddProducts')
             res.status(200).json({ success: 'ok', data: CategoryData, message: 'Product Added successfully' })
         }
     }

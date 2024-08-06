@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import customerModel from "../Model/customerSchema.js";
 import bcrypt from 'bcrypt';
 import _ from "lodash";
+import CustomError from "../Utils/CustomError.js";
 
 class AuthenticationControllerMain {
 
@@ -13,22 +14,24 @@ class AuthenticationControllerMain {
 
     _bcryptPassword(enterPassword, hashPassword, callback) {
         bcrypt.compare(enterPassword, hashPassword, function (err, result) {
-            console.log(result, '>>>>>>>>>>>>>dfsdfsdfsdfsdf >>>')
             callback(result);
         });
     }
 
     // _generating a login token
     _generateToken(USER, callback) {
-        console.log(USER, 'ddddddddddddddddddddddddddd')
-        jwt.sign(USER, 'jaswantsainikhtrokekhiladiTT', { expiresIn: 60 * 60 }, function (err, token) {
-            console.log(token, err, 'dddddddddddddddddd')
+        jwt.sign(USER, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 }, function (err, token) {
+            console.log(token, err, 'dddddddddddddddddd  > > > > > > >> ')
             callback(token)
         });
     }
 
-    async loginUserFunction(req, res) {
+    async loginUserFunction(req, res, next) {
         try {
+            if (!(req?.body?.email && req?.body?.password)) {
+                const err = new CustomError('Please provide Email ID and password.', 400);
+                return next(err);
+            }
             const USER = await customerModel.findOne({ email: req?.body?.email });
             if (USER?.email) {
                 this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
@@ -37,13 +40,15 @@ class AuthenticationControllerMain {
                         if (result && token) {
                             res.status(200).json({ status: 'ok', token, message: "Login successfully." })
                         } else {
-                            res.status(401).json({ status: 'error', message: "Something went wrong please try again" })
+                            const err = new CustomError('Please provide Email ID and password tt.', 400);
+                            return next(err);
                         }
                     });
                 });
 
             } else {
-                res.status(401).json({ status: 'error', message: "username or password is wrong" })
+                const err = new CustomError('Please provide Email ID and password.', 400);
+                return next(err);
             }
         } catch (err) {
             console.log(err, 'error')
