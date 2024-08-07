@@ -28,7 +28,6 @@ const globalErrorHandler = (error, req, res, next) => {
     error.statusCode = error.statusCode || 500;
     error.status = error.status || "error";
 
-    console.log(process.env, 'process.envprocess.env')
 
     // SET NODE_ENV=production&nodemon app.js
     if (process.env.NODE_ENV === "development") {

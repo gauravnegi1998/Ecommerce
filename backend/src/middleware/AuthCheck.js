@@ -7,9 +7,9 @@ class AuthCheck {
         console.log(req.headers?.authorization, TOKEN, 'TOKEN > TOKEN > TOKEN')
         if (TOKEN) {
             jwt.verify(TOKEN, 'jaswantsainikhtrokekhiladiTT', function (err, decoded) {
-                console.log('hello', err, decoded)
                 if (err) {
-                    res.status(401).json({ status: "error", message: "invalid token" })
+                    res.status(401).json({ status: "error", message: "invalid token", error: err })
+                    // next();
                 } else {
                     req.currentUser = decoded;
                     next();

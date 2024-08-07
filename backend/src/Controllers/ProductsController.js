@@ -15,9 +15,21 @@ class ProductsControllerClass {
     }
 
     _getProductApi = async (req, res) => {
-        const CategoryData = await ProductModel.aggregate([{
-            $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
-        }])
+        const CategoryData = await ProductModel.aggregate([
+            {
+                $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
+            },
+            {
+                $lookup: {
+                    from: "reviews", localField: 'reviews', foreignField: "_id", as: "reviews", pipeline: [{ $project: { __v: 0 } },
+                    {
+                        $lookup: { from: "customers", localField: "customer", foreignField: "_id", as: "user", pipeline: [{ $project: { firstName: 1, lastName: 1 } }] }
+                    },
+                    { $unwind: "$user" }
+                    ]
+                }
+            },
+        ])
         // {
         //     $unwind: {
         //         path: "$webCategories",

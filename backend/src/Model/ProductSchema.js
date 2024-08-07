@@ -34,7 +34,7 @@ const productSchema = mongoose.Schema({
         default: false
     },
     webCategories: [{ type: Number, subRef: "category", required: [true, 'webCategory is required'] }],
-
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, subRef: "review" }],
     // webCategories: {
     //     type: [Number],
     //     required: [true, 'webCategory is required']
