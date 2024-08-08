@@ -7,13 +7,13 @@ import ReviewController from '../../Controllers/ReviewController.js';
 
 const ProductRouter = Router();
 
-ProductRouter.route('/webCategories')
+ProductRouter.route('/web-categories')
     .get(asyncErrorHandler(CategoriesController._getCategoryList))
     .post(asyncErrorHandler(CategoriesController._addCategory))
 // .delete(':id', ProductsController._deleteCategory)
 
 
-ProductRouter.route('/webCategories/:id')
+ProductRouter.route('/web-categories/:id')
     .delete(asyncErrorHandler(CategoriesController._deleteCategory))
 
 

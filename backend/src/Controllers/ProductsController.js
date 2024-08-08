@@ -23,7 +23,7 @@ class ProductsControllerClass {
                 $lookup: {
                     from: "reviews", localField: 'reviews', foreignField: "_id", as: "reviews", pipeline: [{ $project: { __v: 0 } },
                     {
-                        $lookup: { from: "customers", localField: "customer", foreignField: "_id", as: "user", pipeline: [{ $project: { firstName: 1, lastName: 1 } }] }
+                        $lookup: { from: "customers", localField: "customer", foreignField: "_id", as: "user", pipeline: [{ $project: { firstName: 1, lastName: 1, email: 1 } }] }
                     },
                     { $unwind: "$user" }
                     ]
