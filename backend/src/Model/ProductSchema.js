@@ -47,17 +47,17 @@ const productSchema = mongoose.Schema({
     description: validationObject('description'),
     price: {
         normalPrice: {
-            type: mongo.Double,
+            type: String,
             required: [true, 'price is required'],
             trim: true
         },
         offerPrice: {
-            type: mongo.Double,
+            type: String,
             required: [true, 'price is required'],
             trim: true
         }
     },
-    avaliableStock: {
+    availableStock: {
         type: Number,
         default: 250,
     },
@@ -72,7 +72,7 @@ const productSchema = mongoose.Schema({
         }
     }
 
-});
+}, { timestamp: true });
 
 const ProductModel = new mongoose.model('PRODUCT', productSchema);
 

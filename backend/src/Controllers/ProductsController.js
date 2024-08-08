@@ -29,7 +29,7 @@ class ProductsControllerClass {
                     ]
                 }
             },
-        ])
+        ]);
         // {
         //     $unwind: {
         //         path: "$webCategories",
@@ -48,7 +48,6 @@ class ProductsControllerClass {
         // }
 
         if (CategoryData) {
-            // console.log(CategoryData, 'AddProducts')
             res.status(200).json({ success: 'ok', data: CategoryData, message: 'Product Added successfully' })
         }
     }
