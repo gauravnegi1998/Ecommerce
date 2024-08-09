@@ -21,7 +21,7 @@ export class ApiService {
         })
         console.log(rest, this.localStore.getItem('Token'), '???????????????????')
         if (rest) {
-            headers = headers.set('authorization', (this.localStore.getItem('Token')) ? `Bearer ${this.localStore.getItem('Token')}` : '');
+            headers = headers.set('authorization', (this.localStore?.getItem('Token')) ? `Bearer ${this.localStore?.getItem('Token')}` : '');
         }
         return headers;
     }

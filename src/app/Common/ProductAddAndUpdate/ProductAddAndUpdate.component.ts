@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { InputModules } from "../../inputs/inputs.module";
 
@@ -11,9 +11,12 @@ import { InputModules } from "../../inputs/inputs.module";
     styleUrl: './ProductAddAndUpdate.component.scss'
 })
 
-export class ProductAddAndUpdateComponent {
-    ProductFormGroup: UntypedFormGroup;
-    constructor(private fb: FormBuilder, private rootFormGroup: FormGroupDirective) {
+export class ProductAddAndUpdateComponent implements OnInit {
+    @Output() _handleSubmit = new EventEmitter<any>();
+    ProductFormGroup: UntypedFormGroup | any;
+    constructor(private rootFormGroup: FormGroupDirective) { }
+
+    ngOnInit(): void {
         this.ProductFormGroup = this.rootFormGroup.control as UntypedFormGroup;
     }
 
@@ -22,7 +25,7 @@ export class ProductAddAndUpdateComponent {
     //function section
 
     _handleOnSubmit(data: FormGroupDirective) {
-
+        this._handleSubmit.emit(data)
     }
 
 };

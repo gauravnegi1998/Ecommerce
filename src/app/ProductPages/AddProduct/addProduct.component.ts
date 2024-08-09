@@ -22,12 +22,13 @@ export class AddProductComponent {
             // normalImage: "https://images-na.ssl-images-amazon.com/images/I/31N0qoF1RPL.jpg",
             hideFromAdmin: new UntypedFormControl(false, Validators.required),
             hideFromWeb: new UntypedFormControl(false, Validators.required),
-            webCategories: new UntypedFormArray([], Validators.required),
+            // webCategories: new UntypedFormControl('', Validators.required),
+            webCategories: new UntypedFormControl([], Validators.required),
             description: new UntypedFormControl('', Validators.required),
-            price: {
+            price: new UntypedFormGroup({
                 normalPrice: new UntypedFormControl('', Validators.required),
                 offerPrice: new UntypedFormControl('', Validators.required)
-            },
+            }),
             isEligibleForAutoOrder: new UntypedFormControl(true),
             availableStock: new UntypedFormControl('', Validators.required),
             returnPolicy: new UntypedFormControl('7days', Validators.required)
