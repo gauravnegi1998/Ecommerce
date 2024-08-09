@@ -1,0 +1,73 @@
+<section class="Product-add_section">
+    <form [formGroup]="ProductFormGroup" (ngSubmit)="_handleOnSubmit(myForm)" #myForm="ngForm">
+
+        <!-- // normalImage: "https://images-na.ssl-images-amazon.com/images/I/31N0qoF1RPL.jpg",
+            webCategories: new UntypedFormArray([], Validators.required),
+            description: new UntypedFormControl('', Validators.required),
+            price: {
+            normalPrice: new UntypedFormControl('', Validators.required),
+            offerPrice: new UntypedFormControl('', Validators.required)
+            },
+            availableStock: new UntypedFormControl('', Validators.required),
+            returnPolicy: new UntypedFormControl('7days', Validators.required)
+            isEligibleForAutoOrder: new UntypedFormControl(true),
+            hideFromAdmin: new UntypedFormControl(false, Validators.required),
+            hideFromWeb: new UntypedFormControl(false, Validators.required), -->
+
+
+        <div>
+            <div>
+                <app-textfield formControlName="itemId" [name]="'itemId'" [placeholder]="'Please enter your product ID'"
+                    [label]="'Product ID'" />
+            </div>
+            <div>
+                <app-textfield formControlName="name" [name]="'name'" [placeholder]="'Please enter your product name'"
+                    [label]="'Product Name'" />
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <app-textfield formControlName="itemCode" [name]="'itemCode'"
+                    [placeholder]="'Please enter your product code'" [label]="'Product Code'" />
+            </div>
+            <div>
+                <app-textfield formControlName="availableStock" [name]="'availableStock'"
+                    [placeholder]="'Please enter your available stock'" [label]="'Available Stock'" />
+            </div>
+        </div>
+
+        <div>
+            <h3>Price's</h3>
+            <div>
+                <app-textfield formControlName="normalPrice" [name]="'normalPrice'"
+                    [placeholder]="'Please enter your MRP price'" [label]="'MRP Price'" />
+            </div>
+            <div>
+                <app-textfield formControlName="offerPrice" [name]="'offerPrice'"
+                    [placeholder]="'Please enter your Offer Price'" [label]="'Offer Price'" />
+            </div>
+        </div>
+        <div>
+            <div>
+                <app-textfield formControlName="webCategories" [name]="'webCategories'"
+                    [placeholder]="'Please enter your webCategories'" [label]="'webCategories'" />
+            </div>
+            <div>
+                <app-textfield formControlName="returnPolicy" [name]="'returnPolicy'"
+                    [placeholder]="'Please enter your returnPolicye'" [label]="'returnPolicy'" />
+            </div>
+        </div>
+        <div>
+            <div>
+                switch - isEligibleForAutoOrder
+            </div>
+            <div>
+                switch - hideFromAdmin
+            </div>
+            <div>
+                switch - hideFromWeb
+            </div>
+        </div>
+    </form>
+</section>

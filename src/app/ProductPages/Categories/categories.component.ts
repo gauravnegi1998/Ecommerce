@@ -58,6 +58,7 @@ export class CategoriesComponent {
 
     _getCategoriesData() {
         this.productService._getCategories({ page: this.config.currentPage, limit: this.config.itemsPerPage })
+        this.config.totalItems = this.categories.length;
     }
 
     get categories() {

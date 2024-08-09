@@ -13,7 +13,7 @@ export class ProductsServices {
     categories: { _id: string, categoryId: number, categoryName: string }[] = [];
     successfulMsg: string = "";
     errorMsg: string = "";
-    static url: string = "/items/webCategories"
+    static url: string = "/items/web-categories"
 
     constructor(private auth: AuthServices, private api: ApiService, private toaster: ToastrService) { }
 

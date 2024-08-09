@@ -25,14 +25,6 @@ class SecureLocalStorage {
         }
     }
 
-    // getSingleItem(key: string): any {
-    //     // const rest= secur
-    //     let data = localStorage.getItem(key) || "";
-    //     if (data) {
-    //         return this.decrypt(data);
-    //     }
-    // }
-
     setItem(key: string, value: any) {
         localStorage.setItem(key, this.encrypt(value));
     }
