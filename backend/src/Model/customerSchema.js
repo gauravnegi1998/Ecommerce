@@ -37,10 +37,17 @@ const customerSchema = mongoose.Schema({
     },
     isUserLogin: { type: Boolean, default: true },
     address2: validationObject('address2', false),
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+    meta: {
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now,
+        },
+        passwordChangeAt: Date,
+    }
 }, {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
@@ -65,6 +72,14 @@ customerSchema.pre('create', async function (next) {
         next();
     }
 });
+
+customerSchema.methods.isPasswordChange = async function (jwtTimeStamp) {
+    if (this.passwordChangeAt) {
+        const PASSWORD_CHANGE_TIME_STEMP = parseInt(this.passwordChangeAt?.getTime() / 1000);
+        return jwtTimeStamp < PASSWORD_CHANGE_TIME_STEMP
+    }
+    return false;
+}
 
 
 const customerModel = new mongoose.model('CUSTOMER', customerSchema);

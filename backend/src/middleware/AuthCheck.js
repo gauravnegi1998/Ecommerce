@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import customerModel from "../Model/customerSchema.js";
+import CustomError from "../Utils/CustomError";
 
 class AuthCheck {
 
@@ -11,6 +13,15 @@ class AuthCheck {
                     res.status(401).json({ status: "error", message: "invalid token", error: err })
                     // next();
                 } else {
+                    const USER = customerModel.findById(decoded?._id);
+                    if (!USER) {
+                        return next(new CustomError('The user with the give token does not exist!', 401));
+                    }
+
+                    if (USER?.isPasswordChange(decoded.iat)) {
+                        const error = new CustomError('The password has been changes recently. please login again', 401);
+                        return next(error);
+                    }
                     req.currentUser = decoded;
                     next();
                 }
