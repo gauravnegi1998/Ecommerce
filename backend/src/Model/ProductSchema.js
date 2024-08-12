@@ -35,7 +35,7 @@ const productSchema = mongoose.Schema({
         unique: [true, 'itemId not be duplicate'],
         trim: true
     },
-    hideFromAdmin: _booleanObject(),
+    displayOnlyAdmin: _booleanObject(),
     hideFromWeb: _booleanObject(),
     returnPolicy: {
         type: String,

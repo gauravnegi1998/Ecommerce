@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import customerModel from "../Model/customerSchema.js";
-import CustomError from "../Utils/CustomError";
+import CustomError from "../Utils/CustomError.js";
 
 class AuthCheck {
 
