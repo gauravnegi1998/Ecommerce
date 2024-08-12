@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { AbstractControlOptions, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { InputModules } from "../../inputs/inputs.module";
 import { ProductAddAndUpdateComponent } from "../../Common/ProductAddAndUpdate/ProductAddAndUpdate.component";
+import _ from "lodash";
 
 @Component({
     selector: "app-addProduct",
@@ -32,10 +33,25 @@ export class AddProductComponent {
             isEligibleForAutoOrder: new UntypedFormControl(true),
             availableStock: new UntypedFormControl('', Validators.required),
             returnPolicy: new UntypedFormControl('7days', Validators.required)
-        })
+        },
+            { validator: this.customValidation() } as AbstractControlOptions)
     }
 
 
+    customValidation() {
+        return (formGroup: UntypedFormGroup) => {
+            const itemId = formGroup.controls['itemId'];
+            if (itemId.errors && !itemId.errors?.['onlyNumber']) {
+                return;
+            }
+            if (_.isNaN(+itemId?.value)) {
+                itemId.setErrors({ 'onlyNumber': true });
+            } else {
+
+                itemId.setErrors((itemId?.value?.length > 6) ? { 'onlyNumber': true } : null);
+            }
+        }
+    }
 
     //function section
 
