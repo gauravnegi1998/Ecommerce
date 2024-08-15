@@ -37,10 +37,18 @@
                     [placeholder]="'Please enter your product code'" [label]="'Product Code'" />
                 <ng-template *ngTemplateOutlet="errorTemplate; context:{ $implicit : { name:'itemCode' } }" />
             </div>
-            <div class="form-Control">
-                <app-textfield formControlName="webCategories" [name]="'webCategories'"
-                    [placeholder]="'Please enter your webCategories'" [label]="'webCategories'" />
-                <ng-template *ngTemplateOutlet="errorTemplate; context:{ $implicit : { name:'webCategories' } }" />
+
+            <div class="form-Control flex_web_category">
+                <label for="webCategories">Web Categories</label>
+                <div>
+                    <select class="form-select" formControlName="webCategories"
+                        placeholder="Please enter your webCategories">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <ng-template *ngTemplateOutlet="errorTemplate; context:{ $implicit : { name:'webCategories' } }" />
+                </div>
             </div>
         </div>
 

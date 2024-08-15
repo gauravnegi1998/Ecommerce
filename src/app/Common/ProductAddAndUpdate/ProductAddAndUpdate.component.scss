@@ -9,6 +9,7 @@
     border: 1px solid #ff9309;
     border-radius: 10px;
 
+
     h3 {
         margin-bottom: 6px;
         font-weight: 600;
@@ -21,9 +22,19 @@
         .form-Control {
             width: 100%;
             max-width: 50%;
+
+            &.flex_web_category {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                label[for="webCategories"] {
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+
         }
-
-
     }
 
     textarea {
