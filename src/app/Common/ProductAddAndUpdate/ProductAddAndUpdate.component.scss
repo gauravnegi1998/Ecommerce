@@ -32,6 +32,18 @@
                     font-size: 14px;
                     font-weight: 600;
                 }
+
+                .categorySelection {
+                    select {
+                        border: 1px solid #ddd;
+                        border-radius: unset;
+                        cursor: pointer;
+
+                        &:focus {
+                            box-shadow: unset;
+                        }
+                    }
+                }
             }
 
         }

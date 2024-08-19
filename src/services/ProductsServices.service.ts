@@ -34,7 +34,7 @@ export class ProductsServices {
             })
     }
 
-    _getCategories(data: { page: number, limit: number }) {
+    _getCategories(data: { page?: number, limit: number }, callback = null) {
         const { page, limit } = data;
         this.api.get(`${ProductsServices.url}?page=${page || 1}&limit=${limit || 6}`)
             .then((result) => {
