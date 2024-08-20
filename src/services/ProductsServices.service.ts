@@ -34,12 +34,13 @@ export class ProductsServices {
             })
     }
 
-    _getCategories(data: { page?: number, limit: number }, callback = null) {
+    _getCategories(data: { page?: number, limit: number }, callback?: (data: any) => void) {
         const { page, limit } = data;
         this.api.get(`${ProductsServices.url}?page=${page || 1}&limit=${limit || 6}`)
             .then((result) => {
                 if (result.status === 'ok') {
                     this.categories = result?.data;
+                    if (callback) callback(result?.data)
                 } else {
                     this.errorMsg = result?.message
                 }

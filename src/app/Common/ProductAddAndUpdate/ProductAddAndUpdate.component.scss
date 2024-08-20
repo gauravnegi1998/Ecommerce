@@ -34,15 +34,11 @@
                 }
 
                 .categorySelection {
-                    select {
-                        border: 1px solid #ddd;
-                        border-radius: unset;
-                        cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
 
-                        &:focus {
-                            box-shadow: unset;
-                        }
-                    }
+
                 }
             }
 

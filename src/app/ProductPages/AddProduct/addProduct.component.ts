@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { AbstractControlOptions, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { InputModules } from "../../inputs/inputs.module";
 import { ProductAddAndUpdateComponent } from "../../Common/ProductAddAndUpdate/ProductAddAndUpdate.component";
 import _ from "lodash";
@@ -32,24 +32,37 @@ export class AddProductComponent {
             }),
             isEligibleForAutoOrder: new UntypedFormControl(true),
             availableStock: new UntypedFormControl('', Validators.required),
-            returnPolicy: new UntypedFormControl('7days', Validators.required)
+            returnPolicy: new UntypedFormControl('7 days replacement o return policy', Validators.required)
         },
             { validator: this.customValidation() } as AbstractControlOptions)
     }
 
 
+    _handleErrorFunction(VALUE: AbstractControl, key: string) {
+        if (VALUE?.errors && !VALUE?.errors?.['onlyNumber']) {
+            return;
+        }
+        if (_.isNaN(+VALUE?.value)) {
+            VALUE.setErrors({ 'onlyNumber': true });
+        } else {
+            VALUE.setErrors((VALUE?.value?.length > 6) ? { 'onlyNumber': true } : null);
+        }
+    }
+
     customValidation() {
         return (formGroup: UntypedFormGroup) => {
-            const itemId = formGroup.controls['itemId'];
-            if (itemId.errors && !itemId.errors?.['onlyNumber']) {
-                return;
-            }
-            if (_.isNaN(+itemId?.value)) {
-                itemId.setErrors({ 'onlyNumber': true });
-            } else {
 
-                itemId.setErrors((itemId?.value?.length > 6) ? { 'onlyNumber': true } : null);
-            }
+            _.forEach(['itemId', 'availableStock'], (r) => {
+                const VALUE = formGroup.controls[r];
+                this._handleErrorFunction(VALUE, r)
+            })
+
+            _.forEach(['normalPrice', 'offerPrice'], (r) => {
+                const DATA = formGroup.controls["price"] as UntypedFormGroup;
+
+                console.log(DATA?.controls?.[r], 'talk with data');
+                this._handleErrorFunction(DATA?.controls?.[r], r)
+            })
         }
     }
 

@@ -3,6 +3,13 @@
     @if(formGroupData(error?.name).errors?.['required']){
     <span class="error-msg">This field is required</span>
     }
+    @if(formGroupData(error?.name).errors?.['maxlength']){
+    <span class="error-msg">Number must be less then or equal to 6</span>
+    }
+    @if(formGroupData(error?.name).errors?.['onlyNumber']){
+    <span class="error-msg">Enter only number</span>
+    }
+
     }
 </ng-template>
 
@@ -11,13 +18,18 @@
     @if(formPriceGroupData(error?.name).errors?.['required']){
     <span class="error-msg">This field is required</span>
     }
+    @if(formPriceGroupData(error?.name).errors?.['maxlength']){
+    <span class="error-msg">Number must be less then or equal to 6</span>
+    }
+    @if(formPriceGroupData(error?.name).errors?.['onlyNumber']){
+    <span class="error-msg">Enter only number</span>
+    }
     }
 
 </ng-template>
 
 <section class=" Product-add_section">
     <form [formGroup]="ProductFormGroup" (ngSubmit)="_handleOnSubmit(myForm)" #myForm="ngForm" novalidate>
-
         <div class="flex-box">
             <div class="form-Control">
                 <app-textfield formControlName="itemId" [name]="'itemId'" [placeholder]="'Please enter your product ID'"
@@ -40,8 +52,8 @@
 
             <div class="form-Control flex_web_category">
                 <label for="webCategories">Web Categories</label>
-                <div class="categorySelection">
-                    <ngx-bootstrap-multiselect [options]="myOptions"
+                <div class="categorySelection" *ngIf="(myOptions|length)> 0">
+                    <ngx-bootstrap-multiselect [options]="myOptions" [settings]="mySettings" [texts]="myTexts"
                         formControlName="webCategories"></ngx-bootstrap-multiselect>
                     <ng-template *ngTemplateOutlet="errorTemplate; context:{ $implicit : { name:'webCategories' } }" />
                 </div>
