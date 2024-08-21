@@ -29,7 +29,8 @@ export const routes: Routes = [
             {
                 path: 'signin',
                 pathMatch: "full",
-                loadComponent: () => import('./Auth/login/login.component').then((m) => m.LoginComponent)
+                loadComponent: () => import('./Auth/login/login.component').then((m) => m.LoginComponent),
+                canActivate: [AuthGuardService]
             },
             {
                 path: 'signup',

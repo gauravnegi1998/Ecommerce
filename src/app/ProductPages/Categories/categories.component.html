@@ -53,7 +53,7 @@
                 @for(category of categories | paginate:config; track category; let index = $index){
                 <tr>
                     <td>{{category?.categoryId}}</td>
-                    <td>{{category?.categoryName}}</td>
+                    <td><span>{{category?.categoryName}}</span></td>
                     <td>
                         <p (click)="_handleDelete(category?._id)">
                             <lucide-icon class="my-icon" color="#f00" size="18" name="trash" /> <span>Delete</span>

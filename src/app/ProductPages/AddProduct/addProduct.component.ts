@@ -4,6 +4,7 @@ import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroupDirectiv
 import { InputModules } from "../../inputs/inputs.module";
 import { ProductAddAndUpdateComponent } from "../../Common/ProductAddAndUpdate/ProductAddAndUpdate.component";
 import _ from "lodash";
+import { ProductsServices } from "../../../services/ProductsServices.service";
 
 @Component({
     selector: "app-addProduct",
@@ -15,12 +16,13 @@ import _ from "lodash";
 
 export class AddProductComponent {
     ProductFormGroup: UntypedFormGroup;
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private productService: ProductsServices) {
+
         this.ProductFormGroup = this.fb.group({
             name: new UntypedFormControl('', Validators.required),
             itemId: new UntypedFormControl('', [Validators.required, Validators.maxLength(6)]),
             itemCode: new UntypedFormControl('', Validators.required),
-            // normalImage: "https://images-na.ssl-images-amazon.com/images/I/31N0qoF1RPL.jpg",
+            normalImage: new UntypedFormControl("https://images-na.ssl-images-amazon.com/images/I/31N0qoF1RPL.jpg", Validators.required),
             displayOnlyAdmin: new UntypedFormControl(false),
             hideFromWeb: new UntypedFormControl(false),
             // webCategories: new UntypedFormControl('', Validators.required),
@@ -32,9 +34,10 @@ export class AddProductComponent {
             }),
             isEligibleForAutoOrder: new UntypedFormControl(true),
             availableStock: new UntypedFormControl('', Validators.required),
-            returnPolicy: new UntypedFormControl('7 days replacement o return policy', Validators.required)
+            returnPolicy: new UntypedFormControl('7 days replacement or return policy', Validators.required)
         },
             { validator: this.customValidation() } as AbstractControlOptions)
+
     }
 
 
@@ -45,7 +48,7 @@ export class AddProductComponent {
         if (_.isNaN(+VALUE?.value)) {
             VALUE.setErrors({ 'onlyNumber': true });
         } else {
-            VALUE.setErrors((VALUE?.value?.length > 6) ? { 'onlyNumber': true } : null);
+            VALUE.setErrors(null);
         }
     }
 
@@ -59,8 +62,6 @@ export class AddProductComponent {
 
             _.forEach(['normalPrice', 'offerPrice'], (r) => {
                 const DATA = formGroup.controls["price"] as UntypedFormGroup;
-
-                console.log(DATA?.controls?.[r], 'talk with data');
                 this._handleErrorFunction(DATA?.controls?.[r], r)
             })
         }
@@ -69,7 +70,13 @@ export class AddProductComponent {
     //function section
 
     _handleOnSubmit(data: FormGroupDirective) {
-
+        const { value } = this.ProductFormGroup
+        this.productService._addProduct(value, (result) => {
+            console.log(result, data);
+            data.resetForm();
+            this.ProductFormGroup.reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+        })
     }
 
 };

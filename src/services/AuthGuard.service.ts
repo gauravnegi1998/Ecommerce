@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AuthServices } from "./AuthServices.service";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import _ from "lodash";
 
 @Injectable({
     providedIn: 'root'
@@ -12,10 +13,19 @@ export class AuthGuardService {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
 
+
+
         if (!this.authService._isUserLogin()) {
-            alert('You are not allowed to view this page. Please login to access it');
-            this.router.navigateByUrl("/signin");
-            return false;
+            if (!_.includes(['/signin', '/signup'], state?.url)) {
+                alert('You are not allowed to view this page. Please login to access it');
+                this.router.navigateByUrl("/signin");
+                return false;
+            }
+        } else {
+            if (_.includes(['/signin', '/signup'], state?.url)) {
+                this.router.navigateByUrl("/");
+                return false;
+            }
         }
 
         return true;

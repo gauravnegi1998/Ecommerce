@@ -24,6 +24,8 @@ export class ProductAddAndUpdateComponent implements OnInit {
     // Settings configuration
     mySettings: IMultiSelectSettings = {
         containerClasses: 'productCategory_select',
+        dynamicTitleMaxItems: 4,
+        displayAllSelectedText: true,
     };
 
     myTexts: IMultiSelectTexts = {
@@ -51,7 +53,6 @@ export class ProductAddAndUpdateComponent implements OnInit {
     //function section
 
     _handleOnSubmit(data: FormGroupDirective) {
-        console.log(data, 'data > > > > > > >')
         if (this.ProductFormGroup.status === "INVALID") {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
