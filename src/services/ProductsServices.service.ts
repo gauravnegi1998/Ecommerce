@@ -83,7 +83,6 @@ export class ProductsServices {
         this.api.get(`${ProductsServices.ProductUrl}?page=${page || 1}&limit=${limit || 8}`).then((result) => {
             if (result.status === 'ok') {
                 if (callback) callback(result);
-                this.toaster.success(result.message);
             } else {
                 this.toaster.error(result.message);
             }

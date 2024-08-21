@@ -1,1 +1,18 @@
-<h1>ALL PRODUCTS</h1>
+<div class="container">
+    <div class="search_section">
+        <div class="search_by_field">
+
+        </div>
+    </div>
+
+    <div class="user_listing">
+        @for(product of productLists | paginate:config; track product; let index = $index){
+        <div>
+
+        </div>
+        }
+    </div>
+    <app-paginationComp [pageNumber]="1" [totalPages]="6" [config]="config"
+        (_onPageChange)="_handlePageChange($event)" />
+
+</div>
