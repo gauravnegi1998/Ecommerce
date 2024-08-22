@@ -5,7 +5,8 @@ import ApiFeatures from "../Utils/ApiFeatures.js";
 const InsertCustomer = async (req, res) => {
     try {
         const customerData = new customerModel(req.body);
-        customerData.save().then((result) => {
+        console.log(req.body, 'req.bodyreq.body')
+        await customerData.save().then((result) => {
             res.status(201).json({ status: 'ok', message: 'you have successfully sign up.' })
         }).catch((err) => {
             res.status(400).json({ status: 'error', message: 'something went wrong', data: err })

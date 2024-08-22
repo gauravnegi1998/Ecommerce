@@ -33,17 +33,23 @@ class ProductsControllerClass {
                         }
                     },
                     { $unwind: "$user" },
-                        // { count: { $sum: 1 } }
                     ]
                 }
             },
             {
                 $facet: {
-                    data: [{ $skip: +PAGE }, { $limit: +LIMIT }],
+                    data: [{ $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }],
                     total: [{ $count: 'count' }]
                 }
             },
-            { $project: { _id: 0, data: '$data', totalCount: { $first: '$total.count' } } }
+            {
+                $project: {
+                    _id: 0,
+                    product_data: '$data',
+                    totalCount: { $first: '$total.count' },
+                    page: `${req?.query?.page}`
+                }
+            }
 
         ]).then((r) => r[0]);
 

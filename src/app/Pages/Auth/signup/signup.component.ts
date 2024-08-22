@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InputModules } from '../../inputs/inputs.module';
-import { CountryStateInputs } from '../../inputs/CountryState/countryState.component';
-import { ICountryStateError } from '../../module/commonInterfaces';
-import { MaterialUIModule } from '../../MaterialModel/material-ui.module';
-import { ApiService } from '../../../services/ApiHelper.service';
-import { SignupAndUpdateComponent } from '../../Common/signupAndUpdate/signupAndUpdate.component';
+import { InputModules } from '../../../inputs/inputs.module';
+import { CountryStateInputs } from '../../../inputs/CountryState/countryState.component';
+import { ICountryStateError } from '../../../module/commonInterfaces';
+import { MaterialUIModule } from '../../../MaterialModel/material-ui.module';
+import { ApiService } from '../../../../services/ApiHelper.service';
+import { SignupAndUpdateComponent } from '../components/signupAndUpdate/signupAndUpdate.component';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -80,9 +80,9 @@ export class SignupComponent implements OnInit {
         if (res?.status === 'ok') {
           this.toster.success(`${res?.message}`);
           this.responseMsg = { error: false, msg: res?.message };
-          setTimeout(() => {
-            this.router.navigateByUrl('/listing')
-          }, 2000)
+          // setTimeout(() => {
+          //   this.router.navigateByUrl('/listing')
+          // }, 2000)
         } else {
           this.responseMsg = { error: true, msg: res?.message };
         }

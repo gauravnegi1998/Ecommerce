@@ -15,11 +15,7 @@ export class PaginationComponent implements OnChanges {
     @Input() config: PaginationInstance = { id: 'check', currentPage: 1, itemsPerPage: 20, totalItems: 20 };
     @Output() _onPageChange = new EventEmitter<any>();
 
-    // public config: PaginationInstance = {
-    //     itemsPerPage: 6,
-    //     currentPage: 1,
-    //     totalItems: 80
-    // };
+
     log(val: any) { console.log(val, 'ttttttttttttttt'); }
 
     ngOnChanges(changes: SimpleChanges): void {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../services/ApiHelper.service';
+import { ApiService } from '../../../../services/ApiHelper.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ICustomerData } from '../../module/commonInterfaces';
-import { InputModules } from '../../inputs/inputs.module';
+import { ICustomerData } from '../../../module/commonInterfaces';
+import { InputModules } from '../../../inputs/inputs.module';
 import { Location } from '@angular/common';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
-import { Icons } from '../../Common/Icons';
+import { Icons } from '../../../Common/Icons';
 
 @Component({
   selector: 'app-detail-page',

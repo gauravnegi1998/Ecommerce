@@ -72,7 +72,7 @@ app.use(globalErrorHandler);
 //         resp.status(400).json({ status: 'error', message: 'something went wrong', data: err });
 //     }
 // })
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, '0.0.0.0', () => {
     console.log('connected success fully');
 })
 

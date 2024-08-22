@@ -1,13 +1,13 @@
 import { Component, OnInit, importProvidersFrom } from '@angular/core';
-import { InputModules } from '../../inputs/inputs.module';
+import { InputModules } from '../../../inputs/inputs.module';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LUCIDE_ICONS, LucideAngularComponent, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
-import { Icons } from '../../Common/Icons';
+import { Icons } from '../../../Common/Icons';
 import _, { values } from 'lodash';
-import { ApiService } from '../../../services/ApiHelper.service';
-import { AuthServices } from '../../../services/AuthServices.service';
+import { ApiService } from '../../../../services/ApiHelper.service';
+import { AuthServices } from '../../../../services/AuthServices.service';
 
 @Component({
   selector: 'app-login',

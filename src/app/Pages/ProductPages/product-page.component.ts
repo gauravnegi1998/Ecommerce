@@ -7,6 +7,12 @@ import { RouterLink, RouterModule, RouterOutlet } from "@angular/router";
     standalone: true,
     imports: [RouterOutlet, RouterModule, RouterLink, CommonModule],
     templateUrl: './product-page.component.html',
+    styles: [
+        `.productsPages {
+                margin-top: 30px;
+        }
+        `
+    ]
 })
 
 export class ProductPageComponent { }

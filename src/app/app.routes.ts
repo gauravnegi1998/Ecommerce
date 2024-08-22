@@ -29,35 +29,35 @@ export const routes: Routes = [
             {
                 path: 'signin',
                 pathMatch: "full",
-                loadComponent: () => import('./Auth/login/login.component').then((m) => m.LoginComponent),
+                loadComponent: () => import('./Pages/Auth/login/login.component').then((m) => m.LoginComponent),
                 canActivate: [AuthGuardService]
             },
             {
                 path: 'signup',
                 pathMatch: 'full',
-                loadComponent: () => import('./Auth/signup/signup.component').then((m) => m.SignupComponent)
+                loadComponent: () => import('./Pages/Auth/signup/signup.component').then((m) => m.SignupComponent)
             },
             {
                 path: 'listing',
-                loadComponent: () => import('./Pages/userListing/userListing.component').then((m) => m.UserListingComponent),
+                loadComponent: () => import('./Pages/Users/userListing/userListing.component').then((m) => m.UserListingComponent),
                 pathMatch: 'full',
                 canActivate: [AuthGuardService]
             },
             {
                 path: 'detail/:id',
-                loadComponent: () => import('./Pages/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
+                loadComponent: () => import('./Pages/Users/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
                 pathMatch: 'full',
                 canActivate: [AuthGuardService]
             },
             {
                 path: "edit/:id",
-                loadComponent: () => import('./Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent),
+                loadComponent: () => import('./Pages/Auth/update-profile/update-profile.component').then(r => r.UpdateProfileComponent),
                 canActivate: [AuthGuardService]
 
             },
             {
                 path: 'products',
-                loadChildren: () => import('./ProductPages/ProductPage-routes').then(features => features.ProductPagesRoutes),
+                loadChildren: () => import('./Pages/ProductPages/ProductPage-routes').then(features => features.ProductPagesRoutes),
             },
             {
                 path: '**',

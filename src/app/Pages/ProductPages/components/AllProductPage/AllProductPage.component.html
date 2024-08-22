@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="heading">
+        <h1>All Product's</h1>
+    </div>
+    <div class="products_listing">
+        @for(product of productLists | paginate:config; track product; let index = $index){
+        <div class="product_card">
+            <div class="image_section">
+                <img src="{{product?.normalImage}}" />
+            </div>
+            <div class="product_details">
+                <div class="title">
+                    <h3>{{product?.name}}</h3>
+                </div>
+                <!-- {{product?.['avaliableStock']}} -->
+                <div class="action_section">
+                    <div class="price_section">
+                        <p>{{product?.['price']?.normalPrice | currency}}</p>
+                        <small>{{product?.price?.offerPrice | currency}}</small>
+                    </div>
+                    <div class="actionButtons">
+                        <app-button [type]="'button'" (_onClick)="_handleAddToCart(product)">
+                            Add To Cart
+                        </app-button>
+                        <app-button [type]="'button'" (_onClick)="_handleAddToCart(product)">
+                            Add To Wishlist
+                        </app-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <app-paginationComp [config]="config" (_onPageChange)="_handlePageChange($event)" />
+
+</div>

@@ -10,6 +10,7 @@
                 <lucide-icon class="my-icon" size="30" name="chevron-left" />
             </button>
             <div *ngFor="let page of p.pages" class="button_div" [class.current]="p.getCurrent() === page.value">
+                {{log(p.getCurrent())}}
                 <p (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
                     {{ page.label }}
                 </p>

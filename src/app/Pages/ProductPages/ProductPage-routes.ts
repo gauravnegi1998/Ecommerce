@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { CategoriesComponent } from "./Categories/categories.component";
+import { CategoriesComponent } from "./components/Categories/categories.component";
 import { ProductPageComponent } from "./product-page.component";
-import { AddProductComponent } from "./AddProduct/addProduct.component";
-import { AllProductPageComponent } from "./AllProductPage/AllProductPage.component";
-import { AuthGuardService } from "../../services/AuthGuard.service";
+import { AddProductComponent } from "./components/AddProduct/addProduct.component";
+import { AllProductPageComponent } from "./components/AllProductPage/AllProductPage.component";
+import { AuthGuardService } from "../../../services/AuthGuard.service";
 
 export const ProductPagesRoutes: Routes = [
     {

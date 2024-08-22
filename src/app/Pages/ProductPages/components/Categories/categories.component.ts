@@ -1,15 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { AbstractControlOptions, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
-import { InputModules } from "../../inputs/inputs.module";
+import { InputModules } from "../../../../inputs/inputs.module";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
-import { Icons } from "../../Common/Icons";
+import { Icons } from "../../../../Common/Icons";
 import _, { debounce } from "lodash";
-import { ProductsServices } from "../../../services/ProductsServices.service";
+import { ProductsServices } from "../../../../../services/ProductsServices.service";
 import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
 import { Subject } from "rxjs";
 import { debounceTime } from 'rxjs/operators';
-import { PipesModules } from "../../pipes/pipes.module";
+import { PipesModules } from "../../../../pipes/pipes.module";
 
 @Component({
     selector: 'app-product-category',

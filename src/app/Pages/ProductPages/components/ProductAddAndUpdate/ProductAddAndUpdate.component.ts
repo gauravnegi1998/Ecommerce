@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
-import { InputModules } from "../../inputs/inputs.module";
-import { MaterialUIModule } from "../../MaterialModel/material-ui.module";
+import { InputModules } from "../../../../inputs/inputs.module";
+import { MaterialUIModule } from "../../../../MaterialModel/material-ui.module";
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts, NgxBootstrapMultiselectModule } from 'ngx-bootstrap-multiselect';
-import { ProductsServices } from "../../../services/ProductsServices.service";
+import { ProductsServices } from "../../../../../services/ProductsServices.service";
 import _ from "lodash";
-import { PipesModules } from "../../pipes/pipes.module";
+import { PipesModules } from "../../../../pipes/pipes.module";
 
 @Component({
     selector: "app-addAndUpdateProduct",

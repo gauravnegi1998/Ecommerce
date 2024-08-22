@@ -1,19 +1,20 @@
 import { Component, OnInit, TemplateRef, ViewChild, inject } from "@angular/core";
-import { InputModules } from "../../inputs/inputs.module";
+import { InputModules } from "../../../inputs/inputs.module";
 import { CommonModule } from "@angular/common";
-import { ApiService } from "../../../services/ApiHelper.service";
-import { ICustomerData } from "../../module/commonInterfaces";
+import { ApiService } from "../../../../services/ApiHelper.service";
+import { ICustomerData } from "../../../module/commonInterfaces";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
-import { Icons } from "../../Common/Icons";
+import { Icons } from "../../../Common/Icons";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import _ from "lodash";
-import { MaterialUIModule } from "../../MaterialModel/material-ui.module";
+import { MaterialUIModule } from "../../../MaterialModel/material-ui.module";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
+import { AuthServices } from "../../../../services/AuthServices.service";
 
 
 @Component({
@@ -28,7 +29,7 @@ import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
 })
 
 export class UserListingComponent implements OnInit {
-    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private toaster: ToastrService) { };
+    constructor(private auth: AuthServices, private api: ApiService, private router: Router, private route: ActivatedRoute, private toaster: ToastrService) { };
 
     private searchSubject = new Subject<string>();
     private readonly debounceTimeMs = 500; // Set the debounce time (in milliseconds)
@@ -43,7 +44,7 @@ export class UserListingComponent implements OnInit {
     deleteUser!: ICustomerData;
     public config: PaginationInstance = {
         id: 'listing_section',
-        itemsPerPage: 6,
+        itemsPerPage: 9,
         currentPage: 1,
         totalItems: 10
     };
@@ -82,7 +83,8 @@ export class UserListingComponent implements OnInit {
 
                 }
             }).catch((err) => {
-                console.log(err, 'ddddddddddddddddddddddddddddd')
+                console.log(err?.error, 'ddddddddddddddddddddddddddddd')
+                this.auth._authenticationError(err);
             })
     }
 

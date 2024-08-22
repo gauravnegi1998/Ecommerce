@@ -18,6 +18,13 @@ export class AuthServices {
 
     // login Api
 
+    _authenticationError(err: any) {
+        if (err?.error?.status === "error" && err?.error?.message === "invalid token") {
+            this.localStore.removeData('Token')
+            this.router.navigateByUrl('/signin');
+        }
+    }
+
     loginUser(value: { email: string, password: string }) {
         this.api.post('/login', value).then((response) => {
             if (_.eq(response?.status, 'ok')) {
@@ -40,6 +47,8 @@ export class AuthServices {
     _isUserLogin() {
         return !!(this._getToken())
     }
+
+
 
 
 }

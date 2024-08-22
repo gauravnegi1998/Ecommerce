@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
-import { InputModules } from "../../inputs/inputs.module";
-import { ProductAddAndUpdateComponent } from "../../Common/ProductAddAndUpdate/ProductAddAndUpdate.component";
+import { InputModules } from "../../../../inputs/inputs.module";
+import { ProductAddAndUpdateComponent } from "../ProductAddAndUpdate/ProductAddAndUpdate.component";
 import _ from "lodash";
-import { ProductsServices } from "../../../services/ProductsServices.service";
+import { ProductsServices } from "../../../../../services/ProductsServices.service";
 
 @Component({
     selector: "app-addProduct",

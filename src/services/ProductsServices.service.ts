@@ -31,6 +31,7 @@ export class ProductsServices {
                 }
             }).catch((err) => {
                 this.toaster.error(err.message);
+                this.auth._authenticationError(err);
             })
     }
 
@@ -45,7 +46,7 @@ export class ProductsServices {
                     this.errorMsg = result?.message
                 }
             }).catch((err) => {
-
+                this.auth._authenticationError(err);
             })
     }
 
@@ -59,6 +60,7 @@ export class ProductsServices {
                 }
             }).catch((err) => {
                 this.toaster.error(err.message);
+                this.auth._authenticationError(err);
             })
     }
 
@@ -75,6 +77,7 @@ export class ProductsServices {
             }
         }).catch((err) => {
             this.toaster.error(err.message);
+            this.auth._authenticationError(err);
         })
     }
 
@@ -88,6 +91,7 @@ export class ProductsServices {
             }
         }).catch((err) => {
             this.toaster.error(err.message);
+            this.auth._authenticationError(err);
         })
     }
 

@@ -5,7 +5,7 @@ import validator from 'validator';
 function validationObject(name, required = true) {
     return ({
         type: String,
-        required: [validator.isEmpty, `${name} is required`],
+        required: [required, `${name} is required`],
         default: "",
         trim: true
     })
