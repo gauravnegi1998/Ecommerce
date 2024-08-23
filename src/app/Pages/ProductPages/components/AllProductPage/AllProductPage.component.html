@@ -9,14 +9,32 @@
                 <img src="{{product?.normalImage}}" />
             </div>
             <div class="product_details">
-                <div class="title">
+                <a href="#" class="title">
                     <h3>{{product?.name}}</h3>
-                </div>
+                </a>
                 <!-- {{product?.['avaliableStock']}} -->
                 <div class="action_section">
-                    <div class="price_section">
-                        <p>{{product?.['price']?.normalPrice | currency}}</p>
-                        <small>{{product?.price?.offerPrice | currency}}</small>
+                    <div class="price_and_quantity">
+
+                        <div class="price_section">
+                            <p>{{product?.['price']?.normalPrice | currency}}</p>
+                            <small>{{product?.price?.offerPrice | currency}}</small>
+                        </div>
+                        <div class="quantity">
+                            <div class="qtyBtn">
+                                <p>Quantity:</p>
+                                <button (click)="activeClass=(activeClass === product?._id)?'':product?._id">
+                                    {{product?.quantity}} <i class="arrow down"></i>
+                                </button>
+                                <ul [class.active]="(activeClass===product?._id)">
+                                    <li *ngFor="let qty of _arrayConverter(product?.minimumOrderQuantity) "
+                                        (click)="_handleQty(qty,product?._id)">
+                                        {{qty}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="actionButtons">
                         <app-button [type]="'button'" (_onClick)="_handleAddToCart(product)">

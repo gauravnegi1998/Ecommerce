@@ -9,7 +9,7 @@ import { RouterLink, RouterModule, RouterOutlet } from "@angular/router";
     templateUrl: './product-page.component.html',
     styles: [
         `.productsPages {
-                margin-top: 30px;
+                margin-top: 50px;
         }
         `
     ]

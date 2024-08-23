@@ -3,7 +3,7 @@
 
     h1 {
         font-size: 40px;
-        border-bottom: 6px double #ff6521;
+        // border-bottom: 6px double #ff6521;
         display: inline-block;
         margin-bottom: 0;
         color: #ff6521;
@@ -51,14 +51,23 @@
             justify-content: space-between;
 
             // margin-top: 6px;
-            h3 {
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                -webkit-line-clamp: 3;
-                margin-bottom: 30px;
-                font-size: 18px;
+            a {
+                color: #000;
+                text-decoration: none;
+
+                &:hover {
+                    color: #ff6a00;
+                }
+
+                h3 {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-line-clamp: 3;
+                    margin-bottom: 30px;
+                    font-size: 18px;
+                }
             }
 
             .action_section {
@@ -74,22 +83,103 @@
                     width: 100%;
                 }
 
-                .price_section {
+                .price_and_quantity {
                     display: flex;
+                    width: 100%;
+                    justify-content: space-between;
                     align-items: flex-end;
-                    gap: 10px;
 
-                    p {
-                        font-size: 30px;
-                        margin-bottom: 0;
+                    .quantity {
+                        padding-right: 10px;
+
+                        .qtyBtn {
+                            position: relative;
+                            // translate: -30px;
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+
+                            p {
+                                margin: 0;
+                            }
+
+                            button {
+                                border: 1px solid #ddd;
+                                padding: 6px 12px;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                border-radius: 6px;
+                                font-size: 16px;
+
+                                .arrow {
+                                    border: solid black;
+                                    border-width: 0 3px 3px 0;
+                                    display: inline-block;
+                                    padding: 3px;
+                                    margin-bottom: 4px;
+                                }
+
+                                .down {
+                                    transform: rotate(45deg);
+                                    -webkit-transform: rotate(45deg);
+                                }
+                            }
+                        }
+
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            position: absolute;
+                            z-index: 1;
+                            background: #fff;
+                            width: 100%;
+                            max-width: 55px;
+                            display: none;
+                            top: 34px;
+                            right: 0;
+                            margin: 0;
+
+                            &.active {
+                                display: block;
+                            }
+
+                            li {
+                                border: 1px solid #9795955d;
+                                text-align: center;
+                                cursor: pointer;
+                                padding: 4px;
+
+                                &:not(:last-child) {
+                                    border-bottom: unset;
+                                }
+
+                                &:hover {
+                                    background: #ddd;
+                                }
+                            }
+                        }
                     }
 
-                    small {
-                        line-height: 1;
-                        font-size: 1em;
-                        text-decoration: line-through;
+                    .price_section {
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 10px;
+
+                        p {
+                            font-size: 30px;
+                            margin-bottom: 0;
+                        }
+
+                        small {
+                            line-height: 1;
+                            font-size: 1em;
+                            text-decoration: line-through;
+                        }
                     }
                 }
+
+
             }
         }
     }
