@@ -76,7 +76,6 @@ export class AllProductPageComponent implements OnInit {
         console.log(product, 'product');
     }
 
-
     _arrayConverter(data: number | undefined) {
         if (data) {
             const COUNTING_ARRAY = _.range(1, data + 1);
@@ -84,7 +83,5 @@ export class AllProductPageComponent implements OnInit {
         }
         return [];
     }
-
-
 
 }

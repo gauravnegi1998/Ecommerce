@@ -1,4 +1,6 @@
 export const devEnvironment = {
     production: false,
-    apiUrl: "http://192.168.11.140:8080",
+    apiUrl: "http://localhost:8080",
 }
+
+//  --host 0.0.0.0

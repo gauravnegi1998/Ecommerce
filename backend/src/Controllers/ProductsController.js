@@ -1,4 +1,5 @@
 import ProductModel from "../Model/ProductSchema.js";
+import { notFoundError } from "../Utils/ErrorsHandlers.js";
 
 class ProductsControllerClass {
 
@@ -73,6 +74,15 @@ class ProductsControllerClass {
         if (CategoryData) {
             res.status(200).json({ status: 'ok', data: CategoryData })
         }
+    }
+
+    _getProductSingleApi = async (req, res, next) => {
+        const ID = req?.params?.id;
+        console.log(ID, 'req', req)
+        const DATA = await ProductModel.findById(ID);
+        notFoundError(DATA, `No prouct found with given ID ${ID}`, next);
+
+        return res.status(200).json({ status: 'ok', data: DATA });
     }
 
 }

@@ -6,9 +6,14 @@
         <div class="content_section">
             <h1>TITLE</h1>
             <p>Description's</p>
-
+            <div>{{singleProductData | json}}</div>
             <div class="action_section">
-                <div class="qty_dep">
+                <div class="qtyBtn">
+                    <p>Quantity:</p>
+                    <select value="{{singleProductData.quantity}}" (change)="_handleQty($event)">
+                        <option *ngFor="let qty of _arrayConverter(singleProductData?.minimumOrderQuantity) "
+                            value="{{qty}}">{{qty}}</option>
+                    </select>
 
                 </div>
                 <div class="button_actions">

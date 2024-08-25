@@ -3,12 +3,13 @@ import { AuthServices } from "./AuthServices.service";
 import { ApiService } from "./ApiHelper.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { _asyncronushFunction } from "../app/Common/Methods";
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class ProductsServices {
+export class ProductsServices extends _asyncronushFunction {
 
     categories: { _id: string, categoryId: number, categoryName: string }[] = [];
     successfulMsg: string = "";
@@ -16,7 +17,9 @@ export class ProductsServices {
     static CategoryUrl: string = "/items/web-categories";
     static ProductUrl: string = "/items"
 
-    constructor(private auth: AuthServices, private api: ApiService, private toaster: ToastrService) { }
+    constructor(private api: ApiService) {
+        super();
+    }
 
     //category Api Section
 
@@ -95,5 +98,15 @@ export class ProductsServices {
         })
     }
 
+
+    _getSingleProduct(ID: string, callback: (data: any) => void) {
+        this._callTheAPi(this.api.get(`${ProductsServices.ProductUrl}/${ID}`), (success, error) => {
+            if (error) {
+                // write a custom message
+            } else {
+                callback(success)
+            }
+        })
+    }
 
 }
