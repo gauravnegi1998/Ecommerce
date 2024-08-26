@@ -27,7 +27,7 @@
                                     {{product?.quantity}} <i class="arrow down"></i>
                                 </button>
                                 <ul [class.active]="(activeClass===product?._id)">
-                                    <li *ngFor="let qty of _arrayConverter(product?.minimumOrderQuantity) "
+                                    <li *ngFor="let qty of _arrayConverter(product?.minimumOrderQuantity)"
                                         (click)="_handleQty(qty,product?._id)">
                                         {{qty}}
                                     </li>

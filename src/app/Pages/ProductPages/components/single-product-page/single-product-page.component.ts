@@ -5,18 +5,25 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductsServices } from '../../../../../services/ProductsServices.service';
 import { IProductDataQty } from '../../../../module/commonInterfaces';
 import _ from 'lodash';
+import { PipesModules } from '../../../../pipes/pipes.module';
+import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
+import { Icons } from '../../../../Common/Icons';
 
 @Component({
   selector: 'app-single-product-page',
   standalone: true,
-  imports: [InputModules, CommonModule],
+  imports: [InputModules, CommonModule, PipesModules, LucideAngularModule],
   templateUrl: './single-product-page.component.html',
-  styleUrl: './single-product-page.component.scss'
+  styleUrl: './single-product-page.component.scss',
+  providers: [
+    { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
+  ]
 })
 export class SingleProductPageComponent implements OnInit {
 
-  singleProductData!: IProductDataQty;
-  activeClass: string = "";
+  singleProductData: IProductDataQty | any = {};
+  activeRating: boolean = false;
+  ratingAdded: number[] = [];
 
   constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) { }
 
@@ -33,7 +40,7 @@ export class SingleProductPageComponent implements OnInit {
     const ID = data.get('id') || "";
     console.log('ID', ID)
     this.productService._getSingleProduct(ID, (response) => {
-      this.singleProductData = response.data;
+      this.singleProductData = { ...response.data, quantity: 1 };
     })
   }
 
@@ -45,10 +52,22 @@ export class SingleProductPageComponent implements OnInit {
     return [];
   }
 
-  _handleQty(event: any) {
-    this.singleProductData['quantity'] = event?.target.value;
+  _handleQty(action: string) {
+    let QTY = this.singleProductData['quantity'];
+    if (action === 'sub') {
+      QTY = (QTY - 1 > 0) ? (QTY - 1) : 1;
+    } else {
+      QTY = ((QTY + 1) < this.singleProductData.minimumOrderQuantity) ? (QTY + 1) : this.singleProductData.minimumOrderQuantity;
+    }
+    this.singleProductData['quantity'] = QTY;
+  }
 
-    this.activeClass = '';
+  _ratingCheck(i: number) {
+    return !!this.ratingAdded.includes(i)
+  }
+
+  _addToCart() {
+    alert(JSON.stringify(this.singleProductData));
   }
 
 }

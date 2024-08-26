@@ -1,40 +1,64 @@
 <section class="singleProduct_page_section">
     <div class="ProductInfo">
         <div class="image_sections">
-            <img src="" />
+            <img src="{{singleProductData?.normalImage}}" />
         </div>
         <div class="content_section">
-            <h1>TITLE</h1>
-            <p>Description's</p>
-            <div>{{singleProductData | json}}</div>
-            <div class="action_section">
-                <div class="qtyBtn">
-                    <p>Quantity:</p>
-                    <select value="{{singleProductData.quantity}}" (change)="_handleQty($event)">
-                        <option *ngFor="let qty of _arrayConverter(singleProductData?.minimumOrderQuantity) "
-                            value="{{qty}}">{{qty}}</option>
-                    </select>
-
+            <div class="innerSec">
+                <h1>{{singleProductData?.name}}</h1>
+                <div class="description_sec">
+                    <p class="bold">Description :</p>
+                    <p>{{singleProductData?.description}}</p>
                 </div>
-                <div class="button_actions">
+                <!-- <div>{{singleProductData | json}}</div> -->
+                <div class="action_section">
+                    <div class="qty_sec">
+                        <p class="bold">Quantity:</p>
+                        <div class="qty">
+                            <button (click)="_handleQty('sub')">-</button>
+                            <input type="text" readonly value="{{singleProductData?.quantity}}" />
+                            <button (click)="_handleQty('add')">+</button>
+                        </div>
 
+                    </div>
+                    <div class="button_actions">
+                        <app-button [type]="'button'" (_onClick)="_addToCart()">Add to cart</app-button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="review_Sections">
         <div class="rating_heading">
-            <h2>Review's</h2>
-            <div>4</div>
+            <div class="rating_count">
+                <h2>Review's</h2>
+                <div>{{(singleProductData.reviews | length)||0}}</div>
+            </div>
+            <p class="add_review">Add a review</p>
         </div>
         <div class="customer_reviews">
+            <div class="reviewAdd_Form">
+                <div>
+                    <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i" name="star" size="30"
+                        color="#999879" [ngClass]="{'rating_icons': !!_ratingCheck(i+1)}" />
+                </div>
+                <textarea rows="5"></textarea>
+                <div>
+                    <button>Add</button>
+                </div>
+            </div>
             <div class="review">
                 <div class="details">
-                    <h3>Rahul</h3>
-                    <p>fsdjflsjfjsdj idjflksdjfsdjfsdlk fjosdjflsdjfoisdf oijofisdfosd </p>
+                    <h3>Name</h3>
+                    <p> sfsdfsdfsdfsdf </p>
                 </div>
                 <div class="stars">
-                    star star start star
+                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+
                 </div>
             </div>
         </div>
