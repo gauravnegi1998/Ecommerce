@@ -21,12 +21,16 @@ export interface ICustomerData {
     address2: string;
 }
 
-export interface IReviewData {
-    _id: string;
+
+export interface IPostReviewData {
     productId: string;
-    customer: ICustomerData;
     ratingNumber: number;
     ratingMessage: string;
+}
+
+export interface IReviewData extends IPostReviewData {
+    _id: string;
+    customer: ICustomerData;
     createdAt: Date
 }
 

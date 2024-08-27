@@ -21,7 +21,7 @@ class ReviewController {
         }
 
 
-        const DATA = await ReviewModel.create({ ...req?.body, productId: ProductId });
+        const DATA = await ReviewModel.create({ ...req?.body, customer: USER?._id, productId: ProductId });
         if (!DATA) {
             const error = new CustomError('something went wrong please type again!', 400);
             return next(error);
@@ -38,6 +38,13 @@ class ReviewController {
             const error = new CustomError("Product ID is required", 400);
             return next(error);
         }
+
+        const PRODUCT_DATA = await ProductModel.findById(ProductId);
+        if (!PRODUCT_DATA) {
+            const error = new CustomError("Please enter valid Product ID", 400);
+            return next(error);
+        }
+
         const DATA = await ReviewModel.find();
         notFoundError(DATA, "provided review id is wrong", next)
         return res.status(201).json({ status: 'ok', message: "you have successfully added your review" })

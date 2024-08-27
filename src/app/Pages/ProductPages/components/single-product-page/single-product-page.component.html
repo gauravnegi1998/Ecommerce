@@ -37,29 +37,51 @@
             <p class="add_review">Add a review</p>
         </div>
         <div class="customer_reviews">
+            @if(isUserLogin){
             <div class="reviewAdd_Form">
-                <div>
-                    <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i" name="star" size="30"
-                        color="#999879" [ngClass]="{'rating_icons': !!_ratingCheck(i+1)}" />
+                <div class="rating_text">
+                    <div class="rateSelection">
+                        <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i" name="star" size="30"
+                            color="#d2691e" class="star_rating_icon"
+                            [ngClass]="{'rating_icons': !!this.ratingAdded.includes(i+1)}"
+                            (click)="_ratingCheck(i+1)" />
+                    </div>
+                    <span *ngIf="FeelAboutRating">{{FeelAboutRating}} !</span>
                 </div>
-                <textarea rows="5"></textarea>
+                <textarea rows="5" (change)="_handleTextChange($event)"></textarea>
                 <div>
-                    <button>Add</button>
+                    <app-button (_onClick)="_handleReview()">Add</app-button>
+                    <p class="error-msg" *ngIf="!!ErrorMsg">{{ErrorMsg}}</p>
                 </div>
             </div>
-            <div class="review">
+            }
+            <div class="reviews">
+                @for(review of singleProductData?.reviews; track review; let i= $index){
                 <div class="details">
-                    <h3>Name</h3>
-                    <p> sfsdfsdfsdfsdf </p>
-                </div>
-                <div class="stars">
-                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
-                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
-                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
-                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
-                    <lucide-icon class="rating_icons" name="star" size="30" color="#999879" fill="#ff0" />
+                    <h3>{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
+                    <div class="stars">
+                        <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i"
+                            [ngClass]="{'rating_icons':(rating<=review?.ratingNumber)}" name="star" size="30"
+                            color="#999879" fill="#ff0" />
+                        <span>Best product</span>
+                    </div>
+                    <div class="purchase_date">
+                        <span data-hook="review-date" class="a-size-base a-color-secondary review-date">
+                            Reviewed in India on 15 February 2024
+                        </span>
+                        <div class="a-row a-spacing-mini review-data review-format-strip">
+                            <span class="a-color-secondary">Colour: Dark Grey</span>
+                            <i class="a-icon a-icon-text-separator" role="img" aria-label="|"></i>
+                            <span class="a-size-mini a-color-state a-text-bold">Verified Purchase</span>
+                        </div>
+                    </div>
+                    <div class="rating_desc">
+                        <p>{{review?.ratingMessage}} </p>
+                    </div>
 
                 </div>
+                }
+
             </div>
         </div>
     </div>

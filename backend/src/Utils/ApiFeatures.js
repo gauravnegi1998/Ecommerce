@@ -19,7 +19,6 @@ class ApiFeatures {
             const SEARCH = this.queryData.search ? { $regex: this.queryData.search, $options: 'i' } : "";
             queryObj = { $or: [{ firstName: SEARCH }, { lastName: SEARCH }, { email: SEARCH }, { phone: SEARCH }] };
         }
-        console.log(queryObj, 'queryObjqueryObj')
 
         this.query = this.query.find(queryObj);
         // this.totalCount = await customerModel.countDocuments(OBJECT_VALUE);

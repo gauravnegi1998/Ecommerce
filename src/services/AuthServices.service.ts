@@ -19,7 +19,8 @@ export class AuthServices {
     // login Api
 
     _authenticationError(err: any) {
-        if (err?.error?.status === "error" && err?.error?.message === "invalid token") {
+        console.log(err, 'errerrerrerrerrerrerrerrerrerrerrerrerrerrerrerr')
+        if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
             this.localStore.removeData('Token')
             this.router.navigateByUrl('/signin');
         }

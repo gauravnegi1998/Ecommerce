@@ -176,6 +176,14 @@ body {
     }
 }
 
-.rating_icons>svg {
-    fill: #ff0 !important;
+svg.star_rating_icon {
+    cursor: pointer;
+}
+
+.rating_icons {
+    cursor: pointer;
+
+    &>svg {
+        fill: #ff0 !important;
+    }
 }

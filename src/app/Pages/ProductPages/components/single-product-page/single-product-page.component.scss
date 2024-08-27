@@ -38,9 +38,9 @@
                     line-height: 35px;
                 }
 
-                .description_sec {
-                    p {}
-                }
+                // .description_sec {
+                //     p {}
+                // }
 
                 .action_section {
                     display: flex;
@@ -81,6 +81,8 @@
     }
 
     .review_Sections {
+        margin-top: 40px;
+
         .rating_heading {
             display: flex;
             justify-content: space-between;
@@ -118,17 +120,59 @@
             .reviewAdd_Form {
                 display: flex;
                 flex-direction: column;
+                margin-top: 20px;
+                gap: 20px;
+
+                .rating_text {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 20px;
+
+                    .rateSelection {}
+
+                    span {
+                        color: #d2691e;
+                    }
+                }
+
+                textarea {
+                    padding: 10px;
+                    font-size: 18px;
+
+                    &:focus-visible {
+                        outline: unset;
+                    }
+
+                    &:focus {
+                        border: 1px solid #ff6030;
+                    }
+                }
+
+                button {
+                    width: 100%;
+                    max-width: 150px;
+                    padding: 10px 0;
+                }
             }
 
-            .review {
-                margin-top: 25px;
+            .reviews {
+                margin: 25px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
 
-                .details {}
+                .details {
+                    h3 {
+                        margin-bottom: 11px;
+                        font-size: 24px;
+                    }
+                }
 
                 .stars {
-                    // svg.rating_icons {
-                    //     fill: #ff0 !important;
-                    // }
+                    svg.star_rating_icon {
+                        cursor: pointer;
+                    }
                 }
             }
 

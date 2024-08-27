@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ProductModel from "../Model/ProductSchema.js";
 import { notFoundError } from "../Utils/ErrorsHandlers.js";
 
@@ -78,8 +79,29 @@ class ProductsControllerClass {
 
     _getProductSingleApi = async (req, res, next) => {
         const ID = req?.params?.id;
-        console.log(ID, 'req', req)
-        const DATA = await ProductModel.findById(ID);
+
+        const DATA = await ProductModel.aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(String(ID)) } },
+            {
+                $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
+            },
+            {
+                $lookup: {
+                    from: "reviews", localField: 'reviews', foreignField: "_id", as: "reviews", pipeline: [
+                        { $project: { __v: 0 } },
+                        {
+                            $lookup: {
+                                from: "customers", localField: "customer", foreignField: "_id", as: "user", pipeline: [
+                                    { $project: { firstName: 1, lastName: 1, email: 1 } }
+                                ]
+                            }
+                        },
+                        { $unwind: "$user" },
+                    ]
+                }
+            }
+        ]).then(r => r[0])
+        // const DATA =  await ProductModel.findById(ID);
         notFoundError(DATA, `No prouct found with given ID ${ID}`, next);
 
         return res.status(200).json({ status: 'ok', data: DATA });

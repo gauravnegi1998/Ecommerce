@@ -17,7 +17,6 @@ class AuthCheck {
                     if (!USER) {
                         return next(new CustomError('The user with the give token does not exist!', 401));
                     }
-                    console.log(USER, 'USER');
                     if (USER?.methods?.isPasswordChange(decoded.iat)) {
                         const error = new CustomError('The password has been changes recently. please login again', 401);
                         return next(error);

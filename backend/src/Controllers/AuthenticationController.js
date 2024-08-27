@@ -20,7 +20,7 @@ class AuthenticationControllerMain {
 
     // _generating a login token
     _generateToken(USER, callback) {
-        jwt.sign(USER, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 }, function (err, token) {
+        jwt.sign(USER, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 60 * 60 }, function (err, token) {
             console.log(token, err, 'dddddddddddddddddd  > > > > > > >> ')
             callback(token)
         });

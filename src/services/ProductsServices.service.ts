@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
-import { AuthServices } from "./AuthServices.service";
 import { ApiService } from "./ApiHelper.service";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import { _asyncronushFunction } from "../app/Common/Methods";
+import { IPostReviewData } from "../app/module/commonInterfaces";
 
 @Injectable({
     providedIn: 'root'
@@ -99,12 +97,25 @@ export class ProductsServices extends _asyncronushFunction {
     }
 
 
-    _getSingleProduct(ID: string, callback: (data: any) => void) {
+    _getSingleProduct(ID: string, callback?: (data: any) => void) {
         this._callTheAPi(this.api.get(`${ProductsServices.ProductUrl}/${ID}`), (success, error) => {
             if (error) {
                 // write a custom message
             } else {
-                callback(success)
+                if (callback) callback(success);
+            }
+        })
+    }
+
+    // ******************************* review api's **************************************
+
+
+    _postYourReview(data: IPostReviewData, callback?: (data: any) => void) {
+        this._callTheAPi(this.api.post(`${ProductsServices.ProductUrl}/${data?.productId}/review`, data, true), (success, error) => {
+            if (error) {
+                // write a custom message
+            } else {
+                if (callback) callback(success);
             }
         })
     }

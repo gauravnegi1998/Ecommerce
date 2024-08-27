@@ -25,7 +25,7 @@ ProductRouter.route('/')
 ProductRouter.route('/:id').get(ProductsController._getProductSingleApi)
 
 ProductRouter.route('/:id/review')
-    .get(AuthCheck._checkAuth, asyncErrorHandler(ReviewController._getReview))
+    .get(asyncErrorHandler(ReviewController._getReview))
     .post(AuthCheck._checkAuth, asyncErrorHandler(ReviewController._addReview))
 
 
