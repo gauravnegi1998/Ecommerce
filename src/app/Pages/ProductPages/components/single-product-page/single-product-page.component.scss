@@ -170,8 +170,35 @@
                 }
 
                 .stars {
+                    display: flex;
+                    align-items: center;
+
                     svg.star_rating_icon {
                         cursor: pointer;
+                    }
+
+                    span {
+                        margin-left: 12px;
+                        font-weight: 600;
+                    }
+                }
+
+                .purchase_date {
+                    .review-data {
+                        .a-color-secondary {
+                            &::after {
+                                content: '';
+                                border-right: 2px solid #8d8d8d;
+                                margin: 0 10px;
+                            }
+                        }
+
+                        .a-size-mini {
+                            font-size: 12px !important;
+                            line-height: 16px !important;
+                            color: #c45500 !important;
+                            font-weight: 600;
+                        }
                     }
                 }
             }
