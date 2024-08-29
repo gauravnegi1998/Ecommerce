@@ -26,6 +26,7 @@ export interface IPostReviewData {
     productId: string;
     ratingNumber: number;
     ratingMessage: string;
+    subject: string
 }
 
 export interface IReviewData extends IPostReviewData {

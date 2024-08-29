@@ -52,5 +52,6 @@ export class TextFieldComponent implements OnInit, ControlValueAccessor {
   _handleChange(event: any) {
     console.log(event)
     this.onChangeFormInputValue(event)
+    this.onChange.emit(event);
   }
 }

@@ -3,6 +3,9 @@ import SecureLocalStorage from "./secureStorage.service";
 import { ApiService } from "./ApiHelper.service";
 import _ from "lodash";
 import { Router } from "@angular/router";
+import { ICustomerData } from "../app/module/commonInterfaces";
+import { BehaviorSubject } from "rxjs";
+import { _asynchronousFunction } from "../app/Common/Methods";
 
 @Injectable({
     providedIn: "root"
@@ -11,19 +14,35 @@ import { Router } from "@angular/router";
 export class AuthServices {
 
     token!: string;
+    observable$ = new BehaviorSubject<ICustomerData | null>(null);
+    userData = this.observable$.asObservable();
 
     constructor(private loginStore: SecureLocalStorage, private router: Router, private api: ApiService, private localStore: SecureLocalStorage) {
         // this.token = this.loginStore.getItem('token') ? this.loginStore.getItem('token') : ""
+        if (this.localStore.getItem('userDetails')) {
+            this._setUserData(JSON.parse(this.localStore.getItem('userDetails')) || null)
+        }
     }
+
+
+
+    // get login userData
+
 
     // login Api
 
     _authenticationError(err: any) {
-        console.log(err, 'errerrerrerrerrerrerrerrerrerrerrerrerrerrerrerr')
         if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
             this.localStore.removeData('Token')
             this.router.navigateByUrl('/signin');
         }
+    }
+
+
+    // get login user detail's
+
+    _getUserDetails() {
+        // this.api.get(``)
     }
 
     loginUser(value: { email: string, password: string }) {
@@ -33,7 +52,7 @@ export class AuthServices {
                 this.router.navigateByUrl('/');
             }
         }).catch((err) => {
-            console.log(err)
+            console.log(err);
         })
     }
 
@@ -44,6 +63,17 @@ export class AuthServices {
     _setToken(token: string) {
         this.localStore.setItem('Token', token)
     }
+
+    _setUserData(newQuote: ICustomerData | null) {
+        this.localStore.setItem('userData', JSON.stringify(newQuote));
+        // function to update the value of the BehaviorSubject
+        this.observable$.next(newQuote);
+    }
+
+    _getUserData() {
+
+    }
+
 
     _isUserLogin() {
         return !!(this._getToken())

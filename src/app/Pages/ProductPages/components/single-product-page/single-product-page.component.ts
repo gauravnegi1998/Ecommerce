@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductsServices } from '../../../../../services/ProductsServices.service';
 import { IProductDataQty } from '../../../../module/commonInterfaces';
-import _ from 'lodash';
+import _, { ceil, round } from 'lodash';
 import { PipesModules } from '../../../../pipes/pipes.module';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
 import { Icons } from '../../../../Common/Icons';
@@ -24,9 +24,11 @@ import { debounceTime, Subject } from 'rxjs';
 export class SingleProductPageComponent implements OnInit {
 
   singleProductData: IProductDataQty | any = {};
+  activeReview: boolean = false;
   ratingAdded: number[] = [];
   FeelAboutRating: string = ""
   ratingText: string = "";
+  ratingSubject: string = "";
   ErrorMsg: string = "";
 
   private callProductApi = new Subject();
@@ -119,6 +121,7 @@ export class SingleProductPageComponent implements OnInit {
       productId: this.singleProductData?._id,
       ratingNumber: this.ratingAdded?.length,
       ratingMessage: this.ratingText,
+      subject: this.ratingSubject
     }
 
     if (this.ratingAdded?.length > 0) {
@@ -137,6 +140,10 @@ export class SingleProductPageComponent implements OnInit {
 
     console.log(this.ratingText, 'ddddddddddddddddddddddddddddddd')
 
+  }
+
+  get discountPercentage(): string {
+    return '-' + round(+this.singleProductData?.price?.offerPrice / +this.singleProductData?.price?.normalPrice * 100) + '%'
   }
 
   _addToCart() {

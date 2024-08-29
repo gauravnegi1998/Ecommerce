@@ -2,7 +2,7 @@ import { inject, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AuthServices } from "../../services/AuthServices.service";
 
-export class _asyncronushFunction {
+export class _asynchronousFunction {
 
     toaster = inject(ToastrService);
     auth = inject(AuthServices);

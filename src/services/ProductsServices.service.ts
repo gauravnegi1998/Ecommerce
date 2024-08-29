@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "./ApiHelper.service";
-import { _asyncronushFunction } from "../app/Common/Methods";
+import { _asynchronousFunction } from "../app/Common/Methods";
 import { IPostReviewData } from "../app/module/commonInterfaces";
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class ProductsServices extends _asyncronushFunction {
+export class ProductsServices extends _asynchronousFunction {
 
     categories: { _id: string, categoryId: number, categoryName: string }[] = [];
     successfulMsg: string = "";
@@ -108,7 +108,6 @@ export class ProductsServices extends _asyncronushFunction {
     }
 
     // ******************************* review api's **************************************
-
 
     _postYourReview(data: IPostReviewData, callback?: (data: any) => void) {
         this._callTheAPi(this.api.post(`${ProductsServices.ProductUrl}/${data?.productId}/review`, data, true), (success, error) => {

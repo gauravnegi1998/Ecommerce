@@ -10,6 +10,27 @@
                     <p class="bold">Description :</p>
                     <p>{{singleProductData?.description}}</p>
                 </div>
+                <div class="price_sec">
+                    <div>
+                        <span aria-hidden="true"
+                            class="a-size-large a-color-price savingPriceOverride aok-align-center reinventPriceSavingsPercentageMargin savingsPercentage">
+                            {{discountPercentage}}
+                        </span>
+                        <span aria-hidden="true">
+                            <!-- <span class="a-price-symbol">₹</span> -->
+                            <span class="a-price-whole">
+                                {{singleProductData?.price?.offerPrice | currency}}
+                            </span>
+                        </span>
+                    </div>
+                    <span id="taxInclusiveMessage" class="a-size-mini a-color-base aok-align-center aok-nowrap">
+                    </span>
+                    <div class="mrp_price">
+                        <span class="a-size-small aok-offscreen">
+                            M.R.P.:
+                            {{singleProductData?.price?.normalPrice|currency}} </span>
+                    </div>
+                </div>
                 <!-- <div>{{singleProductData | json}}</div> -->
                 <div class="action_section">
                     <div class="qty_sec">
@@ -34,10 +55,10 @@
                 <h2>Review's</h2>
                 <div>{{(singleProductData.reviews | length)||0}}</div>
             </div>
-            <p class="add_review">Add a review</p>
+            <p class="add_review" (click)="activeReview =!activeReview">Add a review</p>
         </div>
         <div class="customer_reviews">
-            @if(isUserLogin){
+            @if(isUserLogin && activeReview){
             <div class="reviewAdd_Form">
                 <div class="rating_text">
                     <div class="rateSelection">
@@ -48,7 +69,9 @@
                     </div>
                     <span *ngIf="FeelAboutRating">{{FeelAboutRating}} !</span>
                 </div>
-                <textarea rows="5" (change)="_handleTextChange($event)"></textarea>
+                <app-textfield [label]="'Subject'" [placeholder]="'Enter your subject'"
+                    (onChange)="ratingSubject = $event" />
+                <textarea rows="5" placeholder="Message" (change)="_handleTextChange($event)"></textarea>
                 <div>
                     <app-button (_onClick)="_handleReview()">Add</app-button>
                     <p class="error-msg" *ngIf="!!ErrorMsg">{{ErrorMsg}}</p>
@@ -63,7 +86,7 @@
                         <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i"
                             [ngClass]="{'rating_icons':(rating<=review?.ratingNumber)}" name="star" size="30"
                             color="#999879" fill="#ff0" />
-                        <span>Best product</span>
+                        <span>{{review?.subject}}</span>
                     </div>
                     <div class="purchase_date">
                         <span data-hook="review-date" class="a-size-base a-color-secondary review-date">
