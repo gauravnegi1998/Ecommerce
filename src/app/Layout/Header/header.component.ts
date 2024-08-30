@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { InputModules } from '../../inputs/inputs.module';
 import { RouterModule } from '@angular/router';
+import { AuthServices } from '../../../services/AuthServices.service';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,20 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
+  private auth = inject(AuthServices);
+  isAuthenticate: boolean = false;
 
-  _onLoginClick(events: any) {
+  ngOnInit(): void {
+    this.auth.observable$.subscribe((data) => {
+      console.log(data, 'ddddddddddddddddddddddddddddddddddd > > > > > > > > ')
+      this.isAuthenticate = data ? true : false;
+    })
+  }
 
+  _onLogOutClick(events: Event) {
+    this.auth._handleLogout();
   }
 
 }

@@ -13,11 +13,18 @@
         </div>
 
         <div>
+            @if(!isAuthenticate){
             <a [routerLink]="'/signin'">
                 <app-button [name]="'loginButton'">
                     login
                 </app-button>
             </a>
+            }@else{
+            <app-button [name]="'loginButton'" (_onClick)="_onLogOutClick($event)">
+                LogOut
+            </app-button>
+            }
+
         </div>
     </nav>
 </header>

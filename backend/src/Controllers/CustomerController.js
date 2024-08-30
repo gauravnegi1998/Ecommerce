@@ -43,7 +43,6 @@ const _getAllCustomerData = async (req, res) => {
 
 
         let AllCustomerData = new ApiFeatures(customerModel.find(), req.query).filter().limitedField().pagination();
-        console.log(new ApiFeatures(customerModel.find(), req.query), 'ddddddddddddddddddddddddd');
 
         AllCustomerData = await AllCustomerData.query;
         // let AllCustomerData = await customerModel.find(OBJECT_VALUE).select('-__v').skip(SKIP).limit(LIMIT);

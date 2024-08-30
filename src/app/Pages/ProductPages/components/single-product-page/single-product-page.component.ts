@@ -32,10 +32,12 @@ export class SingleProductPageComponent implements OnInit {
   ErrorMsg: string = "";
 
   private callProductApi = new Subject();
+  private auth = inject(AuthServices);
 
   constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) { }
 
-  isUserLogin = inject(AuthServices)._isUserLogin();
+
+  isUserLogin: boolean = false;
 
 
   ngOnInit(): void {
@@ -43,6 +45,10 @@ export class SingleProductPageComponent implements OnInit {
     this._getSingleProductData();
     this.callProductApi.pipe(debounceTime(500)).subscribe((r) => {
       this._getSingleProductData()
+    })
+
+    this.auth.observable$.subscribe((user) => {
+      this.isUserLogin = user ? true : false;
     })
   }
 
@@ -130,6 +136,8 @@ export class SingleProductPageComponent implements OnInit {
           this.callProductApi.next(response);
           this.ratingAdded = [];
           this.ratingText = "";
+          this.ratingSubject = "";
+          this.FeelAboutRating = "";
         }
       });
     } else {

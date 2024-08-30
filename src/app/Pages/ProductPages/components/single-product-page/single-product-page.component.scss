@@ -184,7 +184,7 @@
                 margin: 25px 0;
                 display: flex;
                 flex-direction: column;
-                gap: 30px;
+                gap: 25px;
 
                 .details {
                     h3 {
@@ -222,6 +222,36 @@
                             line-height: 16px !important;
                             color: #c45500 !important;
                             font-weight: 600;
+                        }
+                    }
+                }
+
+                .edit_section {
+                    .edit {
+                        color: #ff6030;
+                        font-weight: 600;
+                        cursor: pointer;
+
+                        &:hover {
+                            border-bottom: 1px solid #ff6030;
+                        }
+                    }
+
+                    .border_class {
+                        &::after {
+                            content: '';
+                            border-right: 2px solid #8d8d8d;
+                            margin: 0 8px;
+                        }
+                    }
+
+                    .delete {
+                        color: #f00;
+                        font-weight: 600;
+                        cursor: pointer;
+
+                        &:hover {
+                            border-bottom: 1px solid #f00;
                         }
                     }
                 }

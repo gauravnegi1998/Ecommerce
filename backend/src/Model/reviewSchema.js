@@ -26,6 +26,10 @@ const ReviewSchema = mongoose.Schema({
         type: String,
         required: [true, 'this field is required']
     },
+    subject: {
+        type: String,
+        required: [true, 'this field is required']
+    },
     createdAt: {
         type: Date,
         default: Date.now()

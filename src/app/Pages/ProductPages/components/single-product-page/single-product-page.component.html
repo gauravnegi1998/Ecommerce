@@ -55,7 +55,7 @@
                 <h2>Review's</h2>
                 <div>{{(singleProductData.reviews | length)||0}}</div>
             </div>
-            <p class="add_review" (click)="activeReview =!activeReview">Add a review</p>
+            <p *ngIf="isUserLogin" class="add_review" (click)="activeReview =!activeReview">Add a review</p>
         </div>
         <div class="customer_reviews">
             @if(isUserLogin && activeReview){
@@ -69,9 +69,10 @@
                     </div>
                     <span *ngIf="FeelAboutRating">{{FeelAboutRating}} !</span>
                 </div>
-                <app-textfield [label]="'Subject'" [placeholder]="'Enter your subject'"
+                <app-textfield [label]="'Subject'" [value]="ratingSubject" [placeholder]="'Enter your subject'"
                     (onChange)="ratingSubject = $event" />
-                <textarea rows="5" placeholder="Message" (change)="_handleTextChange($event)"></textarea>
+                <textarea rows="5" placeholder="Message" [value]="ratingText"
+                    (change)="_handleTextChange($event)"></textarea>
                 <div>
                     <app-button (_onClick)="_handleReview()">Add</app-button>
                     <p class="error-msg" *ngIf="!!ErrorMsg">{{ErrorMsg}}</p>
@@ -80,29 +81,37 @@
             }
             <div class="reviews">
                 @for(review of singleProductData?.reviews; track review; let i= $index){
-                <div class="details">
-                    <h3>{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
-                    <div class="stars">
-                        <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i"
-                            [ngClass]="{'rating_icons':(rating<=review?.ratingNumber)}" name="star" size="30"
-                            color="#999879" fill="#ff0" />
-                        <span>{{review?.subject}}</span>
-                    </div>
-                    <div class="purchase_date">
-                        <span data-hook="review-date" class="a-size-base a-color-secondary review-date">
-                            Reviewed in India on {{review?.updatedAt|dateFormat}}
-                        </span>
-                        <div class="a-row a-spacing-mini review-data review-format-strip">
-                            <span class="a-color-secondary">Colour: Dark Grey</span>
-                            <i class="a-icon a-icon-text-separator" role="img" aria-label="|"></i>
-                            <span class="a-size-mini a-color-state a-text-bold">Verified Purchase</span>
+                <ng-container>
+                    <div class="details">
+                        <h3>{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
+                        <div class="stars">
+                            <lucide-icon *ngFor="let rating of _arrayConverter(5); index as i"
+                                [ngClass]="{'rating_icons':(rating<=review?.ratingNumber)}" name="star" size="30"
+                                color="#999879" fill="#ff0" />
+                            <span>{{review?.subject}}</span>
+                        </div>
+                        <div class="purchase_date">
+                            <span data-hook="review-date" class="a-size-base a-color-secondary review-date">
+                                Reviewed in India on {{review?.updatedAt|dateFormat}}
+                            </span>
+                            <div class="a-row a-spacing-mini review-data review-format-strip">
+                                <span class="a-color-secondary">Colour: Dark Grey</span>
+                                <i class="a-icon a-icon-text-separator" role="img" aria-label="|"></i>
+                                <span class="a-size-mini a-color-state a-text-bold">Verified Purchase</span>
+                            </div>
+                        </div>
+                        <div class="rating_desc">
+                            <p>{{review?.ratingMessage}} </p>
+                        </div>
+
+                        <div class="edit_section ">
+                            <span class="edit">Edit</span>
+                            <span class="border_class"></span>
+                            <span class="delete">Delete</span>
                         </div>
                     </div>
-                    <div class="rating_desc">
-                        <p>{{review?.ratingMessage}} </p>
-                    </div>
-
-                </div>
+                    <span class="divider"></span>
+                </ng-container>
                 }
 
             </div>

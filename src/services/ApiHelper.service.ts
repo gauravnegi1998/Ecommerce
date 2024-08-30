@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { devEnvironment } from "../environments/dev.environment";
 import _ from 'lodash';
 import SecureLocalStorage from "./secureStorage.service";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +13,24 @@ export class ApiService {
 
     private apiRootUrl: string = devEnvironment.apiUrl;
 
-    constructor(private Https: HttpClient, private localStore: SecureLocalStorage) { }
+    constructor(private Https: HttpClient, private router: Router, private localStore: SecureLocalStorage) { }
+
+    _authenticationError(err: any, callback: () => void) {
+        if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
+            this.localStore.removeData('Token')
+            this.router.navigateByUrl('/signin');
+            return;
+        }
+
+        callback();
+    }
+
 
     private createHeader(rest: boolean = false): HttpHeaders {
         let headers: HttpHeaders = new HttpHeaders({
             'Content-Type': "application/json",
             'Accept': 'application/json',
         })
-        console.log(rest, this.localStore.getItem('Token'), '???????????????????')
         if (rest) {
             headers = headers.set('authorization', (this.localStore?.getItem('Token')) ? `Bearer ${this.localStore?.getItem('Token')}` : '');
         }
@@ -33,7 +44,7 @@ export class ApiService {
         return new Promise<any>((resolve, reject) => {
             _getRequest.subscribe({
                 next: (data: any) => resolve(data),
-                error: (err: any) => reject(err)
+                error: (err: any) => this._authenticationError(err, () => reject(err))
             })
         })
     }
@@ -45,7 +56,7 @@ export class ApiService {
         return new Promise<any>((resolve, reject) => {
             _postRequest.subscribe({
                 next: (data: any) => resolve(data),
-                error: (err: any) => reject(err)
+                error: (err: any) => this._authenticationError(err, () => reject(err))
             })
         })
     }
@@ -56,7 +67,7 @@ export class ApiService {
         return new Promise<any>((resolve, reject) => {
             _PUT_REQUEST.subscribe({
                 next: (data) => resolve(data),
-                error: err => reject(err)
+                error: err => this._authenticationError(err, () => reject(err))
             })
         })
     }
@@ -67,7 +78,7 @@ export class ApiService {
         return new Promise<any>((resolve, reject) => {
             DELETE_REQUEST.subscribe({
                 next: (response) => resolve(response),
-                error: (error) => reject(error)
+                error: (error) => this._authenticationError(error, () => reject(error))
             })
         })
     }

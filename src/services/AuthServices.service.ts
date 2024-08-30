@@ -5,7 +5,6 @@ import _ from "lodash";
 import { Router } from "@angular/router";
 import { ICustomerData } from "../app/module/commonInterfaces";
 import { BehaviorSubject } from "rxjs";
-import { _asynchronousFunction } from "../app/Common/Methods";
 
 @Injectable({
     providedIn: "root"
@@ -15,15 +14,11 @@ export class AuthServices {
 
     token!: string;
     observable$ = new BehaviorSubject<ICustomerData | null>(null);
-    userData = this.observable$.asObservable();
+    // userData = this.observable$.asObservable();
 
-    constructor(private loginStore: SecureLocalStorage, private router: Router, private api: ApiService, private localStore: SecureLocalStorage) {
-        // this.token = this.loginStore.getItem('token') ? this.loginStore.getItem('token') : ""
-        if (this.localStore.getItem('userDetails')) {
-            this._setUserData(JSON.parse(this.localStore.getItem('userDetails')) || null)
-        }
-    }
+    constructor(private loginStore: SecureLocalStorage, private router: Router, private api: ApiService, private localStore: SecureLocalStorage) { }
 
+    clearTimeOUt: any = null;
 
 
     // get login userData
@@ -31,24 +26,14 @@ export class AuthServices {
 
     // login Api
 
-    _authenticationError(err: any) {
-        if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
-            this.localStore.removeData('Token')
-            this.router.navigateByUrl('/signin');
-        }
-    }
-
-
-    // get login user detail's
-
-    _getUserDetails() {
-        // this.api.get(``)
-    }
-
     loginUser(value: { email: string, password: string }) {
         this.api.post('/login', value).then((response) => {
             if (_.eq(response?.status, 'ok')) {
-                this._setToken(response?.token);
+                const { token, userData, expireDate } = response;
+                this._setToken(token);
+                this._setUserData(userData);
+                this._setTokenExpireData(expireDate);
+                this._autoLogout(expireDate * 1000)
                 this.router.navigateByUrl('/');
             }
         }).catch((err) => {
@@ -56,7 +41,23 @@ export class AuthServices {
         })
     }
 
+    _handleLogout() {
+        this.localStore.removeData('userData');
+        this.localStore.removeData('expireDate');
+        this.localStore.removeData('Token');
+        this.localStore.removeData('expireDate');
+        clearTimeout(this.clearTimeOUt);
+        this.observable$.next(null);
+
+        this.router.navigateByUrl('/')
+    }
+
+    // login user details
+
     _getToken() {
+        if (this._getTokenExpireData() < new Date().getTime()) {
+            return null;
+        }
         return this.loginStore.getItem('Token');
     }
 
@@ -64,19 +65,51 @@ export class AuthServices {
         this.localStore.setItem('Token', token)
     }
 
-    _setUserData(newQuote: ICustomerData | null) {
-        this.localStore.setItem('userData', JSON.stringify(newQuote));
-        // function to update the value of the BehaviorSubject
-        this.observable$.next(newQuote);
+    _autoLogin() {
+        let userData: ICustomerData = this.localStore.getItem('userData') ? JSON.parse(this.localStore.getItem('userData')) : null;
+        const token = this._getToken();
+        if (!userData) {
+            return;
+        }
+        if (token) {
+            this.observable$.next(userData);
+        }
+
+        const expireTime = this._getTokenExpireData() - new Date().getTime();
+        this._autoLogout(expireTime)
+    }
+
+    _autoLogout(timestamp: number) {
+        // console.log(timestamp, 'timestamp')
+        this.clearTimeOUt = setTimeout(() => {
+            this._handleLogout();
+        }, timestamp)
     }
 
     _getUserData() {
-
+        return this.localStore.getItem('userData') ? this.localStore.getItem('userData') : null;
     }
 
+    _setUserData(newQuote: ICustomerData | null) {
+        this.localStore.setItem('userData', JSON.stringify(newQuote));
+        this.observable$.next(newQuote);
+    }
+
+    // Authentication
 
     _isUserLogin() {
         return !!(this._getToken())
+    }
+
+    //  expire time selection
+    _getTokenExpireData() {
+        let ExpireDate = this.localStore.getItem('expireDate');
+        return Number(ExpireDate);
+    }
+
+    _setTokenExpireData(time: number) {
+        // console.log()
+        this.localStore.setItem('expireDate', String(new Date().getTime() + (time * 1000)))
     }
 
 

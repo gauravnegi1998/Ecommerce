@@ -44,7 +44,7 @@ export class UserListingComponent implements OnInit {
     deleteUser!: ICustomerData;
     public config: PaginationInstance = {
         id: 'listing_section',
-        itemsPerPage: 9,
+        itemsPerPage: 6,
         currentPage: 1,
         totalItems: 10
     };
@@ -84,7 +84,6 @@ export class UserListingComponent implements OnInit {
                 }
             }).catch((err) => {
                 console.log(err?.error, 'ddddddddddddddddddddddddddddd')
-                this.auth._authenticationError(err);
             })
     }
 

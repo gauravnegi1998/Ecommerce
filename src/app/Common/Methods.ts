@@ -24,7 +24,6 @@ export class _asynchronousFunction {
         }).catch((err) => {
             this.toaster.error(err.message);
             this.error = err;
-            this.auth._authenticationError(err);
         })
         if ((this.success || this.error) && callbackFunction) {
             callbackFunction(this.success, this.error)
