@@ -9,6 +9,7 @@ import { ApiService } from '../../../../services/ApiHelper.service';
 import { SignupAndUpdateComponent } from '../components/signupAndUpdate/signupAndUpdate.component';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AuthServices } from '../../../../services/AuthServices.service';
 
 @Component({
   selector: 'app-signup',
@@ -29,7 +30,7 @@ export class SignupComponent implements OnInit {
   errors: ICountryStateError = { countryError: "", stateError: "" };
   responseMsg: { error: boolean, msg: string } = { error: false, msg: "" };
 
-  constructor(private fb: UntypedFormBuilder, private api: ApiService, private toster: ToastrService, private router: Router) {
+  constructor(private auth: AuthServices, private fb: UntypedFormBuilder, private api: ApiService, private toster: ToastrService, private router: Router) {
     this.signupFormGroup = this.fb.group({
       firstName: new UntypedFormControl('', Validators.required),
       lastName: new UntypedFormControl('', Validators.required),
@@ -80,9 +81,9 @@ export class SignupComponent implements OnInit {
         if (res?.status === 'ok') {
           this.toster.success(`${res?.message}`);
           this.responseMsg = { error: false, msg: res?.message };
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('/listing')
-          // }, 2000)
+          setTimeout(() => {
+            this.auth.loginUser({ email: data?.value?.email, password: data?.value?.password })
+          }, 2000)
         } else {
           this.responseMsg = { error: true, msg: res?.message };
         }

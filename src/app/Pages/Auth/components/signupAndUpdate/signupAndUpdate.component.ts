@@ -9,6 +9,7 @@ import { ApiService } from '../../../../../services/ApiHelper.service';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
 import { Icons } from '../../../../Common/Icons';
 import { Router } from '@angular/router';
+import { AuthServices } from '../../../../../services/AuthServices.service';
 
 @Component({
     selector: 'app-signupAndUpdate',

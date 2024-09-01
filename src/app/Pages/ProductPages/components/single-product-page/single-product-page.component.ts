@@ -3,7 +3,7 @@ import { InputModules } from '../../../../inputs/inputs.module';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductsServices } from '../../../../../services/ProductsServices.service';
-import { IProductDataQty } from '../../../../module/commonInterfaces';
+import { IProductDataQty, IReviewData } from '../../../../module/commonInterfaces';
 import _, { ceil, round } from 'lodash';
 import { PipesModules } from '../../../../pipes/pipes.module';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
@@ -25,6 +25,7 @@ export class SingleProductPageComponent implements OnInit {
 
   singleProductData: IProductDataQty | any = {};
   activeReview: boolean = false;
+  editActive: string = "";
   ratingAdded: number[] = [];
   FeelAboutRating: string = ""
   ratingText: string = "";
@@ -37,7 +38,7 @@ export class SingleProductPageComponent implements OnInit {
   constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) { }
 
 
-  isUserLogin: boolean = false;
+  isUserLogin: string = "";
 
 
   ngOnInit(): void {
@@ -48,7 +49,7 @@ export class SingleProductPageComponent implements OnInit {
     })
 
     this.auth.observable$.subscribe((user) => {
-      this.isUserLogin = user ? true : false;
+      this.isUserLogin = user ? user?._id : "";
     })
   }
 
@@ -59,6 +60,7 @@ export class SingleProductPageComponent implements OnInit {
       next: (data) => {
         const ID = data.get('id') || "";
         this.productService._getSingleProduct(ID, (response) => {
+          console.log('respose', response);
           this.singleProductData = { ...response.data, quantity: 1 };
         })
       },
@@ -119,6 +121,13 @@ export class SingleProductPageComponent implements OnInit {
     this.ratingText = e?.target?.value;
   }
 
+  _handleEditReview(ReviewData: IReviewData) {
+    this.editActive = ReviewData._id;
+    this.ratingAdded = _.range(1, ReviewData?.ratingNumber + 1);
+    this.ratingText = ReviewData.ratingMessage;
+    this.ratingSubject = ReviewData.subject;
+  }
+
   // call function on add button click
 
   _handleReview() {
@@ -133,11 +142,11 @@ export class SingleProductPageComponent implements OnInit {
     if (this.ratingAdded?.length > 0) {
       this.productService._postYourReview(ReviewData, (response) => {
         if (response?.status === "ok") {
-          this.callProductApi.next(response);
           this.ratingAdded = [];
           this.ratingText = "";
           this.ratingSubject = "";
           this.FeelAboutRating = "";
+          this.callProductApi.next(response);
         }
       });
     } else {

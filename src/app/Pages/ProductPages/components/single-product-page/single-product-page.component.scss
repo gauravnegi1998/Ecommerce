@@ -127,11 +127,13 @@
             }
 
             .add_review {
-                font-size: 18px;
+                font-size: 16px;
                 margin: 0;
                 padding-right: 15px;
                 line-height: 30px;
                 cursor: pointer;
+                font-weight: 600;
+                color: #ff9222;
 
                 &:hover {
                     color: #ff6030;
@@ -173,10 +175,9 @@
                     }
                 }
 
-                button {
-                    width: 100%;
-                    max-width: 150px;
-                    padding: 10px 0;
+                .actions_review_button {
+                    display: flex;
+                    gap: 20px;
                 }
             }
 

@@ -36,6 +36,7 @@ class AuthenticationControllerMain {
             if (USER?.email) {
 
                 const USER_DATA = _.pick(USER, ['_id', 'createdAt', 'zipCode', 'address', 'country', "address2", "birthday", "city", "state", 'role', 'isUserLogin', 'email', 'firstName', 'lastName', 'phoneNumber']);
+                console.log(USER_DATA, 'USER_DATAUSER_DATAUSER_DATA')
                 this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
                     this._generateToken(USER_DATA, (token) => {
                         console.log(token, result, "token, result");
