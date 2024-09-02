@@ -3,7 +3,7 @@ import { InputModules } from '../../../../inputs/inputs.module';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductsServices } from '../../../../../services/ProductsServices.service';
-import { IProductDataQty, IReviewData } from '../../../../module/commonInterfaces';
+import { IPostReviewData, IProductDataQty, IReviewData, IReviewUpdateAndPostPayload } from '../../../../module/commonInterfaces';
 import _, { ceil, round } from 'lodash';
 import { PipesModules } from '../../../../pipes/pipes.module';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
@@ -35,19 +35,18 @@ export class SingleProductPageComponent implements OnInit {
   private callProductApi = new Subject();
   private auth = inject(AuthServices);
 
-  constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) { }
+  constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) {
+    this.callProductApi.pipe(debounceTime(500)).subscribe((r) => {
+      this._getSingleProductData()
+    })
+  }
 
 
   isUserLogin: string = "";
 
 
   ngOnInit(): void {
-    console.log(this.activeRoute, 'this.activeRoute  > > > > > > > > >')
     this._getSingleProductData();
-    this.callProductApi.pipe(debounceTime(500)).subscribe((r) => {
-      this._getSingleProductData()
-    })
-
     this.auth.observable$.subscribe((user) => {
       this.isUserLogin = user ? user?._id : "";
     })
@@ -130,34 +129,54 @@ export class SingleProductPageComponent implements OnInit {
 
   // call function on add button click
 
-  _handleReview() {
+  _handleReview(action: string, response?: IReviewData) {
 
-    const ReviewData = {
-      productId: this.singleProductData?._id,
-      ratingNumber: this.ratingAdded?.length,
-      ratingMessage: this.ratingText,
-      subject: this.ratingSubject
-    }
-
-    if (this.ratingAdded?.length > 0) {
-      this.productService._postYourReview(ReviewData, (response) => {
-        if (response?.status === "ok") {
-          this.ratingAdded = [];
-          this.ratingText = "";
-          this.ratingSubject = "";
-          this.FeelAboutRating = "";
-          this.callProductApi.next(response);
-        }
-      });
+    if (action === 'cancel') {
+      this.ratingAdded = [];
+      this.ratingText = "";
+      this.ratingSubject = "";
+      this.FeelAboutRating = "";
+      this.editActive = "";
+      this.activeReview = false;
+      this.callProductApi.next(response || null);
     } else {
-      this.ErrorMsg = 'Please provide the rating';
-      setTimeout(() => this.ErrorMsg = "", 2000);
+
+      let ReviewData = {
+        productId: this.singleProductData?._id,
+        ratingNumber: this.ratingAdded?.length,
+        ratingMessage: this.ratingText,
+        subject: this.ratingSubject
+      };
+
+      if (this.ratingAdded?.length > 0) {
+        let _callData = (data: IReviewUpdateAndPostPayload, callback: (data: any) => void) => this.productService._postYourReview(data, callback);
+        if (this.editActive) {
+          _callData = (data: IReviewUpdateAndPostPayload, callback: (data: any) => void) => this.productService._updateYourReview(data, callback);
+        }
+
+        _callData.call(this, { id: this.editActive, data: ReviewData }, (response) => {
+          if (response?.status === "ok") {
+            this._handleReview('cancel', response);
+          }
+        })
+
+      } else {
+        this.ErrorMsg = 'Please provide the rating';
+        setTimeout(() => this.ErrorMsg = "", 2000);
+      }
     }
-
-
-    console.log(this.ratingText, 'ddddddddddddddddddddddddddddddd')
 
   }
+
+  _deleteReview(id: string, productId: string) {
+    this.productService._deleteYourReview(id, productId, (res) => {
+      if (res?.status === "ok") {
+        this.callProductApi.next('deleted');
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    })
+  }
+
 
   get discountPercentage(): string {
     return '-' + round(+this.singleProductData?.price?.offerPrice / +this.singleProductData?.price?.normalPrice * 100) + '%'

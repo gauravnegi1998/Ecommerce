@@ -9,9 +9,9 @@
                 <img src="{{product?.normalImage}}" />
             </div>
             <div class="product_details">
-                <a href="/products/{{product?._id}}" class="title">
-                    <h3>{{product?.name}}</h3>
-                </a>
+                <div class="link title" [routerLink]="'/products/'+product?._id">
+                    <h3 class="hand_cursor">{{product?.name}}</h3>
+                </div>
                 <!-- {{product?.['avaliableStock']}} -->
                 <div class="action_section">
                     <div class="price_and_quantity">

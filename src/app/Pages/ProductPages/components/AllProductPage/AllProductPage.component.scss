@@ -51,13 +51,9 @@
             justify-content: space-between;
 
             // margin-top: 6px;
-            a {
+            div.link {
                 color: #000;
                 text-decoration: none;
-
-                &:hover {
-                    color: #ff6a00;
-                }
 
                 h3 {
                     display: -webkit-box;
@@ -67,6 +63,10 @@
                     -webkit-line-clamp: 3;
                     margin-bottom: 30px;
                     font-size: 18px;
+
+                    &:hover {
+                        color: #ff6a00;
+                    }
                 }
             }
 

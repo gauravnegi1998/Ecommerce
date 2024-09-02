@@ -11,11 +11,7 @@ export const routes: Routes = [
                 pathMatch: "full",
                 loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
             },
-            {
-                path: 'collections',
-                pathMatch: "full",
-                loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
-            },
+
             {
                 path: 'about',
                 pathMatch: "full",
@@ -24,7 +20,7 @@ export const routes: Routes = [
             {
                 path: 'contactus',
                 pathMatch: "full",
-                loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
+                loadComponent: () => import('./Pages/collections/collection.component').then((m) => m.CollectionsComponent),
             },
             {
                 path: 'signin',
@@ -58,6 +54,10 @@ export const routes: Routes = [
             {
                 path: 'products',
                 loadChildren: () => import('./Pages/ProductPages/ProductPage-routes').then(features => features.ProductPagesRoutes),
+            },
+            {
+                path: 'collections',
+                loadChildren: () => import('./Pages/collections/collection-routes').then((m) => m.CollectionsComponentRoutes),
             },
             {
                 path: '**',

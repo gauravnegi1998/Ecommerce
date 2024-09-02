@@ -23,6 +23,7 @@ export interface ICustomerData {
 
 
 export interface IPostReviewData {
+    id?: string;
     productId: string;
     ratingNumber: number;
     ratingMessage: string;
@@ -33,6 +34,13 @@ export interface IReviewData extends IPostReviewData {
     _id: string;
     customer: ICustomerData;
     createdAt: Date
+}
+
+// review Update and Post payload interface
+
+export interface IReviewUpdateAndPostPayload {
+    id: string,
+    data: IPostReviewData;
 }
 
 export interface IProductData {

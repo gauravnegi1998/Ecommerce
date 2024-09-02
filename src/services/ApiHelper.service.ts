@@ -30,6 +30,9 @@ export class ApiService {
         let headers: HttpHeaders = new HttpHeaders({
             'Content-Type': "application/json",
             'Accept': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+            'Pragma': 'no-cache',
+            'Expires': '0'
         })
         if (rest) {
             headers = headers.set('authorization', (this.localStore?.getItem('Token')) ? `Bearer ${this.localStore?.getItem('Token')}` : '');
@@ -72,8 +75,8 @@ export class ApiService {
         })
     }
 
-    public delete(url: string): Promise<any> {
-        let headers = this.createHeader();
+    public delete(url: string, header: boolean = false): Promise<any> {
+        let headers = this.createHeader(header);
         const DELETE_REQUEST = this.Https.delete(this.apiRootUrl + url, { headers });
         return new Promise<any>((resolve, reject) => {
             DELETE_REQUEST.subscribe({

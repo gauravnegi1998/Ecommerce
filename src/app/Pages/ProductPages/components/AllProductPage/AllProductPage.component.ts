@@ -9,11 +9,12 @@ import { IProductDataQty } from "../../../../module/commonInterfaces";
 import { PipesModules } from "../../../../pipes/pipes.module";
 import _ from "lodash";
 import { OutSideClickDirective } from "../../../../directives/outside-click.directive";
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: "app-allProductPage",
     standalone: true,
-    imports: [OutSideClickDirective, CommonModule, InputModules, NgxPaginationModule, LucideAngularModule, PipesModules],
+    imports: [RouterLink, OutSideClickDirective, CommonModule, InputModules, NgxPaginationModule, LucideAngularModule, PipesModules],
     templateUrl: './AllProductPage.component.html',
     styleUrl: './AllProductPage.component.scss',
     providers: [

@@ -19,7 +19,7 @@ class ProductsControllerClass {
     _getProductApi = async (req, res) => {
         const LIMIT = req.query?.limit || 9;
         const PAGE = req.query?.page ? (+req.query?.page - 1) * +LIMIT : 0
-        console.log(LIMIT, PAGE, 'LIMIT,PAGE')
+
         const CategoryData = await ProductModel.aggregate([
             {
                 $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
@@ -72,6 +72,7 @@ class ProductsControllerClass {
         //     },
         // }
 
+
         if (CategoryData) {
             res.status(200).json({ status: 'ok', data: CategoryData })
         }
@@ -101,8 +102,8 @@ class ProductsControllerClass {
                 }
             }
         ]).then(r => r[0])
-        // const DATA =  await ProductModel.findById(ID);
-        notFoundError(DATA, `No prouct found with given ID ${ID}`, next);
+        // const DATA = await ProductModel.findById(ID);
+        // notFoundError(DATA, `No prouct found with given ID ${ID}`, next);
 
         return res.status(200).json({ status: 'ok', data: DATA });
     }

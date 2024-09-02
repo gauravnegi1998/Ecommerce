@@ -17,7 +17,6 @@ export class _asynchronousFunction {
             if (result.status === 'ok') {
                 // if (callbackFunction) this.callbackFunction(result);
                 this.success = result;
-                console.log('ddddddddddddddddddddddddddd', result)
             } else {
                 this.toaster.error(result.message);
             }
@@ -28,7 +27,7 @@ export class _asynchronousFunction {
         if ((this.success || this.error) && callbackFunction) {
             callbackFunction(this.success, this.error)
         }
-        return this
+        // return this
     }
 
 }

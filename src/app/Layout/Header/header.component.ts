@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.observable$.subscribe((data) => {
-      console.log(data, 'ddddddddddddddddddddddddddddddddddd > > > > > > > > ')
       this.isAuthenticate = data ? true : false;
     })
   }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "./ApiHelper.service";
 import { _asynchronousFunction } from "../app/Common/Methods";
 import { IPostReviewData } from "../app/module/commonInterfaces";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,7 @@ import { IPostReviewData } from "../app/module/commonInterfaces";
 export class ProductsServices extends _asynchronousFunction {
 
     categories: { _id: string, categoryId: number, categoryName: string }[] = [];
+    categoryData$ = new BehaviorSubject<{ _id: string, categoryId: number, categoryName: string }[]>([])
     successfulMsg: string = "";
     errorMsg: string = "";
     static CategoryUrl: string = "/items/web-categories";
@@ -38,6 +40,7 @@ export class ProductsServices extends _asynchronousFunction {
             .then((result) => {
                 if (result.status === 'ok') {
                     this.categories = result?.data;
+                    this.categoryData$.next(result?.data);
                     if (callback) callback(result?.data)
                 } else {
                     this.errorMsg = result?.message
@@ -83,7 +86,7 @@ export class ProductsServices extends _asynchronousFunction {
 
 
     _getSingleProduct(ID: string, callback?: (data: any) => void) {
-        this._callTheAPi(this.api.get(`${ProductsServices.ProductUrl}/${ID}`), (success, error) => {
+        this._callTheAPi(this.api.get(`${ProductsServices.ProductUrl}/${ID}?timeStamp=${new Date().getTime()}`), (success, error) => {
             if (error) {
                 // write a custom message
             } else {
@@ -94,8 +97,28 @@ export class ProductsServices extends _asynchronousFunction {
 
     // ******************************* review api's **************************************
 
-    _postYourReview(data: IPostReviewData, callback?: (data: any) => void) {
-        this._callTheAPi(this.api.post(`${ProductsServices.ProductUrl}/${data?.productId}/review`, data, true), (success, error) => {
+    _postYourReview(data: { id: string, data: IPostReviewData }, callback?: (data: any) => void) {
+        this._callTheAPi(this.api.post(`${ProductsServices.ProductUrl}/${data?.data?.productId}/review`, data?.data, true), (success, error) => {
+            if (error) {
+                // write a custom message
+            } else {
+                if (callback) callback(success);
+            }
+        })
+    }
+
+    _updateYourReview(data: { id: string, data: IPostReviewData }, callback?: (data: any) => void) {
+        this._callTheAPi(this.api.put(`${ProductsServices.ProductUrl}/${data?.data?.productId}/review`, data, true), (success, error) => {
+            if (error) {
+                // write a custom message
+            } else {
+                if (callback) callback(success);
+            }
+        })
+    }
+
+    _deleteYourReview(id: string, productId: string, callback?: (data: any) => void) {
+        this._callTheAPi(this.api.delete(`${ProductsServices.ProductUrl}/${productId}/review/${id}`, true), (success, error) => {
             if (error) {
                 // write a custom message
             } else {

@@ -13,8 +13,8 @@
         <textarea rows="5" placeholder="Message" [value]="ratingText" (change)="_handleTextChange($event)"></textarea>
         <div>
             <div class="actions_review_button">
-                <app-button (_onClick)="_handleReview()">{{editActive ? "Update":"Add"}}</app-button>
-                <app-button (_onClick)="_handleReview()">cancel</app-button>
+                <app-button (_onClick)="_handleReview('add')">{{editActive ? "Update":"Add"}}</app-button>
+                <app-button (_onClick)="_handleReview('cancel')">cancel</app-button>
             </div>
             <p class="error-msg" *ngIf="!!ErrorMsg">{{ErrorMsg}}</p>
         </div>
@@ -75,8 +75,8 @@
     <div class="review_Sections">
         <div class="rating_heading">
             <div class="rating_count">
-                <h2>Review's</h2>
-                <div>{{(singleProductData.reviews | length)||0}}</div>
+                <h2>Review's:</h2>
+                <div class="bold"><b>{{(singleProductData.reviews | length)||0}}</b></div>
             </div>
             <p *ngIf="isUserLogin" class="add_review" (click)="activeReview =!activeReview">Add a review</p>
         </div>
@@ -113,7 +113,8 @@
                             <div class="edit_section" *ngIf="isUserLogin === review?.user?._id">
                                 <span class="edit" (click)="_handleEditReview(review)">Edit</span>
                                 <span class="border_class"></span>
-                                <span class="delete">Delete</span>
+                                <span class="delete"
+                                    (click)="_deleteReview(review?._id,review?.productId)">Delete</span>
                             </div>
                         </ng-container>
 
