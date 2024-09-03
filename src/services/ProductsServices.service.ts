@@ -73,9 +73,11 @@ export class ProductsServices extends _asynchronousFunction {
         })
     }
 
-    _getAllProduct(data: { page: number, limit: number }, callback?: (data: any) => void) {
+    _getAllProduct(data: { catId?: string, page: number, limit: number }, callback?: (data: any) => void) {
         const { page, limit } = data;
-        this._callTheAPi(this.api.get(`${ProductsServices.ProductUrl}?page=${page || 1}&limit=${limit || 8}`), (success, error) => {
+        let URL = `${ProductsServices.ProductUrl}?page=${page || 1}&limit=${limit || 8}`;
+        URL = data?.catId ? URL + `&catId=${data?.catId}` : URL;
+        this._callTheAPi(this.api.get(URL), (success, error) => {
             if (error) {
                 // write a custom message
             } else {

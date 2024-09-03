@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ProductsServices } from "../../../../../services/ProductsServices.service";
 import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { InputModules } from "../../../../inputs/inputs.module";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
 import { Icons } from "../../../../Common/Icons";
@@ -9,7 +9,7 @@ import { IProductDataQty } from "../../../../module/commonInterfaces";
 import { PipesModules } from "../../../../pipes/pipes.module";
 import _ from "lodash";
 import { OutSideClickDirective } from "../../../../directives/outside-click.directive";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 
 @Component({
     selector: "app-allProductPage",
@@ -26,6 +26,7 @@ export class AllProductPageComponent implements OnInit {
 
 
     productLists: IProductDataQty[] = [];
+    categoryID: boolean = false
     quantity: number = 1;
     config: PaginationInstance = {
         id: "allProduct_page",
@@ -36,10 +37,13 @@ export class AllProductPageComponent implements OnInit {
 
     activeClass: string | undefined = "";
 
-    constructor(private productService: ProductsServices) { }
+    constructor(private productService: ProductsServices, private route: ActivatedRoute, private location: Location) { }
 
     ngOnInit(): void {
-        this._fetchAllProducts();
+        this.route.queryParams.subscribe((r) => {
+            this.categoryID = !!r?.['catId'];
+            this._fetchAllProducts(r?.['catId']);
+        })
     }
 
     log(data: any) {
@@ -47,24 +51,23 @@ export class AllProductPageComponent implements OnInit {
     }
     // function section
 
-    _fetchAllProducts(page?: number) {
-        this.productService._getAllProduct({ page: (page || this.config.currentPage), limit: this.config.itemsPerPage }, (response) => {
+    _fetchAllProducts(catId: string = "", page?: number) {
+        this.productService._getAllProduct({ catId, page: (page || this.config.currentPage), limit: this.config.itemsPerPage }, (response) => {
             this.productLists = _.map(response?.data?.product_data, (r) => ({ ...r, quantity: 1 }));
             this.config = { ...this.config, totalItems: response?.data?.totalCount, currentPage: +response?.data?.page }
             window.scrollTo({ top: 0, behavior: "smooth" });
         })
     }
 
+    //on Pagination Change
     _handlePageChange(data: any) {
-        console.log('totalCount', data, 'uuuuuuuuuuuuuuuu')
-        // this.config = { ...this.config, currentPage: data };
         this._fetchAllProducts(data)
     }
 
+    // on Quantity change
     _handleQty(value: number, id: (string | undefined)) {
         const FIND_PRODUCT_INDEX = _.findIndex(this.productLists, (r) => r?._id === id);
         this.productLists[FIND_PRODUCT_INDEX]['quantity'] = value;
-
         this.activeClass = '';
     }
 
@@ -83,6 +86,10 @@ export class AllProductPageComponent implements OnInit {
             return COUNTING_ARRAY;
         }
         return [];
+    }
+
+    _handleBack() {
+        this.location.back()
     }
 
 }

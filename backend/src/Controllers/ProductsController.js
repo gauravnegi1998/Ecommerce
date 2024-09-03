@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import ProductModel from "../Model/ProductSchema.js";
 import { notFoundError } from "../Utils/ErrorsHandlers.js";
+import _ from "lodash";
 
 class ProductsControllerClass {
 
@@ -18,43 +19,51 @@ class ProductsControllerClass {
 
     _getProductApi = async (req, res) => {
         const LIMIT = req.query?.limit || 9;
-        const PAGE = req.query?.page ? (+req.query?.page - 1) * +LIMIT : 0
+        const PAGE = req.query?.page ? (+req.query?.page - 1) * +LIMIT : 0;
+        const CAT_ID = req.query?.catId || null;
 
-        const CategoryData = await ProductModel.aggregate([
-            {
-                $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
-            },
-            {
-                $lookup: {
-                    from: "reviews", localField: 'reviews', foreignField: "_id", as: "reviews", pipeline: [{ $project: { __v: 0 } },
-                    {
-                        $lookup: {
-                            from: "customers", localField: "customer", foreignField: "_id", as: "user", pipeline: [
-                                { $project: { firstName: 1, lastName: 1, email: 1 } }
-                            ]
-                        }
-                    },
-                    { $unwind: "$user" },
-                    ]
-                }
-            },
-            {
-                $facet: {
-                    data: [{ $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }],
-                    total: [{ $count: 'count' }]
-                }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    product_data: '$data',
-                    totalCount: { $first: '$total.count' },
-                    page: `${req?.query?.page}`
-                }
+        let CategoryData = null;
+        const CONDITION = [{
+            $facet: {
+                data: [{ $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }],
+                total: [{ $count: 'count' }]
             }
+        },
+        {
+            $project: {
+                _id: 0,
+                product_data: '$data',
+                totalCount: { $first: '$total.count' },
+                page: `${req?.query?.page}`
+            }
+        }];
 
-        ]).then((r) => r[0]);
+        if (CAT_ID) {
+            CategoryData = ProductModel.aggregate([
 
+                { $unwind: '$webCategories' },
+                {
+                    $lookup: {
+                        from: "categories", localField: "webCategories",
+                        foreignField: 'categoryId',
+                        as: "webCategories", pipeline: [
+                            { $project: { _id: 1 } },
+                        ]
+                    }
+                },
+                { $unwind: '$webCategories' },
+                { $match: { "webCategories._id": new mongoose.Types.ObjectId(String(CAT_ID)) } },
+                ...CONDITION
+            ])
+
+        } else {
+            CategoryData = ProductModel.aggregate([
+                {
+                    $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
+                },
+                ...CONDITION
+            ]);
+        }
         // {
         //     $unwind: {
         //         path: "$webCategories",
@@ -74,7 +83,7 @@ class ProductsControllerClass {
 
 
         if (CategoryData) {
-            res.status(200).json({ status: 'ok', data: CategoryData })
+            res.status(200).json({ status: 'ok', data: await CategoryData.then((r) => r[0]) })
         }
     }
 

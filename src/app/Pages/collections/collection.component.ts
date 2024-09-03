@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { InputModules } from "../../inputs/inputs.module";
 import { FormsModule } from "@angular/forms";
 import { ProductsServices } from "../../../services/ProductsServices.service";
-import { ActivatedRoute, Router, RouterModule, RouterOutlet, Routes } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet, Routes } from "@angular/router";
 import { Subject } from "rxjs";
 
 @Component({
@@ -17,7 +17,6 @@ import { Subject } from "rxjs";
 export class CollectionsComponent implements OnInit {
 
     catData: { _id: string, categoryId: number, categoryName: string }[] = [];
-    productsDisplayObserve$ = new Subject<boolean>()
     productsDisplay: boolean = false;
     constructor(private router: Router, private ProductService: ProductsServices, private route: ActivatedRoute) { }
 
@@ -27,11 +26,14 @@ export class CollectionsComponent implements OnInit {
         this.ProductService.categoryData$.subscribe((response) => {
             this.catData = response ? response : [];
         })
-        this.productsDisplayObserve$.subscribe((r) => {
-            this.productsDisplay = (this.router.url).includes('products') ? true : false;
-        })
+        this.productsDisplay = (this.router?.url).includes('products');
 
-        console.log(this.route, "this.activeRoutes,this.route")
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.productsDisplay = (event?.url).includes('products');
+                console.log(this.productsDisplay, 'this.productsDisplay')
+            }
+        });
     }
 
 
@@ -42,9 +44,8 @@ export class CollectionsComponent implements OnInit {
 
 
     _handleCategoryClick(id: string) {
-        this.productsDisplayObserve$.next(true)
         this.router.navigate(['/collections/products'], {
-            queryParams: { id: id }
+            queryParams: { catId: id }
         })
     }
 }
