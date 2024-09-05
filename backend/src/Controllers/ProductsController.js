@@ -34,7 +34,7 @@ class ProductsControllerClass {
                 _id: 0,
                 product_data: '$data',
                 totalCount: { $first: '$total.count' },
-                page: `${req?.query?.page}`
+                page: `${req?.query?.page}`,
             }
         }];
 
@@ -47,13 +47,14 @@ class ProductsControllerClass {
                         from: "categories", localField: "webCategories",
                         foreignField: 'categoryId',
                         as: "webCategories", pipeline: [
-                            { $project: { _id: 1 } },
+                            { $project: { _id: 1, categoryName: "$categoryName" } },
                         ]
                     }
                 },
                 { $unwind: '$webCategories' },
                 { $match: { "webCategories._id": new mongoose.Types.ObjectId(String(CAT_ID)) } },
-                ...CONDITION
+                ...CONDITION,
+                { $addFields: { categoryName: { $first: "$product_data.webCategories.categoryName" } } }
             ])
 
         } else {

@@ -26,7 +26,7 @@ export class AllProductPageComponent implements OnInit {
 
 
     productLists: IProductDataQty[] = [];
-    categoryID: boolean = false
+    categoryName: string = "All Product's"
     quantity: number = 1;
     config: PaginationInstance = {
         id: "allProduct_page",
@@ -41,7 +41,6 @@ export class AllProductPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((r) => {
-            this.categoryID = !!r?.['catId'];
             this._fetchAllProducts(r?.['catId']);
         })
     }
@@ -54,14 +53,15 @@ export class AllProductPageComponent implements OnInit {
     _fetchAllProducts(catId: string = "", page?: number) {
         this.productService._getAllProduct({ catId, page: (page || this.config.currentPage), limit: this.config.itemsPerPage }, (response) => {
             this.productLists = _.map(response?.data?.product_data, (r) => ({ ...r, quantity: 1 }));
-            this.config = { ...this.config, totalItems: response?.data?.totalCount, currentPage: +response?.data?.page }
+            this.config = { ...this.config, totalItems: response?.data?.totalCount, currentPage: +response?.data?.page };
+            this.categoryName = response?.data?.categoryName || "All Product's";
             window.scrollTo({ top: 0, behavior: "smooth" });
         })
     }
 
-    //on Pagination Change
+    //on Pagination Changedata?.categoryName || "";
     _handlePageChange(data: any) {
-        this._fetchAllProducts(data)
+        this._fetchAllProducts("", data)
     }
 
     // on Quantity change

@@ -3,7 +3,7 @@
         <lucide-icon name="arrow-left"></lucide-icon>
     </app-button>
     <div class="heading">
-        <h1>All Product's</h1>
+        <h1>{{categoryName}}</h1>
     </div>
     <ng-container *ngIf="(productLists|length) > 0; else categoryTemp">
 
