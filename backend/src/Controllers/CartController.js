@@ -7,7 +7,47 @@ import { notFoundError } from "../Utils/ErrorsHandlers.js";
 class CartController {
 
     static _getMyCart = async (req, res, next) => {
-
+        const CART_DATA = await CartModel.aggregate([
+            { $match: { user: new mongoose.Types.ObjectId(String(req?.currentUser?._id)) } },
+            { $unwind: { "path": "$cart_products", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: 'products', localField: "cart_products.product", foreignField: "_id",
+                    let: {
+                        quantity: "$cart_products.quantity",
+                        price: "$cart_products.purchased_price"
+                    }, as: "cart_products", pipeline: [
+                        {
+                            $project: {
+                                _id: 1,
+                                description: 1,
+                                itemCode: 1,
+                                itemId: 1,
+                                "largeImage": 1,
+                                "mediumImage": 1,
+                                "smallImage": 1,
+                                normalImage: 1,
+                                name: 1,
+                                quantity: "$$quantity",
+                                price: "$$price"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "$unwind": {
+                    "path": "$cart_products"
+                }
+            },
+            {
+                $group: {
+                    "_id": '$_id',
+                    cart_products: { $push: "$cart_products" }
+                }
+            }
+        ]).then((r) => r[0]);
+        res.status(200).json({ status: 'ok', data: CART_DATA })
     }
 
     static _addToCart = async (req, res, next) => {

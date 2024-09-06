@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, EyeOff, Pencil, Star, Trash, User } from "lucide-angular";
+import { ArrowLeft, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleX, Eye, EyeOff, Pencil, ShoppingCart, Star, Trash, User } from "lucide-angular";
 import { LucideIcons } from "lucide-angular/icons/types";
 
 export const Icons: LucideIcons = {
@@ -12,5 +12,7 @@ export const Icons: LucideIcons = {
     ChevronUp,
     ChevronRight,
     ChevronLeft,
-    Star
+    Star,
+    ShoppingCart,
+    CircleX
 }

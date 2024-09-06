@@ -1,0 +1,19 @@
+<button class="button_cart" *ngIf="!open" (click)="open=true">
+    <lucide-icon name="shopping-cart" class="cart_icon" />
+</button>
+
+<div *ngIf="open" class="main_mincart_section">
+    <div class="mincart">
+        <div class="cart-heading">
+            <h1 class="title"> Shopping Cart </h1>
+            <lucide-icon name="circle-x" class="cross_icons hand_cursor" (click)=" open=false" />
+        </div>
+        <div class="mini_products">
+
+        </div>
+        <div class="total_section">
+
+        </div>
+    </div>
+
+</div>

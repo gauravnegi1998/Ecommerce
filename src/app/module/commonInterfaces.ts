@@ -71,3 +71,24 @@ export interface IProductData {
 export interface IProductDataQty extends IProductData {
     quantity: number;
 }
+
+
+export interface IAddToCart {
+    _id: string;
+    quantity: number;
+}
+
+
+export interface ICartData {
+    _id: string;
+    name: string;
+    itemId: number;
+    normalImage: string;
+    largeImage?: string,
+    mediumImage?: "";
+    smallImage?: "";
+    itemCode: string;
+    description: string;
+    quantity: number,
+    price: string
+};
