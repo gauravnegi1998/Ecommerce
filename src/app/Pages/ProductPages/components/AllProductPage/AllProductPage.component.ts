@@ -5,11 +5,12 @@ import { CommonModule, Location } from "@angular/common";
 import { InputModules } from "../../../../inputs/inputs.module";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
 import { Icons } from "../../../../Common/Icons";
-import { IProductDataQty } from "../../../../module/commonInterfaces";
+import { IAddToCart, IProductDataQty } from "../../../../module/commonInterfaces";
 import { PipesModules } from "../../../../pipes/pipes.module";
 import _ from "lodash";
 import { OutSideClickDirective } from "../../../../directives/outside-click.directive";
 import { ActivatedRoute, RouterLink } from "@angular/router";
+import { _cartAddFuntions } from "../../../../Common/cartCommonFunction";
 
 @Component({
     selector: "app-allProductPage",
@@ -22,7 +23,7 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
     ]
 })
 
-export class AllProductPageComponent implements OnInit {
+export class AllProductPageComponent extends _cartAddFuntions implements OnInit {
 
 
     productLists: IProductDataQty[] = [];
@@ -37,7 +38,9 @@ export class AllProductPageComponent implements OnInit {
 
     activeClass: string | undefined = "";
 
-    constructor(private productService: ProductsServices, private route: ActivatedRoute, private location: Location) { }
+    constructor(private productService: ProductsServices, private route: ActivatedRoute, private location: Location) {
+        super()
+    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((r) => {
@@ -76,10 +79,6 @@ export class AllProductPageComponent implements OnInit {
         console.log('clicked outside');
     }
 
-    _handleAddToCart(product: IProductDataQty) {
-        console.log(product, 'product');
-    }
-
     _arrayConverter(data: number | undefined) {
         if (data) {
             const COUNTING_ARRAY = _.range(1, data + 1);
@@ -90,6 +89,11 @@ export class AllProductPageComponent implements OnInit {
 
     _handleBack() {
         this.location.back()
+    }
+
+    _addToCart(row: IAddToCart) {
+        this._openMiniCart(true);
+        // this._handleAddToCart([row])
     }
 
 }

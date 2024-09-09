@@ -4,6 +4,7 @@ import { devEnvironment } from "../environments/dev.environment";
 import _ from 'lodash';
 import SecureLocalStorage from "./secureStorage.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +14,16 @@ export class ApiService {
 
     private apiRootUrl: string = devEnvironment.apiUrl;
 
-    constructor(private Https: HttpClient, private router: Router, private localStore: SecureLocalStorage) { }
+    constructor(private Https: HttpClient, private router: Router, private localStore: SecureLocalStorage, private toster: ToastrService) { }
 
     _authenticationError(err: any, callback: () => void) {
         if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
             this.localStore.removeData('Token')
             this.router.navigateByUrl('/signin');
+            return;
+        }
+        if (err?.error?.status === "error" && err?.error?.message === "Token not provided") {
+            this.toster.error('Please login first', 'Unauthorized')
             return;
         }
 

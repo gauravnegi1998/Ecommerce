@@ -26,7 +26,7 @@ class AuthCheck {
                 }
             });
         } else {
-            res.status(401).json({ status: 'error', message: "unauthorized user" })
+            res.status(401).json({ status: 'error', message: "Token not provided" })
         }
 
     }

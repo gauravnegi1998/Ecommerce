@@ -80,7 +80,7 @@ export class AuthServices {
     }
 
     _autoLogout(timestamp: number) {
-        // console.log(timestamp, 'timestamp')
+        console.log(timestamp, 'timestamp')
         this.clearTimeOUt = setTimeout(() => {
             this._handleLogout();
         }, timestamp)

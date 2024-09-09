@@ -50,8 +50,11 @@ class CartController {
         res.status(200).json({ status: 'ok', data: CART_DATA })
     }
 
+
+
     static _addToCart = async (req, res, next) => {
         const USER_ID = req.currentUser?._id || "";
+        console.log(USER_ID, _.isArray(req?.body?.products) && req?.body?.products?.length > 0, '>>>>>>>>>>>>>>>>>>>>>>>')
 
         if (_.isArray(req?.body?.products) && req?.body?.products?.length > 0) {
             let PRODUCTS_DATA = []
@@ -77,6 +80,7 @@ class CartController {
                                 }, { new: true });
 
                             } else {
+                                console.log(PRODUCTS_DATA, 'check')
                                 await CartModel.create({ cart_products: PRODUCTS_DATA, user: USER_ID });
                             }
                         }

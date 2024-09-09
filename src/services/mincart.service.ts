@@ -14,31 +14,35 @@ export class MiniCartService extends _asynchronousFunction {
     static url: string = '/cart'
     private cartId: string = "";
 
-    cartDetails: BehaviorSubject<ICartData[] | []> = new BehaviorSubject<ICartData[] | []>([]);
+    cartDetails$: BehaviorSubject<ICartData[] | []> = new BehaviorSubject<ICartData[] | []>([]);
+    openMiniCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor() {
         super()
     }
 
     _getMiniCartDetail() {
-        this._callTheAPi(this.api.get(MiniCartService.url), (success, error) => {
+        this._callTheAPi(this.api.get(MiniCartService.url + `?cartUpdateTime=${new Date().getTime()}`, true), (success, error) => {
             if (error) {
                 // write a custom message
             } else {
                 if (success?.status === "ok") {
                     this.cartId = success?.data?._id;
-                    this.cartDetails.next(success?.data?.cart_products);
+                    this.cartDetails$.next(success?.data?.cart_products);
                 }
             }
         });
     }
 
     _addToCartApi(data: IAddToCart[], callback?: (data: any) => void) {
-        this._callTheAPi(this.api.post(MiniCartService.url, data), (success, error) => {
+        this._callTheAPi(this.api.post(MiniCartService.url, { products: data }, true), (success, error) => {
             if (error) {
                 // write a custom message
             } else {
-                if (callback) callback(success)
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+                if (callback) callback(success);
+                this._getMiniCartDetail();
+
             }
         });
     }

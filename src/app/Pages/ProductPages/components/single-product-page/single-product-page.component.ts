@@ -3,13 +3,14 @@ import { InputModules } from '../../../../inputs/inputs.module';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ProductsServices } from '../../../../../services/ProductsServices.service';
-import { IPostReviewData, IProductDataQty, IReviewData, IReviewUpdateAndPostPayload } from '../../../../module/commonInterfaces';
-import _, { ceil, round } from 'lodash';
+import { IProductDataQty, IReviewData, IReviewUpdateAndPostPayload } from '../../../../module/commonInterfaces';
+import _, { round } from 'lodash';
 import { PipesModules } from '../../../../pipes/pipes.module';
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
 import { Icons } from '../../../../Common/Icons';
 import { AuthServices } from '../../../../../services/AuthServices.service';
 import { debounceTime, Subject } from 'rxjs';
+import { _cartAddFuntions } from '../../../../Common/cartCommonFunction';
 
 @Component({
   selector: 'app-single-product-page',
@@ -21,7 +22,7 @@ import { debounceTime, Subject } from 'rxjs';
     { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
   ]
 })
-export class SingleProductPageComponent implements OnInit {
+export class SingleProductPageComponent extends _cartAddFuntions implements OnInit {
 
   singleProductData: IProductDataQty | any = {};
   activeReview: boolean = false;
@@ -36,6 +37,7 @@ export class SingleProductPageComponent implements OnInit {
   private auth = inject(AuthServices);
 
   constructor(private activeRoute: ActivatedRoute, private productService: ProductsServices) {
+    super();
     this.callProductApi.pipe(debounceTime(500)).subscribe((r) => {
       this._getSingleProductData()
     })
@@ -183,7 +185,7 @@ export class SingleProductPageComponent implements OnInit {
   }
 
   _addToCart() {
-    alert(JSON.stringify(this.singleProductData));
+    this._handleAddToCart([this.singleProductData])
   }
 
 }

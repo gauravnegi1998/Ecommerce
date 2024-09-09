@@ -16,14 +16,11 @@ export class PaginationComponent implements OnChanges {
     @Output() _onPageChange = new EventEmitter<any>();
 
 
-    log(val: any) { console.log(val, 'ttttttttttttttt'); }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes, '>>>>>>>>>>>>>>>>>>>>>>>>>>');
     }
 
     _onPaginateChange(data: any) {
-        console.log(data, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
         this._onPageChange.emit(data);
     }
 }

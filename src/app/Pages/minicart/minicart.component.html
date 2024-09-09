@@ -1,4 +1,4 @@
-<button class="button_cart" *ngIf="!open" (click)="open=true">
+<button class="button_cart" *ngIf="!open" (click)="_openMiniCart(true)">
     <lucide-icon name="shopping-cart" class="cart_icon" />
 </button>
 
@@ -6,10 +6,29 @@
     <div class="mincart">
         <div class="cart-heading">
             <h1 class="title"> Shopping Cart </h1>
-            <lucide-icon name="circle-x" class="cross_icons hand_cursor" (click)=" open=false" />
+            <lucide-icon name="circle-x" class="cross_icons hand_cursor" (click)="_openMiniCart(false)" />
         </div>
         <div class="mini_products">
+            @for(cart of cartData; track cart; let i = $index){
+            <div class="cart_box">
+                <div class="mini_product_img">
+                    <img src="{{cart.normalImage}}" />
+                </div>
+                <div class="min_content">
+                    <h3>{{cart.name}}</h3>
+                    <div class="qty">
+                        <button>-</button>
+                        <input type="text" readonly value="{{cart.quantity}}" />
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="price_delete">
+                    <h2>{{cart.price | currency}}</h2>
+                    <button>Delete</button>
+                </div>
+            </div>
 
+            }
         </div>
         <div class="total_section">
 
