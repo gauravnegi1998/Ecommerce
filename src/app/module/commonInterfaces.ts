@@ -90,5 +90,6 @@ export interface ICartData {
     itemCode: string;
     description: string;
     quantity: number,
-    price: string
+    price: string,
+    shortName: string
 };

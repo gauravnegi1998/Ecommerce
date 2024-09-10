@@ -29,7 +29,8 @@ class CartController {
                                 normalImage: 1,
                                 name: 1,
                                 quantity: "$$quantity",
-                                price: "$$price"
+                                price: "$$price",
+                                shortName: 1
                             }
                         }
                     ]
@@ -43,7 +44,8 @@ class CartController {
             {
                 $group: {
                     "_id": '$_id',
-                    cart_products: { $push: "$cart_products" }
+                    cart_products: { $push: "$cart_products" },
+                    totalAmount: { $sum: { $multiply: [{ $convert: { input: "$cart_products.price", to: "double" } }, "$cart_products.quantity",] } },
                 }
             }
         ]).then((r) => r[0]);
@@ -54,7 +56,6 @@ class CartController {
 
     static _addToCart = async (req, res, next) => {
         const USER_ID = req.currentUser?._id || "";
-        console.log(USER_ID, _.isArray(req?.body?.products) && req?.body?.products?.length > 0, '>>>>>>>>>>>>>>>>>>>>>>>')
 
         if (_.isArray(req?.body?.products) && req?.body?.products?.length > 0) {
             let PRODUCTS_DATA = []

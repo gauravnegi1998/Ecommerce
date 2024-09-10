@@ -10,7 +10,7 @@ import { PipesModules } from "../../../../pipes/pipes.module";
 import _ from "lodash";
 import { OutSideClickDirective } from "../../../../directives/outside-click.directive";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { _cartAddFuntions } from "../../../../Common/cartCommonFunction";
+import { _cartAddFunctions } from "../../../../Common/cartCommonFunction";
 
 @Component({
     selector: "app-allProductPage",
@@ -23,7 +23,7 @@ import { _cartAddFuntions } from "../../../../Common/cartCommonFunction";
     ]
 })
 
-export class AllProductPageComponent extends _cartAddFuntions implements OnInit {
+export class AllProductPageComponent extends _cartAddFunctions implements OnInit {
 
 
     productLists: IProductDataQty[] = [];

@@ -10,7 +10,7 @@ import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-an
 import { Icons } from '../../../../Common/Icons';
 import { AuthServices } from '../../../../../services/AuthServices.service';
 import { debounceTime, Subject } from 'rxjs';
-import { _cartAddFuntions } from '../../../../Common/cartCommonFunction';
+import { _cartAddFunctions } from '../../../../Common/cartCommonFunction';
 
 @Component({
   selector: 'app-single-product-page',
@@ -22,7 +22,7 @@ import { _cartAddFuntions } from '../../../../Common/cartCommonFunction';
     { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(Icons) }
   ]
 })
-export class SingleProductPageComponent extends _cartAddFuntions implements OnInit {
+export class SingleProductPageComponent extends _cartAddFunctions implements OnInit {
 
   singleProductData: IProductDataQty | any = {};
   activeReview: boolean = false;

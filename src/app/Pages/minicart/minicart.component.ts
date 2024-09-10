@@ -3,13 +3,14 @@ import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
 import { Icons } from "../../Common/Icons";
 import { ICartData } from "../../module/commonInterfaces";
-import { _cartAddFuntions } from "../../Common/cartCommonFunction";
+import { _cartAddFunctions } from "../../Common/cartCommonFunction";
 import { MiniCartService } from "../../../services/mincart.service";
+import { PipesModules } from "../../pipes/pipes.module";
 
 @Component({
     selector: "app-miniCart",
     standalone: true,
-    imports: [CommonModule, LucideAngularModule],
+    imports: [CommonModule, LucideAngularModule, PipesModules],
     templateUrl: "./minicart.component.html",
     styleUrl: './minicart.component.scss',
     providers: [
@@ -17,10 +18,10 @@ import { MiniCartService } from "../../../services/mincart.service";
     ]
 })
 
-export class MiniCartComponent extends _cartAddFuntions implements OnInit, OnChanges {
+export class MiniCartComponent extends _cartAddFunctions implements OnInit, OnChanges {
 
     cartData: ICartData[] = [];
-    open: boolean = true;
+    open: boolean = false;
     constructor() {
         super();
 
@@ -29,12 +30,11 @@ export class MiniCartComponent extends _cartAddFuntions implements OnInit, OnCha
 
     ngOnInit(): void {
         this.minCartApi._getMiniCartDetail();
-
         this.minCartApi.cartDetails$.subscribe((data) => {
             this.cartData = data;
         })
         this.minCartApi.openMiniCart$.subscribe((value) => {
-            // this.open = value;
+            this.open = value;
         })
     }
 

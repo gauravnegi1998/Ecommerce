@@ -10,28 +10,34 @@
         </div>
         <div class="mini_products">
             @for(cart of cartData; track cart; let i = $index){
-            <div class="cart_box">
-                <div class="mini_product_img">
-                    <img src="{{cart.normalImage}}" />
-                </div>
-                <div class="min_content">
-                    <h3>{{cart.name}}</h3>
-                    <div class="qty">
-                        <button>-</button>
-                        <input type="text" readonly value="{{cart.quantity}}" />
-                        <button>+</button>
+            <div>
+                <div class="cart_box">
+                    <div class="mini_product_img">
+                        <img src="{{cart.normalImage}}" />
+                    </div>
+                    <div class="min_content">
+                        <h3>{{cart.shortName||cart.name}}</h3>
+                        <div class="qty">
+                            <button>-</button>
+                            <input type="text" readonly value="{{cart.quantity}}" />
+                            <button>+</button>
+                        </div>
+                    </div>
+                    <div class="price_delete">
+                        <h2>{{cart.price | currency}}</h2>
+                        <p class=""><span class="hand_cursor">Delete</span></p>
                     </div>
                 </div>
-                <div class="price_delete">
-                    <h2>{{cart.price | currency}}</h2>
-                    <button>Delete</button>
-                </div>
+                <span class="divider"></span>
             </div>
 
             }
         </div>
         <div class="total_section">
-
+            <div class="SubTotal">
+                <span>SubTotal ({{cartData|length}} items)</span>
+                <span>302</span>
+            </div>
         </div>
     </div>
 
