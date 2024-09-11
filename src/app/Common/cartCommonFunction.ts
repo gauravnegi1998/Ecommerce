@@ -1,15 +1,20 @@
+import { AuthServices } from "../../services/AuthServices.service";
 import { MiniCartService } from "../../services/mincart.service";
 import { IAddToCart } from "../module/commonInterfaces";
 import { inject } from "@angular/core";
 
 export class _cartAddFunctions {
     minCartApi = inject(MiniCartService);
+    private Auth = inject(AuthServices);
 
     constructor() { }
 
 
 
     _openMiniCart(status: boolean) {
+        if (this.Auth._getToken()) {
+            this.minCartApi._getMiniCartDetail();
+        }
         this.minCartApi.openMiniCart$.next(status)
     }
 

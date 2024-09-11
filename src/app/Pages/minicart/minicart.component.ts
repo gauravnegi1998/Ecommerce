@@ -6,11 +6,13 @@ import { ICartData } from "../../module/commonInterfaces";
 import { _cartAddFunctions } from "../../Common/cartCommonFunction";
 import { MiniCartService } from "../../../services/mincart.service";
 import { PipesModules } from "../../pipes/pipes.module";
+import { AuthServices } from "../../../services/AuthServices.service";
+import { InputModules } from "../../inputs/inputs.module";
 
 @Component({
     selector: "app-miniCart",
     standalone: true,
-    imports: [CommonModule, LucideAngularModule, PipesModules],
+    imports: [InputModules, CommonModule, LucideAngularModule, PipesModules],
     templateUrl: "./minicart.component.html",
     styleUrl: './minicart.component.scss',
     providers: [
@@ -27,9 +29,11 @@ export class MiniCartComponent extends _cartAddFunctions implements OnInit, OnCh
 
     }
 
-
+    get subTotalOfCart() {
+        return this.minCartApi.totalCartAmount;
+    }
     ngOnInit(): void {
-        this.minCartApi._getMiniCartDetail();
+
         this.minCartApi.cartDetails$.subscribe((data) => {
             this.cartData = data;
         })
@@ -40,6 +44,10 @@ export class MiniCartComponent extends _cartAddFunctions implements OnInit, OnCh
 
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes, this.open, '>>>>>>>>>>>>>>>>>>>>>>>>>>')
+
+    }
+
+    _checkoutClick() {
 
     }
 

@@ -16,6 +16,7 @@ export class MiniCartService extends _asynchronousFunction {
 
     cartDetails$: BehaviorSubject<ICartData[] | []> = new BehaviorSubject<ICartData[] | []>([]);
     openMiniCart$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    totalCartAmount: string = "";
 
     constructor() {
         super()
@@ -28,6 +29,7 @@ export class MiniCartService extends _asynchronousFunction {
             } else {
                 if (success?.status === "ok") {
                     this.cartId = success?.data?._id;
+                    this.totalCartAmount = String(success?.data?.totalAmount);
                     this.cartDetails$.next(success?.data?.cart_products);
                 }
             }

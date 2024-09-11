@@ -5,6 +5,17 @@
     right: 0;
     top: 0;
     height: calc(100vh);
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: -1;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
 }
 
 .mincart {
@@ -133,7 +144,6 @@
     .total_section {
         padding: 30px 20px;
         height: 270px;
-        border: 1px solid;
 
         .SubTotal {
             display: flex;
@@ -144,6 +154,16 @@
                 font-size: 24px;
             }
         }
+
+        span.divider {
+            margin: 20px 0;
+        }
+    }
+
+    h4 {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 18px;
     }
 }
 
