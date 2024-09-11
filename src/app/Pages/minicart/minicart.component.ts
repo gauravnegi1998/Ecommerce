@@ -47,8 +47,8 @@ export class MiniCartComponent extends _cartAddFunctions implements OnInit, OnCh
 
     }
 
-    _checkoutClick() {
-
+    _checkoutClick(value: string) {
+        console.log(value, '>>>>>>>>>>>>>>>>>>>>')
     }
 
     // ngOnDestroy(): void {

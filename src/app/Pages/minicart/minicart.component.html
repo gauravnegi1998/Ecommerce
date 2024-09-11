@@ -1,6 +1,9 @@
-<button class="button_cart" *ngIf="!open" (click)="_openMiniCart(true)">
-    <lucide-icon name="shopping-cart" class="cart_icon" />
-</button>
+<div class="relative">
+    <button class="button_cart" *ngIf="!open" (click)="_openMiniCart(true)">
+        <lucide-icon name="shopping-cart" class="cart_icon" />
+        <span class="count">{{cartData|length}}</span>
+    </button>
+</div>
 
 <div *ngIf="open" class="main_mincart_section">
     <div class="mincart">
@@ -41,8 +44,14 @@
                     <span>{{subTotalOfCart | currency}}</span>
                 </div>
                 <span class="divider"></span>
-
-                <app-button (_onClick)="_checkoutClick()">Checkout</app-button>
+                <div class="mini_redirect">
+                    <app-button class="w-full" [class]="'minicart_button'" (_onClick)="_checkoutClick('checkout')">
+                        Checkout
+                    </app-button>
+                    <app-button class="w-full" [class]="'minicart_button'" (_onClick)="_checkoutClick('view_cart')">View
+                        Cart
+                    </app-button>
+                </div>
             </div>
         </ng-container>
 

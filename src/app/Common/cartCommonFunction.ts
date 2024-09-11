@@ -12,14 +12,13 @@ export class _cartAddFunctions {
 
 
     _openMiniCart(status: boolean) {
-        if (this.Auth._getToken()) {
-            this.minCartApi._getMiniCartDetail();
-        }
         this.minCartApi.openMiniCart$.next(status)
     }
 
     _handleAddToCart(products: IAddToCart[]) {
+
         if (products.length > 0) {
+            console.log(products, 'ddddddddddddddddddddddddddddd')
             this.minCartApi._addToCartApi(products, () => {
                 this.minCartApi.openMiniCart$.next(true)
             });

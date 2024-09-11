@@ -92,8 +92,8 @@ export class AllProductPageComponent extends _cartAddFunctions implements OnInit
     }
 
     _addToCart(row: IAddToCart) {
-        this._openMiniCart(true);
-        // this._handleAddToCart([row])
+        // this._openMiniCart(true);
+        this._handleAddToCart([row])
     }
 
 }
