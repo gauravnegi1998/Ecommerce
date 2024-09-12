@@ -12,6 +12,7 @@ const asyncErrorHandler = (func) => {
 
 const notFoundError = (data, message, next) => {
     if (!data) {
+        console.log(data, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         const err = new CustomError(message, 404);
         return next(err);
     }

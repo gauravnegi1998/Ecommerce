@@ -14,12 +14,14 @@ class CartController {
                 $lookup: {
                     from: 'products', localField: "cart_products.product", foreignField: "_id",
                     let: {
+                        cartId: "$cart_products._id",
                         quantity: "$cart_products.quantity",
                         price: "$cart_products.purchased_price"
                     }, as: "cart_products", pipeline: [
                         {
                             $project: {
-                                _id: 1,
+                                _id: "$$cartId",
+                                productId: "$_id",
                                 description: 1,
                                 itemCode: 1,
                                 itemId: 1,
@@ -67,7 +69,7 @@ class CartController {
                     }
                     if (PRODUCTS_DATA?.length === req?.body?.products?.length) {
                         if (USER_ID) {
-                            const DATA = await CartModel.findOne({ user: USER_ID });
+                            const DATA = req?.cartData;
                             if (DATA) {
 
                                 const REMAIN_REVIEW = _.map(DATA?.cart_products, (row) => {
@@ -96,11 +98,40 @@ class CartController {
     }
 
     static _removeFormCart = async (req, res, next) => {
+        const ID = req?.params?.id;
+        const USER_ID = req.currentUser._id || "";
+        const USER_DATA = req?.cartData;
 
+        console.log(_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID), ID, '_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID)')
+        const DATA = _.map(_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID), (r) => ({
+            product: r?.product,
+            quantity: r?.quantity,
+            purchased_price: r?.purchased_price,
+            _id: r?._id
+        }));
+
+        console.log(DATA, "ffffffffffffffffffffffffffffff")
+
+        const UPDATE = await CartModel.findOneAndUpdate({ user: USER_ID }, { $set: { 'cart_products': DATA } }, { new: true })
+
+        if (UPDATE) {
+            res.status(200).json({ status: "ok", message: "cart updated successfully" })
+        }
     }
 
-    static _updateMyCart = async (req, res, next) => {
 
+    // update cart
+    static _updateMyCart = async (req, res, next) => {
+        const ID = req?.params?.id;
+        const USER_ID = req.currentUser._id || "";
+        const USER_DATA = req?.cartData;
+
+        // const DATA = _.map(USER_DATA.cart_products, (r) => ({
+        //     product: r?.product,
+        //     quantity:r?._id?.toString() === ID r?.quantity +,
+        //     purchased_price: r?.purchased_price,
+        //     _id: r?._id
+        // }));
     }
 
 }

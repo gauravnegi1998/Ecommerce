@@ -34,7 +34,7 @@ export class AuthServices {
                 this._setUserData(userData);
                 this._setTokenExpireData(expireDate);
                 this._autoLogout(expireDate * 1000)
-                this.router.navigateByUrl('/');
+                window.location.assign('/');
             }
         }).catch((err) => {
             console.log(err);

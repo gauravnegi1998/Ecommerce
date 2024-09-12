@@ -30,7 +30,7 @@
                         </div>
                         <div class="price_delete">
                             <h2>{{cart.price | currency}}</h2>
-                            <p class=""><span class="hand_cursor">Delete</span></p>
+                            <p class=""><span class="hand_cursor" (click)="_removeCartData(cart._id)">Delete</span></p>
                         </div>
                     </div>
                     <span class="divider"></span>

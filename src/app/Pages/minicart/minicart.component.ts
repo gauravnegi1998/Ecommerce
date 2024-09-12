@@ -42,6 +42,11 @@ export class MiniCartComponent extends _cartAddFunctions implements OnInit, OnCh
         })
     }
 
+    _removeCartData(cartId: string) {
+        console.log(cartId, 'isPasswordChange')
+        this.minCartApi._removeSingleCart(cartId);
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes, this.open, '>>>>>>>>>>>>>>>>>>>>>>>>>>')
 

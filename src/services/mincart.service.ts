@@ -42,15 +42,22 @@ export class MiniCartService extends _asynchronousFunction {
                 // write a custom message
             } else {
                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-                if (callback) callback(success);
                 this._getMiniCartDetail();
+                if (callback) callback(success);
 
             }
         });
     }
 
-    _removeSingleCart() {
-
+    _removeSingleCart(cartId: string) {
+        this._callTheAPi(this.api.delete(`${MiniCartService.url}/${cartId}`, true), (success, error) => {
+            console.log(error, 'ddddddddddddddddddddddddd')
+            if (error) {
+                // write a custom message
+            } else {
+                this._getMiniCartDetail();
+            }
+        });
     }
 
 }

@@ -25,7 +25,6 @@ class ReviewController {
     static _updateReview = async (req, res, next) => {
         const Data = await ReviewModel.findOneAndUpdate({ _id: req?.body?.id }, req?.body?.data, { new: true });
         notFoundError(Data, 'something Went wrong,Please try later', next)
-        console.log(req?.body, 'req?.body?.id', Data)
 
         return res.status(200).json({ status: 'ok', message: "You have successfully update the review's" })
     }

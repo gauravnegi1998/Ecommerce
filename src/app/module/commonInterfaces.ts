@@ -82,6 +82,7 @@ export interface IAddToCart {
 export interface ICartData {
     _id: string;
     name: string;
+    productId: string,
     itemId: number;
     normalImage: string;
     largeImage?: string,
