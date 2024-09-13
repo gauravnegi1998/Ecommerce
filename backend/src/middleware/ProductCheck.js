@@ -1,6 +1,7 @@
 import { CartModel } from "../Model/cartSchema.js";
 import ProductModel from "../Model/ProductSchema.js";
 import CustomError from "../Utils/CustomError.js";
+import { notFoundError } from "../Utils/ErrorsHandlers.js";
 
 export const _productCheck = async (req, res, next) => {
     const ProductId = req.params.id || null;
@@ -26,9 +27,9 @@ export const _cartCheck = async (req, res, next) => {
     const USER_ID = req.currentUser._id || "";
     const USER_DATA = await CartModel.findOne({ user: USER_ID });
 
-    if (!USER_DATA) {
-        notFoundError(USER_DATA, `something went wrong please try again later`, next);
-    }
+    // if (!USER_DATA) {
+    //     notFoundError(USER_DATA, `something went wrong please try again later`, next);
+    // }
 
     req.cartData = USER_DATA;
     next();

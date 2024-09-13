@@ -60,5 +60,16 @@ export class MiniCartService extends _asynchronousFunction {
         });
     }
 
+    _updateQuantityCart(data: IAddToCart[]) {
+        this._callTheAPi(this.api.put(`${MiniCartService.url}`, { products: data }, true), (success, error) => {
+            console.log(error, 'ddddddddddddddddddddddddd')
+            if (error) {
+                // write a custom message
+            } else {
+                this._getMiniCartDetail();
+            }
+        });
+    }
+
 }
 

@@ -2,9 +2,10 @@ import _ from "lodash";
 import { CartModel } from "../Model/cartSchema.js";
 import mongoose from "mongoose";
 import ProductModel from "../Model/ProductSchema.js";
-import { notFoundError } from "../Utils/ErrorsHandlers.js";
+import CustomError from "../Utils/CustomError.js";
 
 class CartController {
+
 
     static _getMyCart = async (req, res, next) => {
         const CART_DATA = await CartModel.aggregate([
@@ -61,12 +62,13 @@ class CartController {
 
         if (_.isArray(req?.body?.products) && req?.body?.products?.length > 0) {
             let PRODUCTS_DATA = []
-            _.forEach((req?.body?.products || []), async ({ _id, quantity }) => {
+            _.forEach((req?.body?.products || []), async ({ productID, quantity }) => {
                 try {
-                    const data = await ProductModel.findById(_id);
+                    const data = await ProductModel.findById(productID);
                     if (data?.itemCode && PRODUCTS_DATA?.length !== req?.body?.products?.length) {
-                        PRODUCTS_DATA.push({ product: _id, quantity, purchased_price: data?.price?.offerPrice });
+                        PRODUCTS_DATA.push({ product: productID, quantity, purchased_price: data?.price?.offerPrice });
                     }
+                    console.log(data, PRODUCTS_DATA, "data,PRODUCTS_DATA")
                     if (PRODUCTS_DATA?.length === req?.body?.products?.length) {
                         if (USER_ID) {
                             const DATA = req?.cartData;
@@ -74,7 +76,11 @@ class CartController {
 
                                 const REMAIN_REVIEW = _.map(DATA?.cart_products, (row) => {
                                     const quantity = _.find(PRODUCTS_DATA, { product: row?.product?.toString() })?.quantity;
-                                    return ({ product: row?.product, purchased_price: row?.purchased_price, quantity: (quantity ? row.quantity + quantity : row.quantity) });
+                                    return ({
+                                        product: row?.product,
+                                        purchased_price: row?.purchased_price,
+                                        quantity: (quantity ? row.quantity + quantity : row.quantity)
+                                    });
                                 });
 
                                 let ADDING_DATA = _.filter(PRODUCTS_DATA, (r) => !(_.includes(_.map(REMAIN_REVIEW, (r) => r?.product?.toString()), r?.product)));
@@ -102,15 +108,12 @@ class CartController {
         const USER_ID = req.currentUser._id || "";
         const USER_DATA = req?.cartData;
 
-        console.log(_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID), ID, '_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID)')
         const DATA = _.map(_.filter(USER_DATA.cart_products, (r) => r?._id.toString() !== ID), (r) => ({
             product: r?.product,
             quantity: r?.quantity,
             purchased_price: r?.purchased_price,
             _id: r?._id
         }));
-
-        console.log(DATA, "ffffffffffffffffffffffffffffff")
 
         const UPDATE = await CartModel.findOneAndUpdate({ user: USER_ID }, { $set: { 'cart_products': DATA } }, { new: true })
 
@@ -122,17 +125,40 @@ class CartController {
 
     // update cart
     static _updateMyCart = async (req, res, next) => {
-        const ID = req?.params?.id;
         const USER_ID = req.currentUser._id || "";
-        const USER_DATA = req?.cartData;
+        const CART_DATA = req?.cartData?.cart_products?.length > 0 ? _.map(req?.cartData?.cart_products, (row) => ({
+            product: row?.product, purchased_price: row?.purchased_price, quantity: row.quantity
+        })) : [];
+        const UPDATE_DATA = req.body?.products || "";
 
-        // const DATA = _.map(USER_DATA.cart_products, (r) => ({
-        //     product: r?.product,
-        //     quantity:r?._id?.toString() === ID r?.quantity +,
-        //     purchased_price: r?.purchased_price,
-        //     _id: r?._id
-        // }));
+        if (_.isArray(UPDATE_DATA) && UPDATE_DATA?.length > 0) {
+            const DATA = _.map(CART_DATA, (data) => {
+                const FIND_VALUE = _.find(UPDATE_DATA, (r) => r.productID === data?.product?.toString());
+                if (FIND_VALUE) {
+                    return { quantity: FIND_VALUE?.quantity, product: FIND_VALUE?.productID, purchased_price: data?.purchased_price };
+                } else {
+                    return data
+                }
+            });
+            const UPDATE = await CartModel.findOneAndUpdate({ user: USER_ID }, { $set: { 'cart_products': DATA } }, { new: true })
+            if (UPDATE) {
+                res.status(200).json({ status: "ok", message: "cart updated successfully" })
+            }
+            // Promise.all(DATA).then((VALUES) => {
+            //     console.log(r, '???????????????????????')
+
+            // })
+
+
+
+        } else {
+            const err = new CustomError('please check you payload format', 400);
+            next(err);
+        }
+
+
     }
+
 
 }
 

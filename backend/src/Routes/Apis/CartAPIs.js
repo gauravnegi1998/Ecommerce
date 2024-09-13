@@ -10,11 +10,11 @@ const cartRouter = Router();
 cartRouter.route('/')
     .get(AuthCheck._checkAuth, asyncErrorHandler(CartController._getMyCart))
     .post(AuthCheck._checkAuth, _cartCheck, asyncErrorHandler(CartController._addToCart))
+    .put(AuthCheck._checkAuth, _cartCheck, asyncErrorHandler(CartController._updateMyCart));
 
 
 cartRouter.route('/:id')
     .delete(AuthCheck._checkAuth, _cartCheck, asyncErrorHandler(CartController._removeFormCart))
-    .put(AuthCheck._checkAuth, _cartCheck, asyncErrorHandler(CartController._updateMyCart));
 
 
 export default cartRouter;

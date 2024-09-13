@@ -74,7 +74,7 @@ export interface IProductDataQty extends IProductData {
 
 
 export interface IAddToCart {
-    _id: string;
+    productID: string;
     quantity: number;
 }
 

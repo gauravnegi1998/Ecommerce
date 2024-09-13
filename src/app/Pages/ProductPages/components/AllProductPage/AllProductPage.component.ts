@@ -5,7 +5,7 @@ import { CommonModule, Location } from "@angular/common";
 import { InputModules } from "../../../../inputs/inputs.module";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
 import { Icons } from "../../../../Common/Icons";
-import { IAddToCart, IProductDataQty } from "../../../../module/commonInterfaces";
+import { IAddToCart, IProductData, IProductDataQty } from "../../../../module/commonInterfaces";
 import { PipesModules } from "../../../../pipes/pipes.module";
 import _ from "lodash";
 import { OutSideClickDirective } from "../../../../directives/outside-click.directive";
@@ -91,9 +91,9 @@ export class AllProductPageComponent extends _cartAddFunctions implements OnInit
         this.location.back()
     }
 
-    _addToCart(row: IAddToCart) {
+    _addToCart(row: IProductDataQty) {
         // this._openMiniCart(true);
-        this._handleAddToCart([row])
+        this._handleAddToCart([{ productID: row._id, quantity: row?.quantity }])
     }
 
 }
