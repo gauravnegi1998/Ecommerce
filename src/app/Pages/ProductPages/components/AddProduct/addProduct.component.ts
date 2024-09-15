@@ -25,6 +25,7 @@ export class AddProductComponent {
             normalImage: new UntypedFormControl("https://images-na.ssl-images-amazon.com/images/I/31N0qoF1RPL.jpg", Validators.required),
             displayOnlyAdmin: new UntypedFormControl(false),
             hideFromWeb: new UntypedFormControl(false),
+            smallImage: new UntypedFormControl("", [Validators.required]),
             // webCategories: new UntypedFormControl('', Validators.required),
             webCategories: new UntypedFormControl([], Validators.required),
             description: new UntypedFormControl('', Validators.required),

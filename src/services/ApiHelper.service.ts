@@ -19,7 +19,7 @@ export class ApiService {
     _authenticationError(err: any, callback: () => void) {
         if (err?.error?.status === "error" && (err?.error?.message === "invalid token" || err?.error?.message === "unauthorized user")) {
             this.localStore.removeData('Token')
-            this.router.navigateByUrl('/signin');
+            this.router.navigateByUrl('/login');
             return;
         }
         if (err?.error?.status === "error" && err?.error?.message === "Token not provided") {

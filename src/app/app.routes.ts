@@ -9,13 +9,18 @@ export const routes: Routes = [
             {
                 path: '',
                 pathMatch: "full",
-                loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
+                redirectTo: 'login'
+                // loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
             },
-
+            {
+                path: 'dashboard',
+                pathMatch: "full",
+                loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent),
+            },
             {
                 path: 'about',
                 pathMatch: "full",
-                loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
+                loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent),
             },
             {
                 path: 'contactus',
@@ -23,7 +28,7 @@ export const routes: Routes = [
                 loadComponent: () => import('./Pages/collections/collection.component').then((m) => m.CollectionsComponent),
             },
             {
-                path: 'signin',
+                path: 'login',
                 pathMatch: "full",
                 loadComponent: () => import('./Pages/Auth/login/login.component').then((m) => m.LoginComponent),
                 canActivate: [AuthGuardService]

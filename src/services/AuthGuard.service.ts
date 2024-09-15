@@ -14,13 +14,13 @@ export class AuthGuardService {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
 
         if (!this.authService._isUserLogin()) {
-            if (!_.includes(['/signin', '/signup'], state?.url)) {
+            if (!_.includes(['/login', '/signup'], state?.url)) {
                 alert('You are not allowed to view this page. Please login to access it');
-                this.router.navigateByUrl("/signin");
+                this.router.navigateByUrl("/login");
                 return false;
             }
         } else {
-            if (_.includes(['/signin', '/signup'], state?.url)) {
+            if (_.includes(['/login', '/signup'], state?.url)) {
                 this.router.navigateByUrl("/");
                 return false;
             }

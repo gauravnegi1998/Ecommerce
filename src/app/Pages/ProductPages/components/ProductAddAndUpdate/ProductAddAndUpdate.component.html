@@ -81,9 +81,11 @@
             <div class="form-Control">
                 <app-textfield formControlName="normalImage" placeholder="Enter the Image Url" [label]="'Image URL'" />
             </div>
+            <div class="form-Control">
+                <input type="file" formControlName="smallImage" placeholder="Enter the Image Url" />
+            </div>
         </div>
         <div class="flex-box">
-
             <div class="form-Control">
                 <app-textfield formControlName="availableStock" [name]="'availableStock'"
                     [placeholder]="'Please enter your available stock'" [label]="'Available Stock'" />
