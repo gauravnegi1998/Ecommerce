@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
     this.auth.observable$.subscribe((data) => {
       this.isAuthenticate = data ? true : false;
     })
+
   }
 
   _onLogOutClick(events: Event) {

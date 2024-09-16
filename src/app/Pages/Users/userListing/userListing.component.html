@@ -24,26 +24,54 @@
     </div>
 
     <div class="user_listing">
-        @for(user of usersData | paginate:config; track user; let index = $index){
-        <app-card [userDetail]="user" [currentIndex]="index">
-            <div class="card-actions d-flex">
-                <app-button [type]="'button'" name="'detail'" [class]="'detail'"
-                    (_onClick)="_handleRedirect('detail',user)">
-                    <lucide-icon class="my-icon" size="20" name="user" />
-                </app-button>
-                <app-button [type]="'button'" [class]="'edit'" name="'edit'" (_onClick)="_handleRedirect('edit',user)">
-                    <lucide-icon class="my-icon" size="20" name="pencil" />
-                </app-button>
-                <app-button [type]="'button'" [class]="'delete'" name="'delete'"
-                    (_onClick)="_handleRedirect('delete',user)">
-                    <lucide-icon class="my-icon" size="20" name="trash" />
-                </app-button>
-            </div>
-        </app-card>
-        }
+        <table>
+            <thead>
+                <tr>
+                    @for(heading of theadData; track heading; let i= $index){
+                    <th>{{heading}}</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for(user of usersData | paginate:config; track user; let index = $index){
+                <tr>
+                    <td>{{index+1}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.address}}</td>
+                    <td>{{user.city}}</td>
+                    <td>{{user.state}}</td>
+                    <td>{{user.country}}</td>
+                    <td>{{user.zipCode}}</td>
+                    <td>{{user.birthday}}</td>
+                    <td>{{user?.role}}</td>
+                    <!-- <td>{{isUserLogin}}</td> -->
+                    <!-- <app-card [userDetail]="user" [currentIndex]="index">
+                <div class="card-actions d-flex">
+                    <app-button [type]="'button'" name="'detail'" [class]="'detail'"
+                        (_onClick)="_handleRedirect('detail',user)">
+                        <lucide-icon class="my-icon" size="20" name="user" />
+                    </app-button>
+                    <app-button [type]="'button'" [class]="'edit'" name="'edit'"
+                        (_onClick)="_handleRedirect('edit',user)">
+                        <lucide-icon class="my-icon" size="20" name="pencil" />
+                    </app-button>
+                    <app-button [type]="'button'" [class]="'delete'" name="'delete'"
+                        (_onClick)="_handleRedirect('delete',user)">
+                        <lucide-icon class="my-icon" size="20" name="trash" />
+                    </app-button>
+                </div>
+            </app-card> -->
+                </tr>
+                }
+            </tbody>
+        </table>
+        <app-paginationComp [pageNumber]="1" [totalPages]="6" [config]="config"
+            (_onPageChange)="_handlePageChange($event)" />
     </div>
-    <app-paginationComp [pageNumber]="1" [totalPages]="6" [config]="config"
-        (_onPageChange)="_handlePageChange($event)" />
+
     <ng-template #myTemplate class="s > > > > > > > > > > > > > > > > > > > >">
         <h2 mat-dialog-title>Confirmation</h2>
         <mat-dialog-content>

@@ -19,6 +19,7 @@ export interface ICustomerData {
     zipCode: string;
     isUserLogin: boolean;
     address2: string;
+    role?: string;
 }
 
 

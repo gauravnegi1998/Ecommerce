@@ -46,7 +46,7 @@ export class UserListingComponent implements OnInit {
         id: 'listing_section',
         itemsPerPage: 6,
         currentPage: 1,
-        totalItems: 10
+        totalItems: 6
     };
     filterByOptions: { name: string, query: string }[] = [
         { name: 'Search By', query: 'all' },
@@ -60,6 +60,10 @@ export class UserListingComponent implements OnInit {
         { name: "Zip Code", query: "zipCode" },
     ];
 
+    theadData: string[] = ['ID', 'First Name', 'Last Name', 'E-mail', 'Phone', 'Address', "City", "State", "Country", "Zip Code", "Birthday", "Role"];
+
+
+
     ngOnInit(): void {
         this._getCustomerData();
 
@@ -70,7 +74,7 @@ export class UserListingComponent implements OnInit {
     }
 
     _getCustomerData(searchValue?: string | null, page?: number) {
-        let URL = `/api/customers?limit=6&page=${page || this.config.currentPage}`;
+        let URL = `/api/customers?limit=10&page=${page || this.config.currentPage}`;
         if (searchValue) {
             // URL = `${URL}&${this.filterBy?.query}=${this.searchText}`
             URL = `${URL}&search=${this.searchText}`

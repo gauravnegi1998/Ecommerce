@@ -9,13 +9,16 @@ export const routes: Routes = [
             {
                 path: '',
                 pathMatch: "full",
-                redirectTo: 'login'
+                redirectTo: 'products'
                 // loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
             },
             {
-                path: 'dashboard',
-                pathMatch: "full",
-                loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent),
+                path: 'admin',
+                data: { role: "admin" },
+                children: [
+                    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+                    { path: 'dashboard', loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent), canActivate: [AuthGuardService], }
+                ]
             },
             {
                 path: 'about',

@@ -87,7 +87,7 @@ export class AuthServices {
     }
 
     _getUserData() {
-        return this.localStore.getItem('userData') ? this.localStore.getItem('userData') : null;
+        return this.localStore.getItem('userData') ? JSON.parse(this.localStore.getItem('userData')) : null;
     }
 
     _setUserData(newQuote: ICustomerData | null) {

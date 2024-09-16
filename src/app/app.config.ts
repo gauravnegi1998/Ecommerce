@@ -13,9 +13,11 @@ import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes, withInMemoryScrolling({
-      scrollPositionRestoration: "top",
-    })), provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideToastr(),
+    provideRouter(routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: "top",
+      })),
+    provideClientHydration(), provideAnimationsAsync(), provideHttpClient(), provideToastr(),
     // importProvidersFrom(LucideAngularModule.pick({ Eye }))
   ],
 };

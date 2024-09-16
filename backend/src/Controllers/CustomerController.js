@@ -47,9 +47,10 @@ const _getAllCustomerData = async (req, res) => {
         AllCustomerData = await AllCustomerData.query;
         // let AllCustomerData = await customerModel.find(OBJECT_VALUE).select('-__v').skip(SKIP).limit(LIMIT);
 
-        // const total = await customerModel.countDocuments(OBJECT_VALUE);
-
-        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: 9 });
+        let Total = new ApiFeatures(customerModel.countDocuments(), req.query).count();
+        Total = await Total.query;
+        console.log(Total, 'Total')
+        res.status(200).json({ status: 'ok', data: AllCustomerData, totalCount: Total });
 
     } catch (err) {
 
