@@ -1,13 +1,9 @@
 <div class="container">
     <div class="row">
         <section class="main_detail">
-            <app-button [type]="'button'" [class]="'profile_back_button'" [name]="'back-button'"
-                (_onClick)="_handleBackClick()">
-                <lucide-icon name="arrow-left"></lucide-icon>
-            </app-button>
             <div class="userdetail_class">
                 <div class="imageSection">
-                    <h2>Profile</h2>
+                    <!-- <h2>Profile</h2> -->
                     <img class="image_div" src="https://i.pravatar.cc/180?id={{userDetail?._id}}" alt="dummy" />
                 </div>
                 <div class="public_details">
@@ -28,9 +24,13 @@
 
                     <div class="info">
                         <div>
-                            <p><span>Address: </span></p>
-                            <p><span>{{userDetail?.address}}, {{userDetail?.country}}, {{userDetail?.state}},
-                                    {{userDetail?.city}}, {{userDetail?.zipCode}}</span></p>
+                            <p> <span>Address: </span></p>
+                            <p>
+                                <span>
+                                    {{userDetail?.address}}, {{userDetail?.country}},
+                                    {{userDetail?.state}},{{userDetail?.city}}, {{userDetail?.zipCode}}
+                                </span>
+                            </p>
                         </div>
                     </div>
 
@@ -38,6 +38,10 @@
                         <div>
                             <p><span>Phone: </span></p>
                             <p><span>{{userDetail?.phoneNumber}}</span></p>
+                        </div>
+                        <div>
+                            <p><span>Role: </span></p>
+                            <p><span>{{userDetail?.role}}</span></p>
                         </div>
                         <div>
                             <p><span>DOB: </span></p>

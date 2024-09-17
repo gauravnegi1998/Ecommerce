@@ -27,6 +27,7 @@ import { AuthServices } from '../../../../../services/AuthServices.service';
 export class SignupAndUpdateComponent implements OnInit, OnChanges {
 
     @Input() section: string = "signup";
+    @Input() dialogValue: boolean = false;
     @Output() _onHandleSubmit = new EventEmitter<any>();
 
     signupFormGroup: UntypedFormGroup | any;
@@ -38,6 +39,7 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     constructor(private api: ApiService, private rootFormGroup: FormGroupDirective, private router: Router) { }
 
     ngOnInit(): void {
+        console.log(this.rootFormGroup.control, 'this.rootFormGroup.control')
         this.signupFormGroup = this.rootFormGroup.control as UntypedFormGroup;
         this.rootFormGroup.control.valueChanges.subscribe({
             next: (data) => {

@@ -21,6 +21,7 @@ class AuthCheck {
                         const error = new CustomError('The password has been changes recently. please login again', 401);
                         return next(error);
                     }
+                    console.log(decoded, 'decoded')
                     req.currentUser = decoded;
                     next();
                 }

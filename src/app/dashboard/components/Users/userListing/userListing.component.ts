@@ -1,26 +1,28 @@
 import { Component, OnInit, TemplateRef, ViewChild, inject } from "@angular/core";
-import { InputModules } from "../../../inputs/inputs.module";
+import { InputModules } from "../../../../inputs/inputs.module";
 import { CommonModule } from "@angular/common";
-import { ApiService } from "../../../../services/ApiHelper.service";
-import { ICustomerData } from "../../../module/commonInterfaces";
+import { ApiService } from "../../../../../services/ApiHelper.service";
+import { ICustomerData } from "../../../../module/commonInterfaces";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from "lucide-angular";
-import { Icons } from "../../../Common/Icons";
+import { Icons } from "../../../../Common/Icons";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import _ from "lodash";
-import { MaterialUIModule } from "../../../MaterialModel/material-ui.module";
+import { MaterialUIModule } from "../../../../MaterialModel/material-ui.module";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { NgxPaginationModule, PaginationInstance } from "ngx-pagination";
-import { AuthServices } from "../../../../services/AuthServices.service";
+import { AuthServices } from "../../../../../services/AuthServices.service";
+import { DetailPageComponent } from "../detail-page/detail-page.component";
+import { UpdateProfileComponent } from "../../../../Pages/Auth/update-profile/update-profile.component";
 
 
 @Component({
     selector: "app-userDetail",
     standalone: true,
-    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, MaterialUIModule, NgxPaginationModule],
+    imports: [InputModules, CommonModule, LucideAngularModule, FormsModule, MaterialUIModule, NgxPaginationModule, DetailPageComponent, UpdateProfileComponent],
     templateUrl: './userListing.component.html',
     styleUrl: './userListing.component.scss',
     providers: [
@@ -36,12 +38,14 @@ export class UserListingComponent implements OnInit {
     readonly dialog = inject(MatDialog);
 
     @ViewChild("myTemplate") template!: TemplateRef<any>;
+    @ViewChild("detailPage") detailPage!: TemplateRef<any>;
+    @ViewChild("editProfile") editProfile!: TemplateRef<any>;
 
     usersData: ICustomerData[] = [];
     searchText: string = "";
     displayDropdown: boolean = false;
     filterBy: { name: string, query: string } = { name: 'Search By', query: 'all' };
-    deleteUser!: ICustomerData;
+    selectedUser!: ICustomerData;
     public config: PaginationInstance = {
         id: 'listing_section',
         itemsPerPage: 6,
@@ -92,12 +96,14 @@ export class UserListingComponent implements OnInit {
     }
 
     _handleRedirect(action: string, user: ICustomerData) {
-        if (action !== "delete") {
-            this.router.navigateByUrl(`/${action}/${user?._id}`)
-        } else {
-            this.deleteUser = user;
-            this.openDialog()
+        // let TEMPLATE!: TemplateRef<any>;
+        const TEMPLATE: any = {
+            "delete": this.template,
+            "detail": this.detailPage,
+            "edit": this.editProfile
         }
+        this.selectedUser = user;
+        this.openDialog(TEMPLATE[action], action);
     }
 
     _handelSearch(data: string) {
@@ -105,7 +111,7 @@ export class UserListingComponent implements OnInit {
     }
 
     _handelDeleteUser() {
-        this.api.delete(`/api/customers/${this.deleteUser?._id}`).then((response) => {
+        this.api.delete(`/api/customers/${this.selectedUser?._id}`).then((response) => {
             console.log('deleted', response)
             if (response.status === 'ok') {
                 this.dialog.closeAll();
@@ -128,16 +134,20 @@ export class UserListingComponent implements OnInit {
     }
 
     _handlePageChange(data: any) {
-        console.log('totalCount', data, 'uuuuuuuuuuuuuuuu')
         this.config = { ...this.config, currentPage: data };
         this._getCustomerData(this.searchText, data)
     }
 
     // dialog open
-    openDialog(): void {
-        const dialogRef = this.dialog.open(this.template, {
-            width: '550px',
-            panelClass: 'delete-modal',
+    openDialog(useTemplate: TemplateRef<any>, action: string): void {
+        const WIDTH: any = { "delete": "550px", "detail": "750px", "edit": "800px" };
+        const dialogRef = this.dialog.open(useTemplate, {
+            width: WIDTH?.[action] ? WIDTH[action] : "550px",
+            height: "auto",
+            panelClass: `${action}-modal`,
+            data: {
+                selectedUser: this.selectedUser
+            }
         });
 
         dialogRef.afterClosed().subscribe(result => {

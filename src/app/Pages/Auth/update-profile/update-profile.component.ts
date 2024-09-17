@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { SignupAndUpdateComponent } from '../components/signupAndUpdate/signupAndUpdate.component';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -7,6 +7,8 @@ import _ from 'lodash';
 import { InputModules } from "../../../inputs/inputs.module";
 import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
 import { Icons } from '../../../Common/Icons';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICustomerData } from '../../../module/commonInterfaces';
 
 @Component({
   selector: 'app-update-profile',
@@ -19,11 +21,15 @@ import { Icons } from '../../../Common/Icons';
 export class UpdateProfileComponent implements OnInit {
 
   updateDataGroup: UntypedFormGroup | any;
+  dialogValue: boolean = false;
   private userId!: string;
 
   constructor(
-    private fb: UntypedFormBuilder, private activatedRoute: ActivatedRoute, private api: ApiService,
-    private router: Router
+    private fb: UntypedFormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private api: ApiService,
+    private router: Router,
+    // @Inject(MAT_DIALOG_DATA) public dialogData: { selectedUser: ICustomerData }
   ) {
     this.updateDataGroup = this.fb.group({
       firstName: new UntypedFormControl('', Validators.required),
@@ -42,19 +48,24 @@ export class UpdateProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
-      next: (data) => {
-        this._getUserData(data);
+      next: (data: ParamMap) => {
+        this._getUserData(data.get('id'));
         this.userId = String(data.get('id'));
       },
       error: (err) => console.log(err)
     })
+    // const DATA: any = this.dialogData.selectedUser;
+    // if (DATA) {
+    //   this.dialogValue = true;
+    //   this._getUserData(DATA?._id);
+    // } else {
+    //   this.dialogValue = false;
+    // }
   }
 
-  _getUserData(data: ParamMap) {
-    console.log(data.get('id'));
-    const id = data.get('id');
+  _getUserData(id: string | null) {
     if (id) {
-      this.api.get(`/api/customers/${id}`).then((response) => {
+      this.api.get(`/api/customers/${id}`, true).then((response) => {
         if (response?.status === 'ok') {
           _.map(_.keys(response?.data), (r) => {
             this.updateDataGroup.get(r)?.setValue(response?.data[r])

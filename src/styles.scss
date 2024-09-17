@@ -42,7 +42,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px !important;
+    width: 8px !important;
+    height: 4px;
     /* width of the entire scrollbar */
 }
 
@@ -103,14 +104,15 @@ body {
     color: green;
 }
 
+h2.mdc-dialog__title {
+    color: #ff6521;
+    border-bottom: 2px solid #ff6521;
+}
+
+
 
 .delete-modal {
     color: #ff6521;
-
-    h2.mdc-dialog__title {
-        color: #ff6521;
-        border-bottom: 1px solid #ff6521;
-    }
 
     .mat-mdc-dialog-content {
         padding-bottom: 8px !important;
@@ -202,6 +204,14 @@ svg.star_rating_icon {
 .divider {
     border: 1px solid #dddd;
     display: block;
+}
+
+.edit-modal {
+    // border: 1px solid #000;
+
+    mat-dialog-content.mat-mdc-dialog-content.mdc-dialog__content {
+        max-height: unset;
+    }
 }
 
 // .option_icon {

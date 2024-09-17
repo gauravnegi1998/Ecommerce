@@ -15,6 +15,7 @@
             color: #ff6a00;
         }
 
+
         &.delete {
             background: #f00;
 
@@ -34,6 +35,11 @@
         &.minicart_button {
             width: 100%;
             max-width: calc(100% / 2 - 15px);
+        }
+
+        &.action_detail {
+            padding: 6px;
+            border-radius: 30px;
         }
     }
 }

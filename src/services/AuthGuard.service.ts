@@ -29,6 +29,8 @@ export class AuthGuardService {
                 console.log(USER_ROLE, route?.data?.['role'])
                 if (USER_ROLE === route?.data?.['role']) {
                     return true;
+                } else {
+                    this.router.navigateByUrl("/products");
                 }
             }
 

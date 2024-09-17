@@ -17,13 +17,13 @@ export const routes: Routes = [
                 data: { role: "admin" },
                 children: [
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-                    { path: 'dashboard', loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent), canActivate: [AuthGuardService], }
+                    { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent), canActivate: [AuthGuardService], }
                 ]
             },
             {
                 path: 'about',
                 pathMatch: "full",
-                loadComponent: () => import('./home/dashboard.component').then((m) => m.DashboardComponent),
+                loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent),
             },
             {
                 path: 'contactus',
@@ -43,13 +43,13 @@ export const routes: Routes = [
             },
             {
                 path: 'listing',
-                loadComponent: () => import('./Pages/Users/userListing/userListing.component').then((m) => m.UserListingComponent),
+                loadComponent: () => import('./dashboard/components/Users/userListing/userListing.component').then((m) => m.UserListingComponent),
                 pathMatch: 'full',
                 canActivate: [AuthGuardService]
             },
             {
                 path: 'detail/:id',
-                loadComponent: () => import('./Pages/Users/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
+                loadComponent: () => import('./dashboard/components/Users/detail-page/detail-page.component').then((m) => m.DetailPageComponent),
                 pathMatch: 'full',
                 canActivate: [AuthGuardService]
             },

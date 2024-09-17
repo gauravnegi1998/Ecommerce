@@ -20,12 +20,13 @@
 
 <div class="container main_sighup_section">
 
-    <section class="main">
-        <app-button [type]="'button'" [class]="'profile_back_button'" [name]="'back-button'" (_onClick)="_handleBack()">
+    <section [class]="!dialogValue ? 'main':''">
+        <app-button *ngIf="!dialogValue" [type]="'button'" [class]="'profile_back_button'" [name]="'back-button'"
+            (_onClick)="_handleBack()">
             <lucide-icon name="arrow-left"></lucide-icon>
         </app-button>
         <div class="sighup_box">
-            <div class="heading">
+            <div *ngIf="!dialogValue" class="heading">
                 <h2>{{(section === "signup") ? 'Sign Up' : 'Update'}}</h2>
             </div>
             <div>

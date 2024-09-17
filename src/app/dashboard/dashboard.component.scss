@@ -1,5 +1,6 @@
 .admin_dashboard {
     height: 100vh;
+    overflow-x: hidden;
 
     .col-md-12 {
         padding: 0;
@@ -39,12 +40,13 @@
                     background: #dddddd2b;
 
                     button {
-                        padding: 12px 10px;
                         border: unset;
                         border-radius: 30px;
                         background: #ff6030;
                         color: #ffff;
                         font-size: 16px;
+                        width: 40px;
+                        height: 40px;
                     }
 
                     h3 {
@@ -96,20 +98,20 @@
                                 }
 
                                 &.active {
-                                    background: #d5daf378;
-                                    color: #0054d9f5;
+                                    background: rgb(255 101 33 / 23%);
+                                    color: #f76525;
 
                                     .option_icon {
-                                        color: #0054d9f5;
+                                        color: #f76525;
                                     }
                                 }
 
                                 &:hover {
                                     .option_icon {
-                                        color: #0054d9f5;
+                                        color: #f76525;
                                     }
 
-                                    color: #0054d9f5;
+                                    color: #f76525;
                                 }
 
 

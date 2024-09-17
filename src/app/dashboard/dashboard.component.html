@@ -16,12 +16,12 @@
             </nav>
         </div>
         <div class="col-md-12 admin_dashboard-content">
-            <section class="section1 col-md-2">
+            <section class="section1">
                 <div class="menu_options pad">
                     <div class="profile_detail">
-                        <button>DK</button>
+                        <button>{{shortName|uppercase}}</button>
                         <div class="profile_content">
-                            <h3>Dlex workspace</h3>
+                            <h3>{{loginUserData.firstName}} {{loginUserData.lastName}}</h3>
                             <span>5 members</span>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </section>
-            <section class="section2 col-md-10">
+            <section class="section2">
                 <div class="content_data pad">
                     <div class="content_title">
                         <h2 class="">{{activeOption}}</h2>
