@@ -42,7 +42,7 @@ class ApiFeatures {
             const FIELDS_VALUES = _.join(_.split(this.queryData.fields, ','), ' ')
             this.query = this.query.select(FIELDS_VALUES);
         } else {
-            this.query = this.query.select('-__v');
+            this.query = this.query.select({ "__v": 0, "password": 0, "meta": 0 });
         }
         return this;
     }
