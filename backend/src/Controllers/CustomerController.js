@@ -78,6 +78,7 @@ const _updateCustomerData = async (req, res) => {
     // update multipleDat by any parameter :- updateMany({age:27}, body)
     try {
         const { params, body } = req;
+        console.log(body, 'params?.id')
         const UPDATE_CUSTOMER = await customerModel.findByIdAndUpdate(params?.id, body, { returnDocument: 'after' });
         if (UPDATE_CUSTOMER) {
             res?.status(200).json({ status: 'ok', data: UPDATE_CUSTOMER })

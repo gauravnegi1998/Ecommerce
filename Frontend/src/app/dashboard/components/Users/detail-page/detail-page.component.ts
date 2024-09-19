@@ -25,7 +25,6 @@ export class DetailPageComponent implements OnInit, OnChanges {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { selectedUser: ICustomerData }, private api: ApiService, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.data, 'this.datathis.datathis.data')
     // this.route?.paramMap?.subscribe({
     //   next: (data) => this._getUserDetailUsingId(data),
     //   error: (error) => console.log(error)

@@ -1,8 +1,6 @@
-import { inject, OnInit } from "@angular/core";
+import { inject } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AuthServices } from "../../services/AuthServices.service";
-import { MiniCartService } from "../../services/mincart.service";
-import { IAddToCart } from "../module/commonInterfaces";
 
 export class _asynchronousFunction {
 
@@ -19,6 +17,7 @@ export class _asynchronousFunction {
             if (result.status === 'ok') {
                 // if (callbackFunction) this.callbackFunction(result);
                 this.success = result;
+                // this.toaster.error(result.message);
             } else {
                 this.toaster.error(result.message);
             }

@@ -38,8 +38,44 @@
                     <td>{{index+1}}</td>
                     <td *ngFor="let item of _userDataKeys">
 
-                        <input *ngIf="(selectedAction ==='edit' && selectedUser?._id ===user?._id); else textValue"
-                            type="text" value="{{_userValue(user, item)}}" />
+                        <div *ngIf="(selectedAction ==='edit' && selectedUser?._id ===user?._id); else textValue">
+                            <Form [formGroup]="formGroupData" novalidate #myForm="ngForm">
+                                <input *ngIf="!['country','state','role','birthday'].includes(item)"
+                                    [formControlName]="item" type="text" value="{{_userValue(user, item)}}" />
+                                <select *ngIf="!!['role'].includes(item)" formControlName="role">
+                                    <option *ngFor="let roleData of ['admin','lead','customer','prime_member'];"
+                                        [value]="roleData">
+                                        {{roleData}}
+                                    </option>
+                                </select>
+                                <app-datePicker *ngIf="!!['birthday'].includes(item)" formControlName="birthday"
+                                    [class]="'user_listing'" [name]="'birthday'" />
+
+                                <!-- <ng-template> -->
+                                @if(formGroupData.get(item)?.touched || myForm.submitted){
+                                @if(formGroupData.get(item)?.errors?.['required']){
+                                <small class="text-danger">{{item}} is required</small>
+                                }
+                                @if(formGroupData.get(item)?.errors?.['minlength'] ||
+                                formGroupData.get(item)?.errors?.['maxlength']){
+                                <small class="text-danger">
+                                    Please enter atLeast
+                                    {{formGroupData.get(item)?.errors?.['minlength']?.requiredLength}} number
+                                </small>
+                                }
+                                }
+                                <!-- </ng-template> -->
+                            </Form>
+                            <select *ngIf="!!['country','state'].includes(item)"
+                                [(ngModel)]="countryWithStates['selected_'+item]"
+                                (ngModelChange)="_handleCountryState($event,user,item)">
+                                <option *ngFor="let countryData of countryWithStates[item];"
+                                    [value]="item === 'state'? countryData :countryData.code">
+                                    {{item === 'state'? countryData :countryData.name }}
+                                </option>
+                            </select>
+                        </div>
+
                         <ng-template #textValue>
                             <span>
                                 {{_userValue(user, item)}}
@@ -63,7 +99,7 @@
                         <div class="card-actions d-flex"
                             *ngIf="(selectedAction ==='edit' && selectedUser?._id ===user?._id); else updateButton">
                             <app-button [type]="'button'" name="'detail'" [class]="'detail action_detail'"
-                                (_onClick)="_updateUser(user._id)">
+                                (_onClick)="_updateCustomerData(user)">
                                 <lucide-icon class="cross" size="20" name="check" />
                             </app-button>
                             <app-button [type]="'button'" [class]="'edit action_detail'" name="'edit'"
@@ -111,13 +147,6 @@
         <h2 mat-dialog-title>User Details</h2>
         <mat-dialog-content>
             <app-detail-page />
-        </mat-dialog-content>
-    </ng-template>
-
-    <ng-template #editProfile>
-        <h2 mat-dialog-title>Update Profile</h2>
-        <mat-dialog-content>
-            <!-- <app-update-profile /> -->
         </mat-dialog-content>
     </ng-template>
 

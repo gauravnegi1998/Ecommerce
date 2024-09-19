@@ -21,6 +21,7 @@ import { ICustomerData } from '../module/commonInterfaces';
 })
 export class DashboardComponent implements OnInit {
   loginUserData!: ICustomerData;
+  isActivePanel: boolean = true;
   constructor(private auth: AuthServices) { }
 
   ngOnInit(): void {
@@ -37,18 +38,18 @@ export class DashboardComponent implements OnInit {
     generalData: {
       title: "General",
       options: [
-        { icon: "square-kanban", label: "Customers", component: this.ComponentMap['OverView'] },
-        { icon: "settings", label: "Settings", component: this.ComponentMap['OverView'] }
+        { icon: "square-kanban", label: "Customers" },
+        { icon: "speaker", label: "Products" }
       ]
     },
     mainMenuData: {
       title: "Main Menu",
       options: [
-        { icon: "files", label: "All files", component: this.ComponentMap['OverView'] },
-        { icon: "clock", label: "Recent", component: this.ComponentMap['OverView'] },
-        { icon: "file-text", label: "Docs", component: this.ComponentMap['OverView'] },
-        { icon: "image", label: "Photos", component: this.ComponentMap['OverView'] },
-        { icon: "trash", label: "Trash", component: this.ComponentMap['OverView'] },
+        { icon: "files", label: "All files" },
+        { icon: "clock", label: "Recent" },
+        { icon: "file-text", label: "Docs" },
+        { icon: "image", label: "Photos" },
+        { icon: "trash", label: "Trash" },
       ]
     }
   }

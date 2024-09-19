@@ -125,7 +125,13 @@
 
         .section2 {
             width: 100%;
+
             max-width: calc(100% - 300px);
+
+            &.panelHidden {
+                // max-width: calc(100% - 300px);
+                margin: 0 auto;
+            }
 
             .content_data {
                 padding: 10px 30px 10px 0px;

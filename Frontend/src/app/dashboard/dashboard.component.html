@@ -3,11 +3,10 @@
         <div class="col-md-12 nav-header">
             <nav class="navbar navbar-light bg-light">
                 <div class="container-fluid navbar_contents">
-
-                    <lucide-icon name="menu" class="hand_cursor" size="24"></lucide-icon>
-
-                    <a class="navbar-brand">
-                    </a>
+                    <p (click)="isActivePanel= !isActivePanel">
+                        <lucide-icon name="menu" class="hand_cursor" size="24" />
+                    </p>
+                    <a class="navbar-brand"> </a>
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -16,7 +15,7 @@
             </nav>
         </div>
         <div class="col-md-12 admin_dashboard-content">
-            <section class="section1">
+            <section *ngIf="!!isActivePanel" class="section1">
                 <div class="menu_options pad">
                     <div class="profile_detail">
                         <button>{{shortName|uppercase}}</button>
@@ -46,7 +45,7 @@
                     </div>
                 </div>
             </section>
-            <section class="section2">
+            <section [ngClass]="{'panelHidden':!isActivePanel}" class="section2">
                 <div class="content_data pad">
                     <div class="content_title">
                         <h2 class="">{{activeOption}}</h2>
@@ -55,7 +54,7 @@
                     @case ("Customers") {
                     <div><app-userDetail /></div>
                     }
-                    @case ("Settings") {
+                    @case ("Products") {
                     <div></div>
 
                     }

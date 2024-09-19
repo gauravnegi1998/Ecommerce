@@ -19,7 +19,7 @@ export class CustomAdapter extends NgbDateAdapter<string> {
     }
 
     toModel(date: NgbDateStruct | null): string | null {
-        return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : null;
+        return date ? String(String(date.day)?.length === 1 ? ('0' + date.day) : String(date?.day)) + this.DELIMITER + String(String(date.month)?.length === 1 ? "0" + date?.month : String(date?.month)) + this.DELIMITER + date.year : null;
     }
 }
 
@@ -64,6 +64,7 @@ export class DatePickerComponent implements ControlValueAccessor {
 
     @Input('label') inputLabel: string = "";
     @Input() name: string = "";
+    @Input('class') extraClass: string = "";
 
     value: string = "";
 

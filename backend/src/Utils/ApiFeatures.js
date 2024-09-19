@@ -10,7 +10,7 @@ class ApiFeatures {
 
 
     filter() {
-        const exclude_field = ['limit', 'page', 'fields', 'sort'];
+        const exclude_field = ['limit', 'page', 'fields', 'sort', 'timeStamp'];
         let queryString = JSON.stringify(_.omit(this.queryData, exclude_field));
         queryString = queryString.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`)
         let queryObj = JSON.parse(queryString);
@@ -58,7 +58,7 @@ class ApiFeatures {
     }
 
     count() {
-        const exclude_field = ['limit', 'page', 'fields', 'sort'];
+        const exclude_field = ['limit', 'page', 'fields', 'sort', 'timeStamp'];
         let queryString = JSON.stringify(_.omit(this.queryData, exclude_field));
         queryString = queryString.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`)
         let queryObj = JSON.parse(queryString);

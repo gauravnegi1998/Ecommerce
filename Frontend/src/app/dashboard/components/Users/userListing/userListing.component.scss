@@ -16,7 +16,12 @@
             right: 0;
             background: #fff;
             width: 100%;
-            max-width: 200px;
+            max-width: 100px;
+
+            th,
+            td {
+                border-left: 1px solid #ff6521;
+            }
         }
 
         margin-bottom: 30px;
@@ -32,11 +37,28 @@
             padding: 10px;
             height: 60px;
 
+            Form {
+                display: flex;
+                flex-direction: column;
+            }
+
             input[type="text"] {
                 width: 100%;
                 min-width: 100px;
                 padding: 4px;
                 border: 1px solid #ff6521;
+
+                &:focus-visible {
+                    outline: none;
+                }
+            }
+
+            select {
+                width: 100%;
+                min-width: 200px;
+                padding: 5px;
+                border: 1px solid #ff6521;
+                background: #fff;
 
                 &:focus-visible {
                     outline: none;

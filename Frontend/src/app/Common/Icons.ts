@@ -3,7 +3,7 @@ import {
     Files,
     FileText,
     Image,
-    Menu, Pencil, Settings, ShoppingCart, Slack, SquareKanban, Star, Trash, User,
+    Menu, Pencil, Settings, ShoppingCart, Slack, Speaker, SquareKanban, Star, Trash, User,
     X
 } from "lucide-angular";
 import { LucideIcons } from "lucide-angular/icons/types";
@@ -31,5 +31,6 @@ export const Icons: LucideIcons = {
     FileText,
     Image,
     X,
-    Check
+    Check,
+    Speaker
 }
