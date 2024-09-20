@@ -37,7 +37,7 @@ class AuthenticationController {
             if (USER?.email) {
 
                 const USER_DATA = _.pick(USER, ['_id', 'createdAt', 'zipCode', 'address', 'country', "address2", "birthday", "city", "state", 'role', 'isUserLogin', 'email', 'firstName', 'lastName', 'phoneNumber']);
-                bcrypt.compare(req?.body?.password, USER?.password, function (err, result) {
+                bcrypt.compare(req?.body?.password, USER?.password, async function (err, result) {
                     jwt.sign(USER_DATA, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
                         if (result && token) {
                             res.status(200).json({
@@ -49,10 +49,17 @@ class AuthenticationController {
                             return next(err);
                         }
                     });
-                    // this._generateToken(USER_DATA, (token) => {
 
-                    // });
                 });
+
+                // res.status(200).json({
+                //     status: 'ok', token: "dddddddddddddddddddddddddddddd", expireDate: (60 * 60 * 4),
+                //     userData: USER_DATA, message: "Login successfully."
+                // });
+
+                // this._generateToken(USER_DATA, (token) => {
+
+                // });
                 // this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
 
                 // });
