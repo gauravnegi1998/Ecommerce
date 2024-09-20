@@ -36,23 +36,14 @@ const sessionStorage = MongoStore.create({
 
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
-const whitelist = [
-    '*'
-];
-
+app.use(cors({ origin: '*' }));
 app.use((req, res, next) => {
-    const origin = req.get('referer');
-    const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
-    if (isWhitelisted) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
-        res.setHeader('Access-Control-Allow-Credentials', true);
-    }
-    // Pass to next layer of middleware
-    if (req.method === 'OPTIONS') res.sendStatus(200);
-    else next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
 });
 
 app.use(morgan('dev'))
