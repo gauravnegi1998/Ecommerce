@@ -19,7 +19,7 @@
     ],
     "headers": [
         {
-            "src": "/(.*)",
+            "source": "/(.*)",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
