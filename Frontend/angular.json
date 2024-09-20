@@ -24,7 +24,7 @@
               "crypto-js",
               "moment"
             ],
-            "outputPath": "dist/student-system",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
