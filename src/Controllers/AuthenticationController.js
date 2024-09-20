@@ -4,29 +4,30 @@ import bcrypt from 'bcrypt';
 import _ from "lodash";
 import CustomError from "../Utils/CustomError.js";
 
-class AuthenticationControllerMain {
+class AuthenticationController {
 
     // check bcrypt token using compare
 
     constructor() {
-        this.loginUser = this.loginUserFunction.bind(this);
+        // this.loginUser = this.loginUserFunction.bind(this);
     }
 
-    _bcryptPassword(enterPassword, hashPassword, callback) {
-        bcrypt.compare(enterPassword, hashPassword, function (err, result) {
-            callback(result);
-        });
-    }
+    // _bcryptPassword(enterPassword, hashPassword, callback) {
+    //     bcrypt.compare(enterPassword, hashPassword, function (err, result) {
+    //         callback(result);
+    //     });
+    // }
 
-    // _generating a login token
-    _generateToken(USER, callback) {
-        jwt.sign(USER, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
-            console.log(token, err, 'dddddddddddddddddd  > > > > > > >> ')
-            callback(token)
-        });
-    }
+    // // _generating a login token
+    // _generateToken(USER, callback) {
+    //     jwt.sign(USER, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
+    //         console.log(token, err, 'dddddddddddddddddd  > > > > > > >> ')
+    //         callback(token)
+    //     });
+    // }
 
-    async loginUserFunction(req, res, next) {
+    static async loginUser(req, res, next) {
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', 'dddd')
         try {
             if (!(req?.body?.email && req?.body?.password)) {
                 const err = new CustomError('Please provide Email ID and password.', 400);
@@ -36,10 +37,8 @@ class AuthenticationControllerMain {
             if (USER?.email) {
 
                 const USER_DATA = _.pick(USER, ['_id', 'createdAt', 'zipCode', 'address', 'country', "address2", "birthday", "city", "state", 'role', 'isUserLogin', 'email', 'firstName', 'lastName', 'phoneNumber']);
-                console.log(USER_DATA, 'USER_DATAUSER_DATAUSER_DATA')
-                this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
-                    this._generateToken(USER_DATA, (token) => {
-                        console.log(token, result, "token, result");
+                bcrypt.compare(req?.body?.password, USER?.password, function (err, result) {
+                    jwt.sign(USER_DATA, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
                         if (result && token) {
                             res.status(200).json({
                                 status: 'ok', token, expireDate: (60 * 60 * 4),
@@ -50,7 +49,13 @@ class AuthenticationControllerMain {
                             return next(err);
                         }
                     });
+                    // this._generateToken(USER_DATA, (token) => {
+
+                    // });
                 });
+                // this._bcryptPassword(req?.body?.password, USER?.password, (result) => {
+
+                // });
 
             } else {
                 const err = new CustomError('Please provide Email ID and password.', 400);
@@ -61,6 +66,5 @@ class AuthenticationControllerMain {
         }
     }
 }
-const AuthenticationController = new AuthenticationControllerMain();
 
 export default AuthenticationController;
