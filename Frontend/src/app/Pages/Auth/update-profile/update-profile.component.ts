@@ -1,14 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SignupAndUpdateComponent } from '../components/signupAndUpdate/signupAndUpdate.component';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from '../../../../services/ApiHelper.service';
 import _ from 'lodash';
 import { InputModules } from "../../../inputs/inputs.module";
-import { LUCIDE_ICONS, LucideAngularModule, LucideIconProvider } from 'lucide-angular';
-import { Icons } from '../../../Common/Icons';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ICustomerData } from '../../../module/commonInterfaces';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-update-profile',

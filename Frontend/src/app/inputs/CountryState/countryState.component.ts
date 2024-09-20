@@ -35,7 +35,6 @@ export class CountryStateInputs implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes, this.country, this.state, 'this.countryArray')
         if (this.state) {
             this.statesArray = this.countryApi._getStatesByCountry(this.country);
         }

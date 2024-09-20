@@ -66,7 +66,7 @@ export class AuthServices {
     }
 
     _autoLogin() {
-        let userData: ICustomerData = this.localStore.getItem('userData') ? JSON.parse(this.localStore.getItem('userData')) : null;
+        let userData: ICustomerData = this.localStore?.getItem('userData') ? JSON.parse(this.localStore?.getItem('userData')) : null;
         const token = this._getToken();
         if (!userData) {
             return;
