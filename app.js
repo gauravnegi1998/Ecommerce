@@ -36,10 +36,9 @@ const sessionStorage = MongoStore.create({
 
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
-app.use(cors({
-    credentials: true,
-    origin: ['http://localhost:4200', 'https://ecommerce-frontend-psi-brown.vercel.app']
-}));
+app.use(cors({ origin: '*' }));
+
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
