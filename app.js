@@ -36,15 +36,15 @@ const sessionStorage = MongoStore.create({
 
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
-app.use(cors({ origin: '*' }));
+app.use(cors());
 
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "1800");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
     next();
 });
 
@@ -58,7 +58,6 @@ app.use(session({
     cookie: { maxAge: 200000 },
     store: sessionStorage
 }))
-app.use(router);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/src/views');
 
@@ -67,6 +66,7 @@ app.set('views', __dirname + '/src/views');
 app.get('/', (req, res) => {
     res.send('hello world')
 })
+app.use(router);
 
 app.all('*', (req, res, next) => {
     const error = new CustomError(`Can't find ${req.originalUrl} on the server`, 404)
