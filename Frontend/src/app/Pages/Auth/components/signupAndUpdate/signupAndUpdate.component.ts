@@ -39,7 +39,6 @@ export class SignupAndUpdateComponent implements OnInit, OnChanges {
     constructor(private api: ApiService, private rootFormGroup: FormGroupDirective, private router: Router) { }
 
     ngOnInit(): void {
-        console.log(this.rootFormGroup.control, 'this.rootFormGroup.control')
         this.signupFormGroup = this.rootFormGroup.control as UntypedFormGroup;
         this.rootFormGroup.control.valueChanges.subscribe({
             next: (data) => {

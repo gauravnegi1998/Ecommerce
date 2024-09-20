@@ -33,7 +33,6 @@ export class TextFieldComponent implements OnInit, ControlValueAccessor {
 
 
   ngOnInit(): void {
-    console.log(this.value, 'valuevaluevaluevaluevalue')
   }
 
   registerOnChange(fn: any): void {
