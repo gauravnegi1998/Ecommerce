@@ -11,8 +11,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-config({ path: "./config.env" })
-import './src/connection/db.js';
+
+
+
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import morgan from 'morgan';
@@ -20,7 +21,23 @@ import CustomError from './src/Utils/CustomError.js';
 import globalErrorHandler from './src/Utils/globalErrorHandler.js';
 
 //it will not handle error inside the express only work outside error like x is not define. it is neccessay to end the process because that time node is on unclean state
+config({ path: "./config.env" })
+const corsConfig = {
+    origin: "*",
+    credential: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+app.options("", cors(corsConfig))
+app.use(cors(corsConfig));
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
+    next();
+});
 
+import './src/connection/db.js';
 process.on('uncaughtException', (err) => {
     console.log(err?.name, err?.message);
     process.exit();
@@ -36,20 +53,9 @@ const sessionStorage = MongoStore.create({
 
 const PUBLIC_DATA = join(__dirname, 'public');
 app.locals._ = _;
-app.use(cors());
-
-
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Max-Age", "1800");
-    res.setHeader("Access-Control-Allow-Headers", "content-type");
-    res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
-    next();
-});
+app.use(json());
 
 app.use(morgan('dev'))
-app.use(json());
 app.use(express.static(PUBLIC_DATA));
 app.use(session({
     secret: 'test34567',
