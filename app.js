@@ -12,8 +12,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
-
-
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import morgan from 'morgan';
