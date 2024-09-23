@@ -39,7 +39,7 @@ class AuthenticationController {
                 const USER_DATA = _.pick(USER, ['_id', 'createdAt', 'zipCode', 'address', 'country', "address2", "birthday", "city", "state", 'role', 'isUserLogin', 'email', 'firstName', 'lastName', 'phoneNumber']);
                 const match = await bcrypt.compare(req?.body?.password, USER?.password);
                 if (match) {
-                    jwt.sign(USER_DATA, 'jaswantsainikhtrokekhiladiTT', { expiresIn: 60 * 60 * 10 }, function (err, token) {
+                    jwt.sign(USER_DATA, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
                         if (token) {
                             res.status(200).json({
                                 status: 'ok', token, expireDate: (60 * 60 * 4),
