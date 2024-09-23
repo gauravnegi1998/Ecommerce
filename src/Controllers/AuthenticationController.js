@@ -40,7 +40,7 @@ class AuthenticationController {
                 const match = await bcrypt.compare(req?.body?.password, USER?.password);
                 if (match) {
                     jwt.sign(USER_DATA, process.env.SECRETE_TOKEN, { expiresIn: 60 * 60 * 10 }, function (err, token) {
-                        if (result && token) {
+                        if (token) {
                             res.status(200).json({
                                 status: 'ok', token, expireDate: (60 * 60 * 4),
                                 userData: USER_DATA, message: "Login successfully."
