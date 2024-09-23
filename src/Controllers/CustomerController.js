@@ -105,4 +105,9 @@ const _deleteCustomerById = async (req, res) => {
     }
 }
 
-export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData, _deleteCustomerById };
+
+const _uploadProfileImage = async (req, res, next) => {
+    // console.log('_uploadProfileImage', req);
+}
+
+export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData, _deleteCustomerById, _uploadProfileImage };
