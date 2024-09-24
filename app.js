@@ -6,6 +6,7 @@ import router from './src/Routes/index.js';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 
+config({ path: "./config.env" })
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,7 +20,6 @@ import CustomError from './src/Utils/CustomError.js';
 import globalErrorHandler from './src/Utils/globalErrorHandler.js';
 
 //it will not handle error inside the express only work outside error like x is not define. it is neccessay to end the process because that time node is on unclean state
-config({ path: "./config.env" })
 const corsConfig = {
     origin: "*",
     credential: true,
@@ -27,13 +27,13 @@ const corsConfig = {
 }
 app.options("", cors(corsConfig))
 app.use(cors(corsConfig));
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Allow-Headers", "content-type");
-    res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader("Access-Control-Allow-Headers", "content-type");
+//     res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
+//     next();
+// });
 
 import './src/connection/db.js';
 process.on('uncaughtException', (err) => {

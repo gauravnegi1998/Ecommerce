@@ -37,6 +37,7 @@ const customerSchema = mongoose.Schema({
     },
     isUserLogin: { type: Boolean, default: true },
     address2: validationObject('address2', false),
+    profileImage: validationObject('profileImage', false),
     meta: {
         createdAt: {
             type: Date,

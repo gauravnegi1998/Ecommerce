@@ -1,6 +1,7 @@
 import _ from "lodash";
 import customerModel from "../Model/customerSchema.js";
 import ApiFeatures from "../Utils/ApiFeatures.js";
+import CustomError from "../Utils/CustomError.js";
 
 const InsertCustomer = async (req, res) => {
     try {
@@ -107,7 +108,19 @@ const _deleteCustomerById = async (req, res) => {
 
 
 const _uploadProfileImage = async (req, res, next) => {
-    // console.log('_uploadProfileImage', req);
+    const ID = req.currentUser?._id;
+    const USER = await customerModel.findById(ID);
+    if (USER) {
+        console.log('_uploadProfileImage', req.uploadImage.url);
+        const UPDATE_USER = await customerModel.findOneAndUpdate({ _id: USER?.id }, { profileImage: req.uploadImage.url }, { returnDocument: 'after' });
+        console.log(UPDATE_USER, 'UPDATE_USER')
+        if (UPDATE_USER) {
+            return res.status(200).json({ status: 'ok', updateImage: req.uploadImage.url, message: "profile picture changed successfully" })
+        }
+    } else {
+        const ERROR = new CustomError('user not found please try again later', 404);
+        next(ERROR)
+    }
 }
 
 export { InsertCustomer, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData, _deleteCustomerById, _uploadProfileImage };

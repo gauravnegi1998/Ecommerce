@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { InsertCustomer, _deleteCustomerById, _getAllCustomerData, _getSingleCustomerData, _updateCustomerData, _uploadProfileImage } from '../../Controllers/CustomerController.js';
 import AuthCheck from '../../middleware/AuthCheck.js';
-import upload, { _cloudinaryUploader } from '../../middleware/MulterMiddleWare.js';
+import upload from '../../middleware/MulterMiddleWare.js';
 import { asyncErrorHandler } from '../../Utils/ErrorsHandlers.js';
+import { _cloudinaryUploader } from '../../Utils/cloudnary.js';
 
 const customerApiRouter = Router();
 
