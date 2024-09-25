@@ -20,7 +20,7 @@ const _booleanObject = (status = false) => {
 const productSchema = mongoose.Schema({
     name: validationObject('product Name'),
     itemId: {
-        type: Number,
+        type: String,
         required: [true, 'itemId is required'],
         unique: [true, 'itemId not be duplicate'],
         trim: true

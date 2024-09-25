@@ -21,11 +21,15 @@ class ProductsControllerClass {
         const LIMIT = req.query?.limit || 9;
         const PAGE = req.query?.page ? (+req.query?.page - 1) * +LIMIT : 0;
         const CAT_ID = req.query?.catId || null;
-
+        let SEARCH = req.query?.search ? { $regex: req.query?.search, $options: 'i' } : "";
+        let SEARCH_OPTION = SEARCH ? [{ $match: { $or: [{ "itemCode": SEARCH }, { "itemId": SEARCH }, { "name": SEARCH }] } }] : [];
         let CategoryData = null;
         const CONDITION = [{
             $facet: {
-                data: [{ $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }],
+                data: [
+                    ...SEARCH_OPTION,
+                    { $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }
+                ],
                 total: [{ $count: 'count' }]
             }
         },
@@ -58,11 +62,19 @@ class ProductsControllerClass {
             ])
 
         } else {
+            let SEARCH_CONDITION = [];
+            // if (SEARCH) {
+            //     SEARCH = { $regex: SEARCH, $options: 'i' };
+            //     SEARCH_CONDITION = [
+            //         { $match: { $or: [{ "product_data.itemCode": SEARCH }] } }
+            //     ]
+            // }
             CategoryData = ProductModel.aggregate([
                 {
                     $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
                 },
-                ...CONDITION
+                ...CONDITION,
+                // ...SEARCH_CONDITION
             ]);
         }
         // {
