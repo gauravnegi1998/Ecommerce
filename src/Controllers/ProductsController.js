@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import ProductModel from "../Model/ProductSchema.js";
-import { notFoundError } from "../Utils/ErrorsHandlers.js";
 import _ from "lodash";
 
 class ProductsControllerClass {
@@ -21,15 +20,14 @@ class ProductsControllerClass {
         const LIMIT = req.query?.limit || 9;
         const PAGE = req.query?.page ? (+req.query?.page - 1) * +LIMIT : 0;
         const CAT_ID = req.query?.catId || null;
+
         let SEARCH = req.query?.search ? { $regex: req.query?.search, $options: 'i' } : "";
         let SEARCH_OPTION = SEARCH ? [{ $match: { $or: [{ "itemCode": SEARCH }, { "itemId": SEARCH }, { "name": SEARCH }] } }] : [];
         let CategoryData = null;
+
         const CONDITION = [{
             $facet: {
-                data: [
-                    ...SEARCH_OPTION,
-                    { $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }
-                ],
+                data: [{ $skip: +PAGE }, { $limit: +LIMIT }, { $project: { __v: 0 } }],
                 total: [{ $count: 'count' }]
             }
         },
@@ -73,6 +71,7 @@ class ProductsControllerClass {
                 {
                     $lookup: { from: "categories", localField: 'webCategories', foreignField: "categoryId", as: "webCategories", pipeline: [{ $project: { __v: 0 } }] }
                 },
+                ...SEARCH_OPTION,
                 ...CONDITION,
                 // ...SEARCH_CONDITION
             ]);
